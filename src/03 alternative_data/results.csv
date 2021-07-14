@@ -1,0 +1,1001 @@
+name,bookings,rating,reviews,price,cuisine,location
+Omakase Shiro,9,4.9,26,4,Sushi,Lincoln Square
+HAVEN Riverfront Restaurant and Bar,28,4.6,2460,3,Contemporary American,Edgewater
+Blume/Hütte,12,4.5,116,3,Austrian,Upper East Side
+The Mermaid Inn Uptown,14,4.8,3685,3,Seafood,Upper West Side
+Dagon,2,4.6,238,3,Mediterranean,Upper West Side
+Carmine's - 91st Street - NYC,131,4.5,6541,3,Italian,Upper West Side
+Elea,34,4.8,653,4,Greek,Upper West Side
+Rebecca's,28,4.5,586,3,Cuban,Edgewater
+Serafina 105,8,4.4,208,2,Italian,Upper West Side
+Waterside Restaurant and Catering,NA,4.2,1008,3,American,North Bergen
+Cibo e Vino,4,4.6,503,3,Italian,Upper West Side
+Fleming's Steakhouse - Edgewater,NA,4.7,979,3,Steak,Edgewater
+French Roast Uptown,27,4.5,339,3,French American,Upper West Side
+Gyu-Kaku - Manhattan - Amsterdam Ave.,15,4.7,98,2,Japanese,Upper West Side
+Nice Matin,48,4.5,3088,3,French,Upper West Side
+Calle Ocho,14,4.6,3982,3,Latin American,Upper West Side
+Cafe Luxembourg,123,4.7,6315,3,French American,Upper West Side
+Osteria 106,12,4.8,395,2,Italian,Upper West Side
+Le Monde,10,4.5,337,2,French,Upper West Side
+Tavern on the Green,3,4.7,11622,3,American,Midtown West
+The Milling Room,17,4.6,1907,3,American,Upper West Side
+Hi-Life Restaurant - Upper West Side,7,4.7,513,2,American,Upper West Side
+Trattoria iL Gusto Wine Bar,NA,4.5,284,2,Italian,Upper West Side
+Bodrum Turkish Mediterranean,NA,4.6,1046,2,Turkish,Upper West Side
+Awadh,7,4.4,750,3,Indian,Upper West Side
+Red Rooster Harlem,79,4.6,8055,3,Southern,Harlem
+The Smith- Lincoln Square,169,4.7,8300,2,American,Lincoln Square
+Son Cubano - New Jersey,91,4.4,1774,3,Cuban,West New York
+Lokal Mediterranean Kitchen,NA,4.6,459,3,Mediterranean,Upper West Side
+Salumeria Rosi,22,4.8,1199,3,Italian,Upper West Side
+Serafina Upper West,NA,4.5,401,2,Italian,Upper West Side
+Ortomare Ristorante Pizzeria,12,4.8,155,2,Italian,Upper West Side
+Boilery Upper West Side,43,4.5,67,3,Seafood,Upper West Side
+The Leopard at des Artistes,50,4.7,2202,4,Italian,Upper West Side
+La Sirene UWS,14,4.5,662,3,French,Upper West Side
+Crave Fishbar - UWS,NA,4.7,1369,3,Seafood,Upper West Side
+Shaking Crab - Upper West Side,NA,4.4,320,2,Cajun,Upper West Side
+Cafe Fiorello,50,4.7,7769,3,Italian,Lincoln Square
+Sala Thai,39,4.8,352,2,Thai,Upper West Side
+Arte Cafe - Upper West Side,26,4.4,3255,3,Italian,Upper West Side
+Momoya,50,4.6,26,3,Japanese,Upper West Side
+Rustica Lounge Bar & Restaurant,7,4.0,290,3,Italian,Cliffside Park
+Pappardella,28,4.6,1659,3,Italian,Upper West Side
+Haru Sushi - Amsterdam Ave,NA,4.6,172,3,Japanese,Upper West Side
+Island,NA,4.5,486,3,American,Upper East Side
+5 Napkin Burger - Upper West Side,1,4.9,1331,2,Burgers,Upper West Side
+Sfoglia,39,4.8,1481,3,Italian,Upper East Side
+Row House,15,4.2,587,2,American,Harlem
+Orsay,55,4.5,2697,4,French,Upper East Side
+Caravaggio New York,NA,4.7,1059,3,Italian,Upper East Side
+Toloache - Upper East Side,34,4.7,1111,3,Mexican,Upper East Side
+Cafe d'Alsace,NA,4.6,2319,3,French,Upper East Side
+The Highwood,62,4.5,175,2,American,Weehawken
+Pomodoro Rosso,2,4.7,1300,2,Italian,Upper West Side
+Bocado Cafe,24,4.5,692,2,American,Upper East Side
+Rosa Mexicano by Lincoln Center,95,4.3,7842,3,Mexican,Lincoln Square
+Maison Harlem,56,4.5,787,2,French,Harlem
+Korali,4,4.6,935,3,Greek,Upper East Side
+Marcus at Nohu Rooftop,138,3.8,954,2,American,Weehawken
+BLT Prime,15,4.8,353,2,Steakhouse,Upper East Side
+Flame NYC - No Hibachi (Regular Tables Only),6,4.4,25,3,Asian,Upper West Side
+The Ribbon - UWS,1,4.2,1413,4,Contemporary American,Upper West Side
+Sofrito NYC,46,4.4,1047,2,Latin / Spanish,Harlem
+Il Violino,NA,4.5,1452,3,Italian,Upper West Side
+Siena Cafe,NA,4.4,266,3,Italian,Upper East Side
+Masseria dei Vini,2,4.8,1884,3,Italian,Midtown West
+Blue Ribbon Sushi Bar & Grill,1,4.7,86,4,Sushi,Columbus Circle
+Bettola NYC,NA,4.5,511,2,Italian,Upper West Side
+Serafina 79,NA,4.4,433,3,Italian,Upper East Side
+Villa Amalfi,2,4.8,74,3,Italian,Cliffside Park
+Hudson West Kitchen + Craft Bar (formerly Ousia),15,4.7,917,3,American,Hell's Kitchen
+Jacques Brasserie,10,4.7,1021,3,French,Upper East Side
+Noche Mexicana,NA,3.7,64,2,Mexican,Upper West Side
+The Grange,37,4.5,380,3,American,Harlem
+Shun Lee West,20,4.5,2896,3,Chinese,Lincoln Square
+Porter House Bar and Grill,24,4.8,4923,4,American,Midtown West
+Barawine,11,4.7,462,2,French,Harlem
+Kappo Masa,12,4.6,395,4,Japanese,Upper East Side
+Osteria Nando,35,4.5,41,3,Mediterranean,Upper East Side
+Bua Thai Ramen & Robata Grill,14,4.6,81,2,Unspecified,Upper East Side
+The Daisy,17,4.3,243,3,Cocktail Bar,Upper East Side
+Ascent Lounge New York,19,4.7,117,2,American,Midtown West
+Hachi Maki,5,3.8,9,2,Japanese,Upper West Side
+Gray Hawk Grill,22,4.7,82,3,American,Upper East Side
+Luna Rossa Ristorante,9,4.8,622,3,Italian,Upper East Side
+P.F. Chang's - West New York,3,4.3,85,2,Asian,West New York
+Maxwell's Central Park,NA,4.6,110,2,American,Harlem
+San Matteo Pizzeria e Cucina,NA,4.7,200,2,Pizzeria,Upper East Side
+Joanne Trattoria,15,4.1,2652,3,Italian,Lincoln Square
+Anār Indian Cuisine,12,NA,NA,2,Indian,Upper West Side
+Italianissimo,NA,4.7,461,2,Italian,Upper East Side
+Sushi Damo,13,4.5,421,3,Japanese,Midtown West
+Sojourn Restaurant,14,4.5,1696,2,Contemporary American,Upper East Side
+The Greek Kitchen,NA,4.6,719,2,Greek,Hell's Kitchen
+Eats,NA,4.3,684,2,American,Upper East Side
+Bluebird London NYC,20,4.4,217,3,British,Columbus Circle
+Osteria Laura NYC,16,4.3,15,3,Italian,Harlem
+Avos Grill,NA,4.3,7,3,Mediterranean,Cliffside Park
+Amor Cubano,NA,4.5,423,2,Cuban,Harlem
+IL Carino Restaurant,NA,4.4,153,3,Italian,Upper East Side
+Omakase Shiro,9,4.9,26,4,Sushi,Lincoln Square
+HAVEN Riverfront Restaurant and Bar,28,4.6,2460,3,Contemporary American,Edgewater
+Blume/Hütte,12,4.5,116,3,Austrian,Upper East Side
+The Mermaid Inn Uptown,14,4.8,3685,3,Seafood,Upper West Side
+Dagon,2,4.6,238,3,Mediterranean,Upper West Side
+Carmine's - 91st Street - NYC,131,4.5,6541,3,Italian,Upper West Side
+Elea,34,4.8,653,4,Greek,Upper West Side
+Rebecca's,28,4.5,586,3,Cuban,Edgewater
+Serafina 105,8,4.4,208,2,Italian,Upper West Side
+Waterside Restaurant and Catering,NA,4.2,1008,3,American,North Bergen
+Cibo e Vino,4,4.6,503,3,Italian,Upper West Side
+Fleming's Steakhouse - Edgewater,NA,4.7,979,3,Steak,Edgewater
+French Roast Uptown,27,4.5,339,3,French American,Upper West Side
+Gyu-Kaku - Manhattan - Amsterdam Ave.,15,4.7,98,2,Japanese,Upper West Side
+Nice Matin,48,4.5,3088,3,French,Upper West Side
+Calle Ocho,14,4.6,3982,3,Latin American,Upper West Side
+Cafe Luxembourg,123,4.7,6315,3,French American,Upper West Side
+Osteria 106,12,4.8,395,2,Italian,Upper West Side
+Le Monde,10,4.5,337,2,French,Upper West Side
+Tavern on the Green,3,4.7,11622,3,American,Midtown West
+The Milling Room,17,4.6,1907,3,American,Upper West Side
+Hi-Life Restaurant - Upper West Side,7,4.7,513,2,American,Upper West Side
+Trattoria iL Gusto Wine Bar,NA,4.5,284,2,Italian,Upper West Side
+Bodrum Turkish Mediterranean,NA,4.6,1046,2,Turkish,Upper West Side
+Awadh,7,4.4,750,3,Indian,Upper West Side
+Red Rooster Harlem,79,4.6,8055,3,Southern,Harlem
+The Smith- Lincoln Square,169,4.7,8300,2,American,Lincoln Square
+Son Cubano - New Jersey,91,4.4,1774,3,Cuban,West New York
+Lokal Mediterranean Kitchen,NA,4.6,459,3,Mediterranean,Upper West Side
+Salumeria Rosi,22,4.8,1199,3,Italian,Upper West Side
+Serafina Upper West,NA,4.5,401,2,Italian,Upper West Side
+Ortomare Ristorante Pizzeria,12,4.8,155,2,Italian,Upper West Side
+Boilery Upper West Side,43,4.5,67,3,Seafood,Upper West Side
+The Leopard at des Artistes,50,4.7,2202,4,Italian,Upper West Side
+La Sirene UWS,14,4.5,662,3,French,Upper West Side
+Crave Fishbar - UWS,NA,4.7,1369,3,Seafood,Upper West Side
+Shaking Crab - Upper West Side,NA,4.4,320,2,Cajun,Upper West Side
+Cafe Fiorello,50,4.7,7769,3,Italian,Lincoln Square
+Sala Thai,39,4.8,352,2,Thai,Upper West Side
+Arte Cafe - Upper West Side,26,4.4,3255,3,Italian,Upper West Side
+Momoya,50,4.6,26,3,Japanese,Upper West Side
+Rustica Lounge Bar & Restaurant,7,4.0,290,3,Italian,Cliffside Park
+Pappardella,28,4.6,1659,3,Italian,Upper West Side
+Haru Sushi - Amsterdam Ave,NA,4.6,172,3,Japanese,Upper West Side
+Island,NA,4.5,486,3,American,Upper East Side
+5 Napkin Burger - Upper West Side,1,4.9,1331,2,Burgers,Upper West Side
+Sfoglia,39,4.8,1481,3,Italian,Upper East Side
+Row House,15,4.2,587,2,American,Harlem
+Orsay,55,4.5,2697,4,French,Upper East Side
+Caravaggio New York,NA,4.7,1059,3,Italian,Upper East Side
+Toloache - Upper East Side,34,4.7,1111,3,Mexican,Upper East Side
+Cafe d'Alsace,NA,4.6,2319,3,French,Upper East Side
+The Highwood,62,4.5,175,2,American,Weehawken
+Pomodoro Rosso,2,4.7,1300,2,Italian,Upper West Side
+Bocado Cafe,24,4.5,692,2,American,Upper East Side
+Rosa Mexicano by Lincoln Center,95,4.3,7842,3,Mexican,Lincoln Square
+Maison Harlem,56,4.5,787,2,French,Harlem
+Korali,4,4.6,935,3,Greek,Upper East Side
+Marcus at Nohu Rooftop,138,3.8,954,2,American,Weehawken
+BLT Prime,15,4.8,353,2,Steakhouse,Upper East Side
+Flame NYC - No Hibachi (Regular Tables Only),6,4.4,25,3,Asian,Upper West Side
+The Ribbon - UWS,1,4.2,1413,4,Contemporary American,Upper West Side
+Sofrito NYC,46,4.4,1047,2,Latin / Spanish,Harlem
+Il Violino,NA,4.5,1452,3,Italian,Upper West Side
+Siena Cafe,NA,4.4,266,3,Italian,Upper East Side
+Masseria dei Vini,2,4.8,1884,3,Italian,Midtown West
+Blue Ribbon Sushi Bar & Grill,1,4.7,86,4,Sushi,Columbus Circle
+Bettola NYC,NA,4.5,511,2,Italian,Upper West Side
+Serafina 79,NA,4.4,433,3,Italian,Upper East Side
+Villa Amalfi,2,4.8,74,3,Italian,Cliffside Park
+Hudson West Kitchen + Craft Bar (formerly Ousia),15,4.7,917,3,American,Hell's Kitchen
+Jacques Brasserie,10,4.7,1021,3,French,Upper East Side
+Noche Mexicana,NA,3.7,64,2,Mexican,Upper West Side
+The Grange,37,4.5,380,3,American,Harlem
+Shun Lee West,20,4.5,2896,3,Chinese,Lincoln Square
+Porter House Bar and Grill,24,4.8,4923,4,American,Midtown West
+Barawine,11,4.7,462,2,French,Harlem
+Kappo Masa,12,4.6,395,4,Japanese,Upper East Side
+Osteria Nando,35,4.5,41,3,Mediterranean,Upper East Side
+Bua Thai Ramen & Robata Grill,14,4.6,81,2,Unspecified,Upper East Side
+The Daisy,17,4.3,243,3,Cocktail Bar,Upper East Side
+Ascent Lounge New York,19,4.7,117,2,American,Midtown West
+Hachi Maki,5,3.8,9,2,Japanese,Upper West Side
+Gray Hawk Grill,22,4.7,82,3,American,Upper East Side
+Luna Rossa Ristorante,9,4.8,622,3,Italian,Upper East Side
+P.F. Chang's - West New York,3,4.3,85,2,Asian,West New York
+Maxwell's Central Park,NA,4.6,110,2,American,Harlem
+San Matteo Pizzeria e Cucina,NA,4.7,200,2,Pizzeria,Upper East Side
+Joanne Trattoria,15,4.1,2652,3,Italian,Lincoln Square
+Anār Indian Cuisine,12,NA,NA,2,Indian,Upper West Side
+Italianissimo,NA,4.7,461,2,Italian,Upper East Side
+Sushi Damo,13,4.5,421,3,Japanese,Midtown West
+Sojourn Restaurant,14,4.5,1696,2,Contemporary American,Upper East Side
+The Greek Kitchen,NA,4.6,719,2,Greek,Hell's Kitchen
+Eats,NA,4.3,684,2,American,Upper East Side
+Bluebird London NYC,20,4.4,217,3,British,Columbus Circle
+Osteria Laura NYC,16,4.3,15,3,Italian,Harlem
+Avos Grill,NA,4.3,7,3,Mediterranean,Cliffside Park
+Amor Cubano,NA,4.5,423,2,Cuban,Harlem
+IL Carino Restaurant,NA,4.4,153,3,Italian,Upper East Side
+Wa Jeal,NA,4.7,269,2,Chinese,Upper East Side
+Renaissance Harlem,NA,4.7,187,2,American,Harlem
+Sugar Bar,5,3.8,352,2,Soul food,Upper West Side
+Dulce Vida Latin Bistro,NA,4.6,101,3,Latin American,Upper East Side
+Thai72,NA,4.5,295,2,Thai,Upper West Side
+Da Capo,5,3.9,12,2,Contemporary American,Upper West Side
+El Paso Mexican Restaurants East Harlem,NA,4.2,6,3,Contemporary Mexican,East Harlem
+Tandoor Oven,NA,4.4,14,2,Contemporary Indian,Upper East Side
+Tarallucci e Vino - Upper West Side,5,4.5,142,3,Italian,Upper West Side
+Santa Fe,NA,4.3,637,3,Mexican / Southwestern,Upper West Side
+Cove Lounge,14,3.8,5,3,Southern,Harlem
+Sapphire,11,4.0,1567,2,Indian,Lincoln Square
+Sushi of Gari - Columbus Avenue,NA,4.6,969,4,Sushi,Upper West Side
+Social 59 Eatery & Lounge,4,4.2,17,3,Latin American,West New York
+Delizia 92,NA,4.4,79,2,Pizzeria,Yorkville
+Enzo Bruni La Pizza Gourmet,NA,4.3,1,2,Pizzeria,Upper East Side
+Lincoln Ristorante,NA,4.5,5625,3,Italian,Upper West Side
+Cafe Du Soleil,11,4.5,1246,3,French,Upper West Side
+Aunt Jake's Upper East Side,NA,4.7,50,3,Contemporary Italian,Upper East Side
+Sushi Yasaka,27,4.8,2171,3,Japanese,Upper West Side
+Sugar Factory Broadway,17,NA,NA,3,American,Upper West Side
+Vicolina,NA,4.5,212,3,Italian,Upper East Side
+Coppola's West,NA,4.8,1011,3,Italian,Upper West Side
+Empire Rooftop @ Empire Hotel,NA,4.7,379,3,Bar / Lounge / Bottle Service,Lincoln Square
+Sistina,16,4.8,887,3,Italian,Upper East Side
+Izzy's Pizzeria,4,4.0,1,2,Pizzeria,Edgewater
+Bareburger - Edgewater,NA,NA,NA,2,American,Edgewater
+Sushi Kaito,NA,4.8,420,4,Sushi,Upper West Side
+Pier 115 Bar and Grill,NA,4.2,703,2,American,Edgewater
+New Amsterdam Burger and Bar,NA,4.5,54,3,American,Upper West Side
+Sant Ambroeus - Madison Avenue,NA,4.7,667,4,Italian,Upper East Side
+Atlas Kitchen,1,4.3,13,2,Chinese,Upper West Side
+Snow Globes at NoHu Rooftop,NA,4.3,52,3,American,Weehawken
+Test Early Access Updates Jan 20 (2),NA,NA,NA,2,American,Upper West Side
+Bosino,1,4.6,3,2,Italian,Upper West Side
+The Ellington,NA,4.3,274,2,American,Upper West Side
+Kouzan,NA,4.2,476,2,Japanese,Upper West Side
+Bareburger - Columbus Avenue,NA,3.0,1,2,Burgers,Upper West Side
+Rumba Cubana - Guttenberg,3,4.6,160,2,Cuban,West New York
+My Pizza Kebab,NA,NA,NA,2,Turkish,Cliffside Park
+Marmaris Cafe,NA,4.5,63,2,Turkish,Edgewater
+Alachi Masala,NA,4.0,65,2,Indian,Upper West Side
+La Mirabelle,9,4.4,1558,3,French,Upper West Side
+Bustan,NA,4.4,946,3,Mediterranean,Upper West Side
+Rudy's Seafood,NA,4.4,74,2,Seafood,Cliffside Park
+MEYHANE,NA,4.6,8,2,Mediterranean,Cliffside Park
+Melba's,36,4.5,191,4,American,Harlem
+Emma Bistro formerly Emma of Englewood,NA,4.6,10,2,Contemporary American,Edgewater
+Ashoka - Upper West Side,NA,4.4,101,2,Indian,Upper West Side
+Sarabeth's West,NA,4.2,1984,2,American,Upper West Side
+Bettolona,NA,4.3,117,2,Italian,Harlem
+L'Angolo Trattoria,NA,4.4,33,2,Italian,Cliffside Park
+Skinny's Cantina on the Hudson,NA,NA,NA,2,Mexican,Harlem
+Revolucion Taco UWS,NA,3.3,1,2,Mexican,Upper West Side
+Dear Mama - Manhattanville,15,NA,NA,2,Café,Harlem
+Storico,NA,4.2,1590,3,Contemporary Italian,Upper West Side
+Red Lobster - New York - 125th St.,NA,3.9,8,2,Seafood,Harlem
+The Wright,NA,3.9,662,2,American,Upper East Side
+Big Nick's,NA,NA,NA,2,Pizzeria,Upper West Side
+Kebab Istanbul,NA,5.0,1,2,Turkish,Union City
+Mama Sushi,NA,4.4,68,3,Sushi,"Hamilton, New York"
+Harlem Hops,NA,NA,NA,3,Gastro Pub,Harlem
+Ginny’s Supper Club,NA,4.4,484,3,American,Harlem
+Harlem Ale House,NA,4.3,14,2,American,Harlem
+The Lexington Social,NA,4.3,18,2,International,Harlem
+Giovanni Venticinque,NA,4.5,300,3,Italian,Upper East Side
+The Grand Tier Restaurant,NA,4.4,3649,4,American,Lincoln Square
+Bookmarks,NA,NA,NA,3,Tapas / Small Plates,Midtown East
+Atlantic Grill,NA,NA,NA,2,Seafood,Upper West Side
+Five Mile Stone,3,4.4,149,2,American,Upper East Side
+P.J. Clarke's-Lincoln Square,NA,4.3,905,2,American,Lincoln Square
+The Smith Pizza Joint - Lincoln Square,NA,NA,NA,2,Pizzeria,Lincoln Square
+The Carlyle Restaurant,NA,4.4,875,4,American,Upper East Side
+Dear Mama - East Harlem,NA,NA,NA,2,Café,East Harlem
+Tenzan 89,NA,4.0,6,2,Japanese Speciality,Upper East Side
+Shoga Sushi,NA,4.4,9,2,Sushi,Upper East Side
+The Jin,NA,4.6,19,2,Korean,Midtown West
+Harlem Wine Room,NA,4.9,7,3,Wine Bar,Harlem
+Greek Taverna - Edgewater,NA,4.1,155,3,Greek,Edgewater
+Sushi Nonaka,NA,4.9,158,4,Sushi,Upper West Side
+The Consulate,NA,4.7,176,3,French American,Upper West Side
+Gigi & Mario,NA,NA,NA,2,Pizza Bar,Cliffside Park
+Baumgart's Café - Edgewater,NA,NA,NA,2,American,North Bergen
+Pa De Thai Restaurant,NA,NA,NA,2,Thai,Edgewater
+The Original Pancake House,NA,NA,NA,2,American,Edgewater
+Viva Margartia - Edgewater,NA,NA,NA,2,Mexican,Cliffside Park
+Outback Steakhouse - Edgewater,NA,NA,NA,2,Steak,Edgewater
+Porto By Antonio,NA,NA,NA,3,Italian,North Bergen
+Sabor Latin Bistro,NA,4.3,241,3,Latin American,North Bergen
+Mangia,NA,NA,NA,4,American,Edgewater
+Joe's Crab Shack - Edgewater,NA,4.0,70,2,Seafood,Edgewater
+Cascabel Taqueria,NA,NA,NA,2,Mexican,Edgewater
+Toast,NA,NA,NA,2,American,Edgewater
+Westway Metkal Cafe,NA,NA,NA,2,American,Edgewater
+The Manchester Diner,NA,NA,NA,2,American,Edgewater
+Deranda Cafe,NA,NA,NA,2,American,Edgewater
+Abbey Restaurant,NA,NA,NA,2,American,Edgewater
+Brooklyn's Coal-Burning Brick-Oven Pizzeria - Edgewater,NA,NA,NA,3,Italian,Edgewater
+Spirit Lounge,NA,NA,NA,2,American,Edgewater
+Spirit Bar & Restaurant,NA,NA,NA,2,American,Edgewater
+Chick Chick,NA,NA,NA,2,Korean,Upper West Side
+It's Greek To Me - Cliffside Park,NA,NA,NA,3,Greek,Cliffside Park
+Mighty Catch - Upper West Side,NA,NA,NA,2,Seafood,Upper West Side
+Tum & Yum,NA,NA,NA,2,Asian,Harlem
+Pekarna,NA,NA,NA,2,Mediterranean,Upper West Side
+Chirping Chicken,NA,NA,NA,2,Grill,Upper West Side
+Palermo Pizza & Italian Restaurant,NA,NA,NA,2,Italian,Weehawken
+Cipos Restaurant,NA,NA,NA,2,American,North Bergen
+588 Restaurant Corporation Caridad,NA,NA,NA,2,Latin American,Upper West Side
+Harry's Food & Drink,NA,NA,NA,2,American,North Bergen
+Gabriela's,NA,3.7,435,2,Mexican,Upper West Side
+Crepes On Columbus,NA,NA,NA,2,French,Harlem
+Daniellos Pizzeria Incorporated,NA,NA,NA,2,Italian,Upper West Side
+The Wild Rover Pub,NA,NA,NA,2,Grill,Weehawken
+MIMI,NA,3.7,7,2,Japanese,Upper West Side
+The Parlour - UWS,NA,NA,NA,2,Gastro Pub,Upper West Side
+Hunan Chen's Kitchen,NA,NA,NA,2,Chinese,Harlem
+Fredas,NA,NA,NA,2,Caribbean,Harlem
+Indian Tampura,NA,NA,NA,2,Indian,Upper West Side
+Gastronomia Culinaria,NA,3.8,50,3,Italian,Upper West Side
+106 Gourmet Cafe,NA,NA,NA,2,American,Harlem
+Cafe On Broadway,NA,NA,NA,2,American,Upper West Side
+Amelie - UWS,NA,NA,NA,2,Wine Bar,Upper West Side
+Tapas de Espana - North Bergen,NA,NA,NA,3,Fusion / Eclectic,North Bergen
+M.A.C.C.,NA,NA,NA,2,Unspecified,Harlem
+Anatolia Turkish Kitchen,NA,NA,NA,2,Eastern European,Cliffside Park
+Mama's Pizza,NA,NA,NA,2,Italian,Upper West Side
+Lotus Restaurant,NA,NA,NA,2,Chinese,Weehawken
+o2 BBQ,NA,NA,NA,2,Korean,Jersey City
+La Fortuna,NA,NA,NA,2,Mexican,Cliffside Park
+GP?s Restaurant,NA,NA,NA,3,Italian,West New York
+Mac Shack,NA,NA,NA,3,Italian,West New York
+Kirsh Bakery and Kitchen,NA,4.3,19,2,American,Upper West Side
+Trattoria La Sorrentina,NA,NA,NA,2,Mexican,North Bergen
+Simply Grand,NA,NA,NA,2,American,Upper West Side
+La Kausa Restaurant,NA,NA,NA,2,Latin American,North Bergen
+Senn Thai,NA,NA,NA,3,Thai,Upper West Side
+Han Dynasty,NA,5.0,1,4,Chinese,Upper West Side
+Popover Cafe,NA,NA,NA,2,American,Upper West Side
+Greengrass Barney,NA,NA,1,2,American,Upper West Side
+Paloma Negra,NA,NA,NA,2,Mexican,Cliffside Park
+Camilles Restaurants,NA,NA,NA,2,American,Harlem
+Trova Cuban Cafe,NA,NA,NA,2,Cuban,North Bergen
+Maison Pickle,NA,NA,NA,2,Comfort Food,Upper West Side
+La Cocina,NA,NA,NA,2,Mexican,Upper West Side
+Casa Del Faro Restaurant,NA,NA,NA,2,Seafood,Weehawken
+Cafe Per Tutti,NA,NA,NA,3,Farm-to-table,North Bergen
+Olivella Restaurant,NA,3.8,18,2,Italian,North Bergen
+Cafe Pushkin,NA,NA,NA,2,Eastern European,Upper West Side
+Antonios Restaurant And Pizzeria,NA,NA,NA,2,Italian,Weehawken
+Patrona Fusion Restaurant,NA,3.7,16,3,Italian,West New York
+Iberia Tavern and Restaurant -,NA,NA,NA,3,American,Cliffside Park
+Trio Restaurant Bar & Cafe,NA,NA,NA,2,American,Cliffside Park
+Good Eats,NA,NA,NA,2,Southwest,Weehawken
+Guacamole Mexican Rest.,NA,NA,NA,2,Mexican,Weehawken
+Garden Pizza,NA,NA,NA,2,Italian,North Bergen
+New Kam Lai Chinese Restaurant,NA,NA,NA,2,Chinese,Upper West Side
+The Point,NA,NA,NA,2,American,North Bergen
+Kitaro Incorporated,NA,NA,NA,2,Japanese,Upper West Side
+Cavalino's Restaurant & Bar,NA,4.0,1,2,Italian,West New York
+Havana&apos S Cuban Cafe Incorporated,NA,NA,NA,2,Caribbean,Edgewater
+Di Palma Brothers Restaurant,NA,NA,NA,2,Italian,North Bergen
+Celeste,NA,4.5,2,2,Italian,Upper West Side
+Bella Luna - NYC,NA,4.3,1142,2,Italian,Upper West Side
+Arties Delicatessen And Caterers,NA,NA,NA,2,American,Upper West Side
+Jacob's Pickles,NA,4.4,40,2,Southern,Upper West Side
+New Szecuan Express,NA,NA,NA,2,Chinese,Cliffside Park
+Lins Garden,NA,NA,NA,2,Chinese,North Bergen
+America Central Restaurant,NA,NA,NA,2,American,North Bergen
+In Motion Meals,NA,NA,NA,2,Italian,Cliffside Park
+Flor de Mayo - West 80s,NA,NA,NA,2,Chinese,Upper West Side
+George Keeley's,NA,NA,NA,2,Grill,Upper West Side
+TBD - 480 Amsterdam,NA,NA,NA,2,American,Upper West Side
+Cafe Lalo,NA,NA,NA,2,American,Upper West Side
+FRED'S,NA,NA,NA,2,American,Upper West Side
+Kabob On The Cliff,NA,NA,NA,2,American,Cliffside Park
+Mikies Place Restaurant,NA,NA,NA,2,American,North Bergen
+Brownstone Pancake Factory,NA,5.0,1,2,American,Edgewater
+Club House Cafe,NA,NA,NA,2,American,Cliffside Park
+Pittie Soochow,NA,NA,NA,2,Chinese,Cliffside Park
+Charro Mexicano Rest&,NA,NA,NA,2,Mexican,North Bergen
+Rose's Lebanese Cuisine,NA,NA,NA,2,American,Cliffside Park
+Mokum,NA,NA,NA,2,Provencal,Upper West Side
+Gorilla Grill,NA,NA,NA,2,Korean,Cliffside Park
+Jin Ramen,NA,NA,NA,2,Japanese,Upper West Side
+Hampton Chutney Company,NA,NA,NA,2,Indian,Upper West Side
+Nutrition Zone Cafe,NA,NA,NA,2,American,Cliffside Park
+Cinar Turkish Restaurant- Cliffside Park,NA,4.3,2,2,Turkish,Cliffside Park
+Bento,NA,NA,NA,2,American,Cliffside Park
+Peacefood Cafe Inc,NA,NA,NA,2,American,Upper West Side
+Number One Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Patsy's Restaurant,NA,5.0,1,4,Italian,Cliffside Park
+Firehouse,NA,NA,NA,2,American,Upper West Side
+Land Thai KItchen (2) NYC,NA,NA,NA,2,Thai,Upper West Side
+Kinara Indian Restaruant,NA,NA,NA,2,Indian,Cliffside Park
+The One And Only,NA,NA,NA,2,Latin American,Weehawken
+John's Fried Chicken,NA,NA,NA,2,Grill,Cliffside Park
+Restaurant Prestige,NA,NA,NA,2,American,Cliffside Park
+Amused,NA,NA,NA,2,American,Upper West Side
+Machiavelli,NA,NA,NA,3,Italian,Upper West Side
+Zheng's River Restaurant,NA,NA,NA,2,Chinese,Harlem
+Centro Latino Ii,NA,NA,NA,2,Caribbean,Weehawken
+Motorino-UWS,NA,NA,NA,2,Pizzeria,Upper West Side
+Pasta Franco,NA,NA,NA,2,Italian,Upper West Side
+Massawa - NY,NA,NA,NA,2,African,Harlem
+Taqueria Mexicana Restaurant,NA,NA,NA,2,Mexican,Weehawken
+Bier International,NA,NA,NA,4,American,Harlem
+One Hundred Twenty First Street Cafe Limited,NA,NA,NA,2,American,Harlem
+The Meatball Shop - UWS,NA,NA,NA,2,Italian,Upper West Side
+Zoma,NA,NA,NA,2,African,Harlem
+The Gin Mil,NA,NA,NA,2,Grill,Upper West Side
+China Wok,NA,NA,NA,2,Chinese,Weehawken
+Blossom on Columbus,NA,4.5,980,2,Vegan,Upper West Side
+Goody Spanish & Chinese Restaurant,NA,NA,NA,2,Chinese,North Bergen
+The Park 112,NA,3.7,98,2,Tapas / Small Plates,Harlem
+67 Orange Street,NA,NA,NA,2,Bar / Lounge / Bottle Service,Harlem
+Osteria Cotta,NA,4.4,102,2,Italian,Upper West Side
+Brgr,NA,NA,NA,2,American,Upper West Side
+Puerto Vallarta Restaurant,NA,NA,NA,2,Mexican,North Bergen
+Bodegon - NJ,NA,NA,NA,2,Northwest Spain,Cliffside Park
+St James Gate,NA,NA,NA,2,American,Upper West Side
+Harlem Food Bar,NA,4.7,2,2,American,Harlem
+Lido Restaurant & Bar,NA,4.5,1,2,Italian,Jersey City
+Grill 212,NA,NA,NA,2,Grill,Upper West Side
+Tasca,NA,NA,NA,2,Spanish,Upper West Side
+La Grata Harlem,NA,4.1,24,2,Indian,Upper West Side
+Spice - Upper West Side,NA,3.7,119,2,Thai,Upper West Side
+Prohibition,NA,NA,NA,2,Gastro Pub,Upper West Side
+Bar 314,NA,NA,NA,2,Bar / Lounge / Bottle Service,Upper West Side
+Jakes Dilemma,NA,NA,1,2,Grill,Upper West Side
+Tsing Garden,NA,NA,NA,2,Chinese,Weehawken
+Brazilian Churrasqeria,NA,NA,NA,2,Latin American,Weehawken
+Toast Chickken,NA,NA,NA,4,Soul food,Harlem
+Streetbird Rotisserie,NA,4.2,39,2,American,Harlem
+King Food Restaurant Incorporated,NA,NA,NA,2,Chinese,Upper West Side
+The Great Burrito,NA,NA,NA,2,Mexican,Edgewater
+El Sombrero Cuisine,NA,NA,NA,2,Mexican,Weehawken
+Burana Pizzeria & Restaurant,NA,NA,NA,2,Italian,Weehawken
+Hummus Kitchen - UWS,NA,NA,NA,2,Café,Upper West Side
+Jado Sushi,NA,4.1,189,2,Sushi,Harlem
+Spaghetti Tavern,NA,NA,NA,2,Italian,Upper West Side
+Spring Natural Kitchen - UWS,NA,4.4,354,2,American,Upper West Side
+Le 421,NA,3.7,25,3,Mediterranean,Upper West Side
+Arba,NA,NA,NA,2,American,Upper West Side
+Bellini Italian Restaurant & Brick Oven Pizza - West Side,NA,4.0,131,2,Italian,Upper West Side
+Pebble Beach Pub,NA,NA,NA,2,Grill,Cliffside Park
+Max SoHa,NA,NA,NA,3,Italian,Harlem
+Cilantro,NA,NA,NA,3,Mexican,Upper West Side
+Kitchenette - Uptown,NA,4.2,283,2,American,Upper West Side
+Blujeen,NA,4.3,209,3,American,Harlem
+Thai Kitchen Restaurant And Take Out,NA,NA,NA,2,Thai,Edgewater
+LoLo’s Seafood Shack,NA,NA,NA,2,Seafood,Harlem
+Nikko Hibachi Grill,NA,NA,NA,2,Café,Harlem
+Pisticci,NA,4.5,2,2,Italian,Harlem
+Pretto,NA,4.1,24,2,Italian,Upper West Side
+Da Luce,NA,NA,NA,2,Italian,Upper West Side
+Saravana Bhavan,NA,3.6,18,2,Indian,Upper West Side
+Silvana,NA,NA,NA,2,Café,Harlem
+Kefi,NA,4.4,350,2,Greek,Upper West Side
+Flame - Main Dining Room (No Hibachi),NA,4.2,57,2,Asian,Upper West Side
+Great Burrito Incorporated,NA,NA,NA,2,Mexican,Upper West Side
+Magic Pot,NA,NA,NA,3,Fusion / Eclectic,Cliffside Park
+Tutto A Modo Mio,NA,NA,NA,2,Italian,Cliffside Park
+Piccolo Gastronomia Italiana,NA,NA,NA,2,Italian,Cliffside Park
+Roberto's II,NA,NA,NA,3,Italian,Edgewater
+Blondie's Sports,NA,NA,NA,2,Café,Upper West Side
+Big Belly Roti,NA,NA,NA,3,Caribbean,Harlem
+The Meatball Factory,NA,NA,NA,2,Italian,Harlem
+Grill Twenty Four Gourmet Deli,NA,NA,NA,2,American,Harlem
+Stand-up Ny Comedy Club,NA,NA,NA,2,Grill,Upper West Side
+Bowe's Fast Food With Restaurant Quality & Taste,NA,NA,NA,2,American,Harlem
+El Adobo Restaurant Mexicano,NA,NA,NA,2,Mexican,West New York
+Lido,NA,4.5,1430,2,Italian,Harlem
+BIXI,NA,NA,NA,2,Asian,Harlem
+Pupuseria Y Restaurante El Chavatero,NA,NA,NA,2,American,Weehawken
+Cantina 1838,NA,NA,NA,2,Mexican,Harlem
+Toast,NA,NA,NA,2,American,Upper West Side
+La Savane Rest.,NA,NA,NA,2,American,Harlem
+Istanbul Borek & Kebab,NA,NA,NA,2,Turkish,Cliffside Park
+africa k. restaurant,NA,NA,NA,2,African,Harlem
+Whiskey Pete's,NA,NA,NA,2,American,Cliffside Park
+Sushi Palace,NA,NA,NA,2,Sushi,Cliffside Park
+Viva Margarita,NA,NA,NA,2,Mexican,Cliffside Park
+Tacombi - UWS,NA,NA,NA,2,Mexican,Upper West Side
+Olguita's Restaurant,NA,NA,NA,2,American,Weehawken
+Chic King 3,NA,NA,NA,2,American,Weehawken
+Sedona Taphouse Cliffside Park,NA,NA,NA,2,American,Cliffside Park
+Golden City Restaurant,NA,NA,NA,2,Chinese,Cliffside Park
+La Vela Ristorante,NA,NA,NA,2,Fusion / Eclectic,Upper West Side
+Fulton Crab House,NA,NA,NA,4,Seafood,Cliffside Park
+Pita Grill 77,NA,NA,NA,2,Mediterranean,Upper West Side
+Gothmam City Diner,NA,NA,NA,2,American,Cliffside Park
+Joan's Corner Cafe,NA,NA,NA,2,American,Cliffside Park
+Patisserie Des Ambassades,NA,NA,NA,2,French,Harlem
+Applebee's Grill and Bar - North Bergen,NA,NA,NA,3,American,North Bergen
+Daily Provisions - Amsterdam Ave,NA,NA,NA,2,American,Upper West Side
+RedFarm - UWS,NA,NA,NA,4,Café,Upper West Side
+Kaname Restaurant,NA,NA,NA,2,Japanese,Cliffside Park
+Jin Ramen,NA,NA,NA,2,Asian,Harlem
+Restaurant M Bar,NA,NA,NA,2,American,Weehawken
+Moca Bar 7 Grill,NA,NA,NA,2,Grill,Harlem
+Kingston,NA,4.2,3,2,Caribbean,Harlem
+Kissaten Jin,NA,NA,NA,2,Japanese,Upper West Side
+East Sea Village Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Beyoglu Bistro & Cafe,NA,NA,NA,2,Mediterranean,Cliffside Park
+220 CPS (Jean Georges for residents only),NA,NA,NA,2,French,Midtown West
+Green Leaf Restaurant,NA,NA,NA,2,American,North Bergen
+Harlem Dandy,NA,NA,NA,2,American,Harlem
+Sushi To Go Express,NA,NA,NA,2,Sushi,Edgewater
+Bad Horse Pizza,NA,5.0,1,2,Pizzeria,Harlem
+Noches De Colombia,NA,NA,NA,2,Mexican,Weehawken
+B2 Harlem,NA,4.5,119,2,Seafood,Harlem
+B Squared Harlem,NA,NA,NA,2,American,Harlem
+Simit & Smith,NA,NA,NA,2,American,Cliffside Park
+El Nuevo Tina Restaurant Corporation,NA,NA,NA,2,Mexican,Harlem
+Cugino's The Orginal,NA,NA,NA,2,Italian,North Bergen
+Gioia - West New York,NA,NA,NA,2,Italian,West New York
+TESSA,NA,4.5,1391,3,Mediterranean,Upper West Side
+125 City Salad Cafe Incorporated,NA,NA,NA,2,Organic,Harlem
+Clay,NA,NA,NA,2,American,Harlem
+Dinosaur Bar-B-Que - Harlem,NA,4.2,2808,2,Barbecue,Upper West Side
+Lulu's Taqueria,NA,4.0,24,2,Cuban,Harlem
+Lusso Bar & Lounge,NA,NA,NA,2,Gastro Pub,West New York
+Caribe Restaurant,NA,NA,NA,2,American,Harlem
+Billie's Black,NA,5.0,2,2,Café,Harlem
+The Cecil Steakhouse,NA,4.2,1458,3,American,Harlem
+El Houdurian Cafe,NA,NA,NA,2,Mexican,Weehawken
+Philly Cheese Steak House,NA,NA,NA,2,Steakhouse,West New York
+Green Shell Seafood Restaurant,NA,NA,NA,2,Seafood,Weehawken
+Salome Cafe Express Cafe,NA,NA,NA,2,American,Weehawken
+Que Rico & Grill,NA,NA,NA,2,American,Harlem
+Minton's Playhouse,NA,4.4,746,3,American,Harlem
+Brazeiro Bbq,NA,NA,NA,2,Barbecue,West New York
+Fancy Fish Restaurant,NA,NA,NA,2,Seafood,Weehawken
+Viand Coffee Shop,NA,NA,NA,2,American,Upper West Side
+Dovetail,NA,4.4,4510,4,Contemporary American,Upper West Side
+Fairway Cafe,NA,NA,NA,2,American,Upper West Side
+Centro Latino Restaurant,NA,NA,NA,2,Caribbean,Weehawken
+Angel of Harlem,NA,4.3,122,2,American,Harlem
+Arigato - Edgewater,NA,NA,NA,3,Sushi,Edgewater
+Wonder Fried Chicken,NA,NA,NA,2,Grill,Harlem
+Semitas Poblanas Restaurant,NA,NA,NA,2,American,West New York
+The Foliage Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Harlem Pizza Co,NA,NA,NA,2,Italian,Harlem
+Piccolo Cafe - Amsterdam Ave,NA,4.2,186,2,Italian,Upper West Side
+Savann Mediterranean Cuisine Restaurant,NA,4.2,52,2,Mediterranean,Harlem
+Pomodoro Pizza & Restaurant,NA,NA,NA,2,Italian,Cliffside Park
+Hing Lung Kitchen,NA,NA,NA,2,Chinese,North Bergen
+Pier 1 Cafe Inc,NA,NA,NA,2,American,Upper West Side
+YIGA RESTAURANT,NA,NA,NA,2,Café,Cliffside Park
+8th Hill Inspired Mediterranean Cuisine,NA,4.2,301,3,Mediterranean,Upper West Side
+Récolte Dessert Bar,NA,NA,NA,2,Dessert,Upper West Side
+Hummus Place,NA,NA,NA,2,American,Upper West Side
+Freddys Soul Caribbean Restaurant Incorporated,NA,NA,NA,2,Caribbean,Harlem
+Las Palmas Cafe,NA,NA,NA,2,Caribbean,West New York
+Sals Pizzeria,NA,NA,NA,2,Italian,Weehawken
+Harlem's Floridita,NA,NA,NA,4,Café,Harlem
+Myung Ga,NA,NA,NA,2,Chinese,Cliffside Park
+The Park Cafe,NA,NA,NA,2,American,Cliffside Park
+Le Baobab Restaurants,NA,NA,NA,3,African,Harlem
+Pier 72,NA,NA,NA,2,American,Upper West Side
+Scaletta Restaurant,NA,4.0,1091,3,Italian,Upper West Side
+Fieldtrip,NA,NA,NA,2,American,Harlem
+Amy Ruth's,NA,NA,NA,2,Southern,Harlem
+My Most Favorite Food,NA,3.6,12,2,Contemporary American,Upper West Side
+Saffron Indian Cuisine,NA,4.0,12,2,Indian,Upper West Side
+Asset,NA,NA,NA,2,American,Upper West Side
+Nj Persion Grill,NA,NA,NA,2,American,Edgewater
+Nygiselebnb,NA,NA,NA,2,American,Harlem
+Five Star Fried Chicken & Pizza,NA,NA,NA,2,Italian,Harlem
+West Side Cafe,NA,NA,NA,2,American,Upper West Side
+Farinella,NA,NA,NA,2,Italian,Upper West Side
+China Town,NA,NA,NA,2,Chinese,Weehawken
+Pio Pio,NA,NA,NA,2,Latin American,Weehawken
+Roti Plus,NA,NA,NA,2,Caribbean,Harlem
+Chez Alain Restaurant,NA,NA,NA,2,French,Harlem
+Leyla,NA,NA,NA,2,Mediterranean,Upper West Side
+Magda's Restaurant,NA,NA,NA,2,American,West New York
+Sexy Taco/Dirty Cash,NA,4.1,25,2,Contemporary American,Harlem
+North Miznon,NA,NA,NA,3,Mediterranean,Upper West Side
+Red Star Restaurants,NA,NA,NA,2,Seafood,Harlem
+294 Columbus Restaurant Corporation,NA,NA,NA,2,American,Upper West Side
+Kissaki Columbus,NA,NA,NA,2,Sushi,Upper West Side
+Mileidy Cafe,NA,NA,NA,2,American,Weehawken
+Bierstrasse,NA,3.7,11,2,Gastro Pub,Harlem
+Charlies Restaurant,NA,NA,NA,2,American,Weehawken
+Perfect Pizza,NA,NA,NA,2,Italian,Weehawken
+Patsy's Pizzeria - West 70s,NA,4.0,1,2,Pizzeria,Upper West Side
+Side Park Cafe,NA,4.1,1,2,Mexican,Harlem
+Amcook Fusion Sushi & Asian Csne,NA,NA,NA,2,Sushi,Upper West Side
+Harlem Harlem Restaurant,NA,NA,NA,2,American,Harlem
+Accra Restaurant,NA,NA,NA,2,American,Harlem
+Bamboo Sushi Llc,NA,NA,NA,2,Sushi,Harlem
+Harlem Bar BQ,NA,NA,NA,2,Barbecue,Harlem
+King's Fried Chicken & Pizza,NA,NA,NA,2,Italian,Harlem
+Archer and Goat,NA,NA,NA,2,American,Harlem
+Madiba - Harlem,NA,4.2,48,4,Contemporary American,Harlem
+Dark Bullet Sake & Oyster Bar,NA,NA,NA,2,Oyster Bar,Upper West Side
+La Bodega Gourmet,NA,NA,NA,2,Latin American,North Bergen
+Shun Cheong Chinese Kitchen,NA,NA,NA,2,Chinese,Harlem
+Moca Bar 7 Grill,NA,NA,NA,2,Grill,Harlem
+Kingston,NA,4.2,3,2,Caribbean,Harlem
+Kissaten Jin,NA,NA,NA,2,Japanese,Upper West Side
+East Sea Village Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Beyoglu Bistro & Cafe,NA,NA,NA,2,Mediterranean,Cliffside Park
+220 CPS (Jean Georges for residents only),NA,NA,NA,2,French,Midtown West
+Green Leaf Restaurant,NA,NA,NA,2,American,North Bergen
+Harlem Dandy,NA,NA,NA,2,American,Harlem
+Sushi To Go Express,NA,NA,NA,2,Sushi,Edgewater
+Bad Horse Pizza,NA,5.0,1,2,Pizzeria,Harlem
+Noches De Colombia,NA,NA,NA,2,Mexican,Weehawken
+B2 Harlem,NA,4.5,119,2,Seafood,Harlem
+B Squared Harlem,NA,NA,NA,2,American,Harlem
+Simit & Smith,NA,NA,NA,2,American,Cliffside Park
+El Nuevo Tina Restaurant Corporation,NA,NA,NA,2,Mexican,Harlem
+Cugino's The Orginal,NA,NA,NA,2,Italian,North Bergen
+Gioia - West New York,NA,NA,NA,2,Italian,West New York
+TESSA,NA,4.5,1391,3,Mediterranean,Upper West Side
+125 City Salad Cafe Incorporated,NA,NA,NA,2,Organic,Harlem
+Clay,NA,NA,NA,2,American,Harlem
+Dinosaur Bar-B-Que - Harlem,NA,4.2,2808,2,Barbecue,Upper West Side
+Lulu's Taqueria,NA,4.0,24,2,Cuban,Harlem
+Lusso Bar & Lounge,NA,NA,NA,2,Gastro Pub,West New York
+Caribe Restaurant,NA,NA,NA,2,American,Harlem
+Billie's Black,NA,5.0,2,2,Café,Harlem
+The Cecil Steakhouse,NA,4.2,1458,3,American,Harlem
+El Houdurian Cafe,NA,NA,NA,2,Mexican,Weehawken
+Philly Cheese Steak House,NA,NA,NA,2,Steakhouse,West New York
+Green Shell Seafood Restaurant,NA,NA,NA,2,Seafood,Weehawken
+Salome Cafe Express Cafe,NA,NA,NA,2,American,Weehawken
+Que Rico & Grill,NA,NA,NA,2,American,Harlem
+Minton's Playhouse,NA,4.4,746,3,American,Harlem
+Brazeiro Bbq,NA,NA,NA,2,Barbecue,West New York
+Fancy Fish Restaurant,NA,NA,NA,2,Seafood,Weehawken
+Viand Coffee Shop,NA,NA,NA,2,American,Upper West Side
+Dovetail,NA,4.4,4510,4,Contemporary American,Upper West Side
+Fairway Cafe,NA,NA,NA,2,American,Upper West Side
+Centro Latino Restaurant,NA,NA,NA,2,Caribbean,Weehawken
+Angel of Harlem,NA,4.3,122,2,American,Harlem
+Arigato - Edgewater,NA,NA,NA,3,Sushi,Edgewater
+Wonder Fried Chicken,NA,NA,NA,2,Grill,Harlem
+Semitas Poblanas Restaurant,NA,NA,NA,2,American,West New York
+The Foliage Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Harlem Pizza Co,NA,NA,NA,2,Italian,Harlem
+Piccolo Cafe - Amsterdam Ave,NA,4.2,186,2,Italian,Upper West Side
+Savann Mediterranean Cuisine Restaurant,NA,4.2,52,2,Mediterranean,Harlem
+Pomodoro Pizza & Restaurant,NA,NA,NA,2,Italian,Cliffside Park
+Hing Lung Kitchen,NA,NA,NA,2,Chinese,North Bergen
+Pier 1 Cafe Inc,NA,NA,NA,2,American,Upper West Side
+YIGA RESTAURANT,NA,NA,NA,2,Café,Cliffside Park
+8th Hill Inspired Mediterranean Cuisine,NA,4.2,301,3,Mediterranean,Upper West Side
+Récolte Dessert Bar,NA,NA,NA,2,Dessert,Upper West Side
+Hummus Place,NA,NA,NA,2,American,Upper West Side
+Freddys Soul Caribbean Restaurant Incorporated,NA,NA,NA,2,Caribbean,Harlem
+Las Palmas Cafe,NA,NA,NA,2,Caribbean,West New York
+Sals Pizzeria,NA,NA,NA,2,Italian,Weehawken
+Harlem's Floridita,NA,NA,NA,4,Café,Harlem
+Myung Ga,NA,NA,NA,2,Chinese,Cliffside Park
+The Park Cafe,NA,NA,NA,2,American,Cliffside Park
+Le Baobab Restaurants,NA,NA,NA,3,African,Harlem
+Pier 72,NA,NA,NA,2,American,Upper West Side
+Scaletta Restaurant,NA,4.0,1091,3,Italian,Upper West Side
+Fieldtrip,NA,NA,NA,2,American,Harlem
+Amy Ruth's,NA,NA,NA,2,Southern,Harlem
+My Most Favorite Food,NA,3.6,12,2,Contemporary American,Upper West Side
+Saffron Indian Cuisine,NA,4.0,12,2,Indian,Upper West Side
+Asset,NA,NA,NA,2,American,Upper West Side
+Nj Persion Grill,NA,NA,NA,2,American,Edgewater
+Nygiselebnb,NA,NA,NA,2,American,Harlem
+Five Star Fried Chicken & Pizza,NA,NA,NA,2,Italian,Harlem
+West Side Cafe,NA,NA,NA,2,American,Upper West Side
+Farinella,NA,NA,NA,2,Italian,Upper West Side
+China Town,NA,NA,NA,2,Chinese,Weehawken
+Pio Pio,NA,NA,NA,2,Latin American,Weehawken
+Roti Plus,NA,NA,NA,2,Caribbean,Harlem
+Chez Alain Restaurant,NA,NA,NA,2,French,Harlem
+Leyla,NA,NA,NA,2,Mediterranean,Upper West Side
+Magda's Restaurant,NA,NA,NA,2,American,West New York
+Sexy Taco/Dirty Cash,NA,4.1,25,2,Contemporary American,Harlem
+North Miznon,NA,NA,NA,3,Mediterranean,Upper West Side
+Red Star Restaurants,NA,NA,NA,2,Seafood,Harlem
+294 Columbus Restaurant Corporation,NA,NA,NA,2,American,Upper West Side
+Kissaki Columbus,NA,NA,NA,2,Sushi,Upper West Side
+Mileidy Cafe,NA,NA,NA,2,American,Weehawken
+Bierstrasse,NA,3.7,11,2,Gastro Pub,Harlem
+Charlies Restaurant,NA,NA,NA,2,American,Weehawken
+Perfect Pizza,NA,NA,NA,2,Italian,Weehawken
+Patsy's Pizzeria - West 70s,NA,4.0,1,2,Pizzeria,Upper West Side
+Side Park Cafe,NA,4.1,1,2,Mexican,Harlem
+Amcook Fusion Sushi & Asian Csne,NA,NA,NA,2,Sushi,Upper West Side
+Harlem Harlem Restaurant,NA,NA,NA,2,American,Harlem
+Accra Restaurant,NA,NA,NA,2,American,Harlem
+Bamboo Sushi Llc,NA,NA,NA,2,Sushi,Harlem
+Harlem Bar BQ,NA,NA,NA,2,Barbecue,Harlem
+King's Fried Chicken & Pizza,NA,NA,NA,2,Italian,Harlem
+Archer and Goat,NA,NA,NA,2,American,Harlem
+Madiba - Harlem,NA,4.2,48,4,Contemporary American,Harlem
+Dark Bullet Sake & Oyster Bar,NA,NA,NA,2,Oyster Bar,Upper West Side
+La Bodega Gourmet,NA,NA,NA,2,Latin American,North Bergen
+Shun Cheong Chinese Kitchen,NA,NA,NA,2,Chinese,Harlem
+Fine & Schapiro,NA,NA,NA,2,American,Upper West Side
+"Alice's Tea Cup, Chapter 1",NA,5.0,1,2,American,Lincoln Square
+Tasty Cafe,NA,NA,NA,2,American,Upper West Side
+Me Sabe A Peru,NA,NA,NA,2,American,Weehawken
+Russ & Daughters,NA,NA,NA,2,American,Upper East Side
+Il Cafe Latte,NA,NA,NA,2,American,Harlem
+Great China Restaurant,NA,NA,NA,2,Chinese,Harlem
+Legend,NA,NA,NA,2,Chinese,Upper West Side
+Crepes & Delices,NA,NA,NA,2,French,Upper West Side
+White Castle - New York - 7Th Ave,NA,5.0,2,2,American,Harlem
+Delhi Masala,NA,NA,NA,2,Indian,Harlem
+Wah Yoan Restaurant Ii,NA,NA,NA,2,Chinese,West New York
+WEST NEW YORK PIZZA,NA,NA,NA,2,Pizzeria,West New York
+Ikhofi Cafe,NA,NA,NA,2,American,Harlem
+Sabrosura Rest.,NA,NA,NA,2,Mexican,West New York
+AG Kitchen,NA,4.1,580,2,American,Upper West Side
+Tavola Della Nonna,NA,NA,NA,2,Italian,Upper West Side
+The Mixed Grill Ll,NA,NA,NA,2,American,West New York
+Columbus Gourmet Food,NA,NA,NA,2,American,Upper West Side
+Hong Cheong,NA,NA,NA,2,Chinese,Harlem
+The Cafe At Cooper Hewitt National Design Museum,NA,NA,NA,2,American,Upper East Side
+King Dragon 88,NA,NA,NA,2,Chinese,Harlem
+New Nyc Yoan Ming Garden,NA,NA,NA,2,Chinese,Carnegie Hill
+Thai Wok,NA,NA,NA,2,Thai,Carnegie Hill
+Melba's 125,NA,NA,NA,2,American,Harlem
+Miller Shabu,NA,NA,NA,2,American,Harlem
+Tre Otto,NA,3.8,225,2,Italian,Upper East Side
+Da Capo Aperitivo E Caffe,NA,NA,NA,2,Italian,Upper East Side
+Covo Trattoria e Pizzeria,NA,4.0,158,2,Italian,Upper West Side
+Mi Pueblito Restaurant,NA,NA,NA,2,Mexican,Weehawken
+Cheri,NA,4.4,191,2,French,Harlem
+Mi Casita Restaurant Inc,NA,NA,NA,2,American,Harlem
+Extra Super Restaurant,NA,NA,NA,2,American,Weehawken
+Ella Kitchen & Bar,NA,4.4,659,2,Spanish,Upper West Side
+Antojitos Puebla,NA,NA,NA,2,Mexican,Weehawken
+Felice - Columbus Ave,NA,NA,NA,2,Italian,Upper West Side
+Boulevard Bistro,NA,4.5,284,3,Southern,Harlem
+China House Chinese Restaurant,NA,NA,NA,2,Chinese,Harlem
+Three Guys Restrnt,NA,NA,NA,2,American,Carnegie Hill
+Taralluci E Vino,NA,NA,NA,2,Italian,Carnegie Hill
+Dakota Bar,NA,NA,NA,4,American,Lincoln Square
+Bus Stop Restaurant,NA,NA,NA,2,American,Harlem
+Vico,NA,NA,NA,3,Italian,Carnegie Hill
+Pascalou,NA,4.2,1075,2,Contemporary French,Upper East Side
+Golden Dragon,NA,NA,NA,2,Chinese,Weehawken
+Pascalou,NA,NA,NA,2,French,Upper East Side
+Karaoke Restaurant,NA,NA,NA,2,American,West New York
+Bin 71,NA,NA,NA,2,Café,Lincoln Square
+Steak & Hoagies,NA,NA,NA,2,Steakhouse,Harlem
+Riposo 72,NA,NA,NA,2,Café,Lincoln Square
+La Pola Restaurant,NA,NA,NA,2,Caribbean,Weehawken
+Gina La Fornarina,NA,NA,NA,2,Italian,Carnegie Hill
+Parm Upper West Side,NA,4.3,845,2,Italian,Upper West Side
+El Marinero Restaurant Ii,NA,NA,NA,2,American,West New York
+Sarabeth's East,NA,4.2,964,2,American,Upper East Side
+Table d'hote,NA,NA,NA,2,French,Carnegie Hill
+Gina Mexicana Tequila Bar & Kitchen,NA,NA,NA,2,Mexican,Carnegie Hill
+All Night Long Restaurant,NA,NA,NA,2,American,Harlem
+Gina - Madison Ave,NA,4.2,5,2,Italian,Upper East Side
+NoiDue,NA,NA,NA,2,Italian,Lincoln Square
+Teri Teri,NA,NA,NA,2,Japanese,Weehawken
+Pasha - NYC,NA,4.0,917,2,Turkish,Upper West Side
+Andanada,NA,4.0,1504,3,Spanish,Upper West Side
+Harlem Shake,NA,NA,NA,2,American,Harlem
+Café Sabarsky - Neue Gallery,NA,NA,NA,2,American,Carnegie Hill
+Noi Due Carne,NA,NA,NA,2,Italian,Hell's Kitchen
+Tio Taco Restaurant,NA,NA,NA,2,Mexican,Weehawken
+Amber - West,NA,3.8,307,2,Sushi,Upper West Side
+Cafe Tivoli,NA,NA,NA,2,American,Palisades Park
+Nanoosh,NA,NA,NA,2,Middle Eastern,Upper West Side
+ChaiWali,NA,4.2,141,3,Indian,Harlem
+Chinelos,NA,NA,NA,2,American,Harlem
+Via Quadronno 88 Street,NA,4.3,37,2,Italian,Midtown East
+Sole Bistro Italiano,NA,4.2,244,3,Italian,Upper West Side
+Kafe Empanadas,NA,NA,NA,2,American,Weehawken
+Luck Fang Chinese Restaurant,NA,NA,NA,2,Chinese,Weehawken
+Shalel Lounge,NA,NA,NA,2,Café,Lincoln Square
+Number 1 Chinese Restaurant,NA,NA,NA,2,Chinese,Carnegie Hill
+Three Guys Restaurant,NA,NA,NA,2,American,Carnegie Hill
+Earl's Food & Beverage,NA,NA,NA,2,Grill,Carnegie Hill
+Home Sweet Harlem,NA,4.1,21,2,Home cooking,Harlem
+New Good Taste Chinese Restaurant,NA,NA,NA,2,Chinese,Harlem
+Olive Garden,NA,NA,NA,2,Italian,Harlem
+Kebabistanbul Restaurant,NA,NA,NA,2,American,Weehawken
+Contento,NA,NA,NA,2,Italian,East Harlem
+Santinis Bistro,NA,NA,NA,2,French,Weehawken
+Corner Social,NA,4.1,115,2,American,Harlem
+Empire Szechuan - West 60s,NA,NA,NA,2,Asian,Lincoln Square
+Francesco Pizzeria & Italian Restaurant,NA,NA,NA,2,Italian,Lincoln Square
+Chez Lucienne,NA,3.9,773,2,French,Harlem
+Flor De Broadway,NA,NA,NA,2,Caribbean,Harlem
+Louis Bbq Pit,NA,NA,NA,2,Barbecue,Weehawken
+Old Johns Luncheonette,NA,NA,NA,2,American,Upper West Side
+Meson Espanol,NA,NA,NA,2,Tapas / Small Plates,Weehawken
+Mannas Soul Food Restaurant,NA,NA,NA,2,Southern,Harlem
+Chan's Kitchen,NA,NA,NA,2,Korean,Weehawken
+Dean & Deluca,NA,NA,NA,2,American,Upper East Side
+Telepan - Permanently Closed,NA,4.3,4066,4,Contemporary American,Upper West Side
+Sidewalk Cafe,NA,NA,NA,2,American,Upper West Side
+Ollin NYC,NA,5.0,1,2,Mexican,East Harlem
+Reverence,NA,NA,NA,2,American,Harlem
+Pipos Restaurant,NA,NA,NA,2,Mexican,Harlem
+Bar Boulud,NA,4.1,7984,2,French,Upper West Side
+Hu Kitchen,NA,NA,NA,2,Organic,Yorkville
+Urbani Truffle Lab,NA,NA,NA,4,Italian,Hell's Kitchen
+Cafe Grand At Metro Hospital,NA,NA,NA,2,American,Carnegie Hill
+The Simone,NA,NA,NA,4,Café,Upper East Side
+Malii,NA,NA,NA,2,Thai,Carnegie Hill
+El Garden Cafe Restaurant,NA,NA,NA,2,Mexican,Carnegie Hill
+New King Foo Chinese Food,NA,NA,NA,2,Chinese,Harlem
+Lupitas Restaurant,NA,NA,NA,2,Mexican,Harlem
+Anchor Wine Bar,NA,4.7,36,2,Italian,Washington Heights
+Triple A Restaurant,NA,NA,NA,2,American,Harlem
+Vinus & Marc,NA,4.2,27,3,Contemporary American,Upper East Side
+Sugar Shack - Harlem,NA,NA,NA,2,Southern British,Harlem
+Tastings Social Presents GAUDIr,NA,4.8,17,3,Spanish,Harlem
+Tastings Social Presents Mountain Bird,NA,4.8,296,3,French American,Harlem
+Lili's Noodle Shop and Grill,NA,NA,NA,2,Chinese,Yorkville
+Olympic Flame Diner,NA,NA,NA,2,American,Columbus Circle
+G Kebap,NA,NA,NA,2,Middle Eastern,Upper East Side
+Highbands Cafe Restaurant,NA,NA,NA,2,American,Yorkville
+Bellmarc Realty,NA,NA,NA,2,American,Upper East Side
+A-jiao Sichuan Cuisine,NA,NA,NA,2,Chinese,Upper East Side
+Melissa's Gourmet,NA,NA,NA,2,American,Lincoln Square
+Uno Chicago Grill - New York,NA,NA,NA,3,American,Yorkville
+Glorious Food Inc,NA,NA,NA,2,American,Harlem
+Las Panteras Negras,NA,NA,NA,2,Mexican,Harlem
+Hot Jalapeno Rest.,NA,NA,NA,2,Mexican,Harlem
+Harlem Gourmet Cafe,NA,NA,NA,2,American,Harlem
+Londel's Restaurant,NA,NA,NA,2,Café,Harlem
+Nick's Family Style Restaurant & Pizzeria,NA,NA,NA,2,Italian,Yorkville
+La Rubia Rest.,NA,NA,NA,2,Mexican,Harlem
+Flora Bar,NA,4.5,422,3,Seafood,Upper East Side
+Via Quadronno NYC,NA,NA,NA,3,Fusion / Eclectic,Upper East Side
+Polash Indian Cuisine,NA,NA,NA,2,Indian,Harlem
+Mojitos Bar & Grill,NA,NA,NA,2,Grill,Harlem
+Caridad Restaurant,NA,NA,NA,2,Latin American,Harlem
+Bueno German,NA,NA,NA,2,German,Harlem
+Shell's Bistro,NA,NA,NA,4,Café,Harlem
+Tommy's Sushi,NA,NA,NA,2,Sushi,Yorkville
+Halal Indo Pak Restaurant,NA,NA,NA,2,Indian,Harlem
+2026 China King,NA,NA,NA,2,Chinese,Harlem
+Salthill Arms Bar & Grill,NA,NA,NA,2,Grill,Yorkville
+Mole - UES,NA,NA,NA,4,Café,Yorkville
+Gael Pub,NA,NA,NA,2,Grill,Upper East Side
+Aj's Neighborhood Bar & Grill,NA,NA,NA,2,Grill,Harlem
+Eli's Essential's,NA,NA,NA,2,American,Upper East Side
+East 116 Street Restaurant Llc,NA,NA,NA,2,American,Harlem
+Explorer Rest.,NA,NA,NA,2,American,Upper East Side
+Plenty Cafe,NA,NA,NA,2,American,Upper East Side
+Zebu Grill,NA,4.4,78,2,Brazilian,Upper East Side
+Harlem Nights,NA,NA,NA,2,Bar / Lounge / Bottle Service,Harlem
+Our Place,NA,NA,NA,3,Chinese,Upper East Side
+Hyacinth's Haven,NA,3.0,1,2,Jamaican,Harlem
+Don Filippo Restaurant,NA,NA,NA,2,Italian,Upper East Side
+Taijiyama,NA,NA,NA,2,American,Yorkville
+Nocciola Ristorante,NA,4.4,130,2,Italian,Harlem
+Mad River Bar & Grill,NA,NA,NA,2,Gastro Pub,Upper East Side
+The Red Grill,NA,NA,NA,2,Mexican,Upper East Side
+The Writing Room,NA,4.2,795,3,American,Upper East Side
+Sushi Para,NA,4.0,44,2,Japanese,Upper East Side
+Il Riccio,NA,4.0,584,3,Italian,Upper East Side
+Chef Ho's Peking Duck Grill,NA,NA,NA,3,Chinese,Yorkville
+Harlem Cafe,NA,NA,NA,2,American,Harlem
+Dylan Murphy's,NA,NA,NA,4,American,Upper East Side
+Rathbones Restaurant,NA,NA,NA,2,Grill,Yorkville
+Tenzan - Upper East Side,NA,NA,NA,3,Japanese,Yorkville
+Infirmary - Permanently Closed,NA,4.2,283,2,Creole / Cajun / Southern,Yorkville
+Vietnaam,NA,NA,NA,2,Vietnamese,Yorkville
+Belle Harlem,NA,4.8,478,4,Contemporary American,Harlem
+Carino on 2nd,NA,4.0,11,2,Italian,Upper East Side
+Jimbos Hamburger Palace,NA,NA,NA,2,Burgers,Harlem
+Hong Kong Chinese Restaurant,NA,NA,NA,2,Chinese,Harlem
+Kurio,NA,NA,NA,3,American,Yorkville
+Beyoglu,NA,NA,NA,3,Fusion / Eclectic,Upper East Side
+China Wok,NA,NA,NA,2,Chinese,Upper East Side
+Campagna Quattro Gatti,NA,4.3,186,3,Italian,Upper East Side
+Wat's On Your Plate,NA,NA,NA,2,Caribbean,Harlem
+Sabor Borinqueno Restaurant Incorporated,NA,NA,NA,2,American,Harlem
+Eat Authentic Thai Kitchen,NA,NA,NA,2,Thai,Upper East Side
+White Castle - New York - E 103Rd St,NA,5.0,6,2,American,Harlem
+Lorenzo Maria S Kitchen,NA,NA,NA,2,American,Upper East Side
+Tiramisu,NA,4.5,2,2,Italian,Upper East Side
+Sandy Restaurant Corporation,NA,NA,NA,2,Tapas / Small Plates,Harlem
+Amber Upper East,NA,4.1,342,2,Japanese,Upper East Side
+Eli’s Table,NA,4.4,262,4,American,Upper East Side
+Mexicue - UES,NA,4.4,11,3,Tex-Mex,Upper East Side
+Shiraz Nyc Inc,NA,NA,NA,2,American,Upper East Side
+Mi Mexico Lindo Panaderia,NA,NA,NA,2,Mexican,Harlem
+Parma,NA,NA,NA,4,Italian,Upper East Side
+Rancho Vengano Inc,NA,NA,NA,2,American,Harlem
+Lenox Hill Grill,NA,NA,NA,3,American,Upper East Side
+Sugar Cafe,NA,NA,NA,2,American,Harlem
+Nougatine Terrace at Jean-Georges,NA,4.4,264,3,French,Midtown West
+Luke's Bar & Grill,NA,4.0,1,2,Gastro Pub,Upper East Side
+Due,NA,4.0,1,2,Italian,Upper East Side
+Paolas Restaurant,NA,NA,NA,2,Italian,Upper East Side
+Hung Chow Restaurant,NA,NA,NA,2,Chinese,Harlem
+Mamasushi,NA,NA,NA,2,Sushi,Harlem
+Restaurant San Cristobal,NA,NA,NA,2,American,Harlem
+Gracie's On 2nd,NA,NA,NA,2,American,Upper East Side
+Double Dragon,NA,NA,NA,2,Chinese,Harlem
+Kennedy Fried Chicken,NA,NA,NA,2,American,Harlem
+Lee Chi,NA,3.8,8,2,Chinese,Upper East Side
+Heidelberg Restaurant,NA,NA,NA,2,German,Yorkville
+Kim Tont Restaurant,NA,NA,NA,2,Chinese,Harlem
+Poke,NA,NA,NA,3,Sushi,Yorkville
+Andaman Thai Bistro,NA,NA,NA,2,Thai,Yorkville
+Andres Cafe European Bakery,NA,NA,NA,2,Eastern European,Upper East Side
+Mexibbq Kitchen & Draught,NA,NA,NA,2,Barbecue,Yorkville
+Balon,NA,NA,NA,3,Café,Upper East Side
+Maz Mezcal,NA,NA,NA,2,Mexican,Yorkville
+Elio's,NA,5.0,1,4,Italian,Yorkville
+panorama,NA,NA,NA,2,Italian,Yorkville
+Applebee's Grill and Bar - New York,NA,3.5,2,3,American,Harlem
+Alice's Tea Cup,NA,NA,NA,2,American,Upper East Side
+El Mismo Restaurant,NA,NA,NA,2,Mexican,Harlem
+Shanghai Pavillion,NA,NA,NA,2,Fusion / Eclectic,Upper East Side
+Wing Cong I Kitchen,NA,NA,NA,2,Chinese,Harlem
+Francesca Pizzeria,NA,NA,NA,2,Italian,Yorkville
+Sals Superette,NA,NA,NA,2,American,Harlem
+Hummus Kitchen,NA,NA,NA,2,Asian,Upper East Side
+Las Gracias De Dios 3 Leches,NA,NA,NA,2,Mexican,Harlem
+Va Bene,NA,NA,3,2,Kosher,Upper East Side
+Dorrians Red Hand Restaurant,NA,NA,NA,2,American,Upper East Side
+OM Real Indian Food,NA,4.2,103,2,Indian,Upper East Side
+Wimpys Restaurant Corporation,NA,NA,NA,2,American,Harlem
+Jacob Resturant,NA,NA,NA,2,American,Harlem
+Tartinery - Columbus Circle,NA,NA,NA,2,American,Upper West Side
+Bang Bar,NA,NA,NA,2,Korean,Upper West Side
+Momofuku Noodle Bar,NA,NA,NA,2,Korean,Columbus Circle
+Masa - In House Reservations,NA,NA,NA,4,Sushi,Columbus Circle
+Akami,NA,NA,NA,2,American,Yorkville
+Little Frog,NA,4.3,167,3,French,Upper East Side
+Chichen Village Fried,NA,NA,NA,2,American,Harlem
+Donguri,NA,NA,NA,2,Fusion / Eclectic,Yorkville
+Grill Time,NA,NA,NA,2,American,Yorkville
+Spark,NA,NA,NA,2,Steakhouse,Yorkville
+Bouchon  at Time Warner Center,NA,4.3,364,2,French American,Columbus Circle
+Bar Masa,NA,4.5,208,4,Japanese,Columbus Circle
+Jean-Georges,NA,4.6,5966,4,French,Midtown West
+Nougatine at Jean Georges,NA,4.4,6509,3,French,Midtown West
+Fu On Kitchen,NA,NA,NA,2,Chinese,Harlem
+Yummy House,NA,NA,NA,2,Sushi,Yorkville
+Rubbis Restaurant,NA,NA,NA,2,American,Hell's Kitchen
+Center Bar,NA,4.4,101,2,Contemporary American,Columbus Circle
+Kings Carriage House Restaurant,NA,NA,NA,2,American,Upper East Side
+Firenze,NA,4.1,427,3,Italian,Upper East Side
+Crepe Corner,NA,NA,NA,2,French,Upper East Side
+Pitchounette81,NA,4.5,87,3,French,Upper East Side
+The Flame Coffee House,NA,NA,NA,2,American,Midtown West
+The Penrose,NA,NA,NA,4,American,Upper East Side
+Comic Strip Live Comedy Club,NA,4.2,9,3,Bar / Lounge / Bottle Service,Upper East Side
+Sabora Mexico,NA,NA,NA,2,Mexican,Yorkville
+Cucina Vivolo,NA,NA,NA,3,Italian,Upper East Side
+Entertaining Ideas Inc,NA,NA,NA,2,American,Harlem
+Thailand Restaurant,NA,NA,NA,2,Thai,Hell's Kitchen
+Room 1705,NA,4.0,7,2,Wine Bar,Upper East Side
+Amura Japanese Cuisine,NA,NA,NA,4,Café,Upper East Side
+"Lobby Lounge at Mandarin Oriental, New York",NA,4.2,151,3,International,Columbus Circle
+Skylight Lounge at The Watson Hotel,NA,NA,1,2,American,Upper West Side
+Charc,NA,NA,NA,2,American,Upper East Side
+Agora Turkish Restaurant,NA,NA,NA,4,Turkish,Upper East Side
+Dakshin Indian Bistro,NA,NA,NA,2,Indian,Yorkville
+Chocolate Bliss,NA,NA,NA,2,American,Upper East Side
+Hanci Turkish Cuisine,NA,3.9,112,2,Turkish,Hell's Kitchen
+The Gilroy,NA,3.7,9,2,American,Upper East Side
+Han Sushi,NA,NA,NA,2,Sushi,Hell's Kitchen
+Blockheads,NA,NA,NA,2,Mexican,Upper East Side
+Per Se,NA,4.8,2185,4,American,Columbus Circle
+French Corner,NA,NA,NA,2,French,Upper East Side
+CIOLAINGO COFFEE COMPANY,NA,5.0,1,2,Breakfast,Harlem
+Frere de Lys,NA,3.9,60,2,French,Upper East Side
+Harley's Smokeshack And Bbq,NA,NA,NA,2,Barbecue,Harlem
+LA AVENIDA,NA,4.3,10,2,Latin / Spanish,Harlem
+On The Grill Of Lakewood Incorporated,NA,NA,NA,2,American,Harlem
+Bareburger - 87th & 1st,NA,NA,NA,2,Burgers,Lower East Side
+The London Irish Pub,NA,5.0,1,2,American,Upper East Side
+Great Wall Chinese Restaurant,NA,NA,NA,2,Chinese,Harlem
+Prime One 16 Steakhouse,NA,3.9,11,2,Steakhouse,Harlem
+Gina - Lexington Ave,NA,4.2,23,2,Italian,Upper East Side
+New Sunny East Restaurant,NA,NA,NA,2,Chinese,Yorkville
+Cascabel Taqueria UES,NA,NA,NA,4,Mexican,Upper East Side
+Shorty's,NA,NA,NA,2,American,Yorkville
+Camaradas,NA,NA,NA,2,Caribbean,Harlem
+Casimir & Co,NA,3.9,196,3,French,Upper East Side
+Lexington Bar & Books,NA,NA,NA,2,Grill,Upper East Side
+312 W 58 St Coliseum,NA,NA,NA,2,English,Columbus Circle
+Francois Payards Bakery,NA,NA,NA,2,American,Midtown West
+Alex S Cafe & Deli,NA,NA,NA,2,American,Upper East Side
+King Chef,NA,NA,NA,2,Chinese,Harlem
+Nica Trattoria,NA,NA,NA,3,Italian,Yorkville
+Cafe,NA,NA,NA,2,American,Midtown West
+The Honeywell,NA,NA,NA,2,Bar / Lounge / Bottle Service,Washington Heights
+Rsvp,NA,NA,NA,2,American,Upper East Side
+Gajyumaru Restaurant,NA,NA,NA,2,Japanese,Yorkville
+Queen Sheeba Restaurant,NA,NA,NA,2,Middle Eastern,Washington Heights
+Gleason’s Tavern - 58th St,NA,NA,NA,2,American,Midtown West
+Nancy Lee's Pig Heaven,NA,NA,NA,3,Chinese,Upper East Side
+Teng Dragon Restaurant,NA,NA,NA,2,Chinese,Harlem
