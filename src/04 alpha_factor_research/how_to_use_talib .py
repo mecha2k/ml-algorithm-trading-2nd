@@ -1,21 +1,18 @@
-import warnings
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import talib
 
-warnings.filterwarnings("ignore")
-sns.set_style("whitegrid")
-idx = pd.IndexSlice
 
 if __name__ == "__main__":
+    sns.set_style("whitegrid")
     DATA_STORE = "../data/assets.h5"
 
     with pd.HDFStore(DATA_STORE) as store:
         data = (
             store["quandl/wiki/prices"]
             .loc[
-                idx["2007":"2010", "AAPL"],
+                pd.IndexSlice["2007":"2010", "AAPL"],
                 ["adj_open", "adj_high", "adj_low", "adj_close", "adj_volume"],
             ]
             .unstack("ticker")
@@ -39,6 +36,8 @@ if __name__ == "__main__":
     macd_data.drop("AAPL", axis=1).plot(ax=axes[1])
     fig.tight_layout()
     sns.despine()
+    plt.savefig("BBANDS.png", format="png", dpi=300)
+    plt.show()
 
     data = pd.DataFrame(
         {"AAPL": data.close, "BB Up": up, "BB Mid": mid, "BB down": low, "RSI": rsi, "MACD": macd}
@@ -53,4 +52,5 @@ if __name__ == "__main__":
     axes[2].set_xlabel("")
     fig.tight_layout()
     sns.despine()
+    plt.savefig("RSI,MACD.png", format="png", dpi=300)
     plt.show()

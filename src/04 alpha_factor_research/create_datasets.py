@@ -17,6 +17,7 @@ def wiki_prices(asset_file):
         index_col=["date", "ticker"],
         infer_datetime_format=True,
     ).sort_index()
+    df = df[14500000:]
 
     print(df.info(show_counts=True))
     with pd.HDFStore(asset_file) as store:
@@ -148,10 +149,10 @@ def bond_prices(asset_file):
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
-    asset_file = Path("../data/assets.h5")
-    # wiki_prices(asset_file)
-    # sp500_prices(asset_file)
-    # sp500_stocks(asset_file)
-    # us_metadata(asset_file)
+    asset_file = Path("../data/assets1.h5")
+    wiki_prices(asset_file)
+    sp500_prices(asset_file)
+    sp500_stocks(asset_file)
+    us_metadata(asset_file)
     # mnist_data()
-    bond_prices(asset_file)
+    # bond_prices(asset_file)
