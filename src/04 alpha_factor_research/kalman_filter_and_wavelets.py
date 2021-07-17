@@ -16,6 +16,7 @@ if __name__ == "__main__":
     DATA_STORE = "../data/assets.h5"
     with pd.HDFStore(DATA_STORE) as store:
         sp500 = store["sp500/stooq"].loc["2009":"2010", "close"]
+    print(sp500.head())
 
     kf = KalmanFilter(
         transition_matrices=[1],
