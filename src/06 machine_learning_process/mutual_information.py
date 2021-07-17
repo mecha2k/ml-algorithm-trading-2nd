@@ -1,14 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 from sklearn.feature_selection import mutual_info_classif
 
 
-sns.set_style("whitegrid")
-idx = pd.IndexSlice
-
 if __name__ == "__main__":
+    print(os.getcwd())
+    sns.set_style("whitegrid")
+
     with pd.HDFStore("../data/assets.h5") as store:
         data = store["engineered_features"]
 
