@@ -6,11 +6,10 @@ from statsmodels.api import OLS, add_constant, graphics
 from statsmodels.graphics.tsaplots import plot_acf
 from scipy.stats import norm
 
-
 sns.set_style("whitegrid")
 idx = pd.IndexSlice
 
-with pd.HDFStore("../data/data.h5") as store:
+with pd.HDFStore("data.h5") as store:
     data = store["model_data"].dropna().drop(["open", "close", "low", "high"], axis=1)
 
 data = data[data.dollar_vol_rank < 100]
@@ -32,6 +31,7 @@ plt.show()
 corr_mat = X.corr().stack().reset_index()
 corr_mat.columns = ["var1", "var2", "corr"]
 corr_mat = corr_mat[corr_mat.var1 != corr_mat.var2].sort_values(by="corr", ascending=False)
+
 corr_mat.head().append(corr_mat.tail())
 
 y.boxplot()
@@ -60,7 +60,7 @@ preds = trained_model.predict(add_constant(X))
 residuals = y[target] - preds
 
 fig, axes = plt.subplots(ncols=2, figsize=(14, 4))
-sns.histplot(residuals, fit=norm, ax=axes[0], axlabel="Residuals", label="Residuals")
+sns.distplot(residuals, fit=norm, ax=axes[0], axlabel="Residuals", label="Residuals")
 axes[0].set_title("Residual Distribution")
 axes[0].legend()
 plot_acf(residuals, lags=10, zero=False, ax=axes[1], title="Residual Autocorrelation")

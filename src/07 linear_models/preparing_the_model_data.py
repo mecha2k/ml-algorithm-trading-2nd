@@ -9,6 +9,7 @@ from talib import RSI, BBANDS, MACD, ATR
 
 MONTH = 21
 YEAR = 12 * MONTH
+
 START = "2013-01-01"
 END = "2017-12-31"
 
@@ -33,13 +34,14 @@ nobs = prices.groupby(level="ticker").size()
 keep = nobs[nobs > min_obs].index
 prices = prices.loc[idx[keep, :], :]
 
-cks = stocks[~stocks.index.duplicated() & stocks.sector.notnull()]
+stocks = stocks[~stocks.index.duplicated() & stocks.sector.notnull()]
 stocks.sector = stocks.sector.str.lower().str.replace(" ", "_")
 stocks.index.name = "ticker"
 
 shared = prices.index.get_level_values("ticker").unique().intersection(stocks.index)
 stocks = stocks.loc[shared, :]
 prices = prices.loc[idx[shared, :], :]
+
 prices.info()
 stocks.info()
 print(stocks.sector.value_counts())
@@ -54,10 +56,12 @@ prices["dollar_vol"] = (
     .reset_index(level=0, drop=True)
 )
 prices.dollar_vol /= 1e3
+
 prices["dollar_vol_rank"] = prices.groupby("date").dollar_vol.rank(ascending=False)
+
 prices["rsi"] = prices.groupby(level="ticker").close.apply(RSI)
 
-ax = sns.histplot(prices.rsi.dropna())
+ax = sns.distplot(prices.rsi.dropna())
 ax.axvline(30, ls="--", lw=1, c="k")
 ax.axvline(70, ls="--", lw=1, c="k")
 ax.set_title("RSI Distribution with Signal Threshold")
@@ -71,13 +75,13 @@ def compute_bb(close):
 
 
 prices = prices.join(prices.groupby(level="ticker").close.apply(compute_bb))
+
 prices["bb_high"] = prices.bb_high.sub(prices.close).div(prices.bb_high).apply(np.log1p)
 prices["bb_low"] = prices.close.sub(prices.bb_low).div(prices.close).apply(np.log1p)
 
 fig, axes = plt.subplots(ncols=2, figsize=(15, 5))
-sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
-sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
-plt.tight_layout()
+sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
+sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
 plt.show()
 
 
@@ -87,7 +91,7 @@ def compute_atr(stock_data):
 
 
 prices["atr"] = prices.groupby("ticker", group_keys=False).apply(compute_atr)
-sns.histplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
+sns.distplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
 plt.show()
 
 
@@ -97,21 +101,28 @@ def compute_macd(close):
 
 
 prices["macd"] = prices.groupby("ticker", group_keys=False).close.apply(compute_macd)
-prices.macd.describe(
-    percentiles=[0.001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.95, 0.96, 0.97, 0.98, 0.99, 0.999]
-).apply(lambda x: f"{x:,.1f}")
-sns.histplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
+
+print(
+    prices.macd.describe(
+        percentiles=[0.001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.95, 0.96, 0.97, 0.98, 0.99, 0.999]
+    ).apply(lambda x: f"{x:,.1f}")
+)
+
+sns.distplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
 plt.show()
 
+lags = [1, 5, 10, 21, 42, 63]
 returns = prices.groupby(level="ticker").close.pct_change()
 percentiles = [0.0001, 0.001, 0.01]
 percentiles += [1 - p for p in percentiles]
-returns.describe(percentiles=percentiles).iloc[2:].to_frame("percentiles").style.format(
-    lambda x: f"{x:,.2%}"
+print(
+    returns.describe(percentiles=percentiles)
+    .iloc[2:]
+    .to_frame("percentiles")
+    .style.format(lambda x: f"{x:,.2%}")
 )
 
 q = 0.0001
-lags = [1, 5, 10, 21, 42, 63]
 for lag in lags:
     prices[f"return_{lag}d"] = (
         prices.groupby(level="ticker")
@@ -138,7 +149,6 @@ prices.info(null_counts=True)
 prices.assign(sector=pd.factorize(prices.sector, sort=True)[0]).to_hdf(
     "data.h5", "model_data/no_dummies"
 )
-
 prices = pd.get_dummies(
     prices,
     columns=["year", "month", "sector"],
@@ -147,7 +157,8 @@ prices = pd.get_dummies(
     drop_first=True,
 )
 prices.info(null_counts=True)
-prices.to_hdf("../data/data.h5", "model_data")
+
+prices.to_hdf("data.h5", "model_data")
 
 target = "target_5d"
 top100 = prices[prices.dollar_vol_rank < 100].copy()
