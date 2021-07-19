@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # ff_portfolio = "17_Industry_Portfolios"
     # ff_portfolio_data = pdr.DataReader(ff_portfolio, "famafrench", start="2010", end="2017-12")[0]
     # ff_portfolio_data = ff_portfolio_data.sub(ff_factor_data.RF, axis=0)
-
+    #
     # with pd.HDFStore("../data/fama.h5") as store:
     #     store.put("fama/factor", ff_factor_data)
     #     store.put("fama/portfolio", ff_portfolio_data)
