@@ -31,6 +31,8 @@ if __name__ == "__main__":
     print(ff_portfolio_data.describe())
 
     with pd.HDFStore("../data/assets.h5") as store:
+        # prices = store["/quandl/wiki/prices"].adj_close
+        # prices = prices.unstack().loc["2010":"2010"]
         prices = store["/quandl/wiki/prices"].adj_close.unstack().loc["2010":"2017"]
         equities = store["/us_equities/stocks"].drop_duplicates()
 

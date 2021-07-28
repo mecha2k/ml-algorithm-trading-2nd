@@ -53,6 +53,8 @@ if __name__ == "__main__":
     X_all = house_sales.drop("price", axis=1)
     y = np.log(house_sales.price)
 
+    x_regress = sklearn.feature_selection.mutual_info_regression(X_all, y)
+
     mi_reg = pd.Series(
         sklearn.feature_selection.mutual_info_regression(X_all, y), index=X_all.columns
     ).sort_values(ascending=False)
@@ -79,18 +81,19 @@ if __name__ == "__main__":
         r2score=sklearn.metrics.explained_variance_score(y_true=y, y_pred=y_pred),
     )
 
-    # fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
-    # sns.scatterplot(x=y, y=y_pred, ax=axes[0])
-    # axes[0].set_xlabel("Log Price")
-    # axes[0].set_ylabel("Predictions")
-    # axes[0].set_ylim(11, 16)
-    # axes[0].set_title("Predicted vs. Actuals")
-    # sns.histplot(error, ax=axes[1])
-    # axes[1].set_title("Residuals")
-    # pd.Series(scores).plot.barh(ax=axes[2], title="Error Metrics")
-    # fig.suptitle("In-Sample Regression Errors", fontsize=16)
-    # fig.tight_layout()
-    # fig.subplots_adjust(top=0.88)
+    fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
+    sns.scatterplot(x=y, y=y_pred, ax=axes[0])
+    axes[0].set_xlabel("Log Price")
+    axes[0].set_ylabel("Predictions")
+    axes[0].set_ylim(11, 16)
+    axes[0].set_title("Predicted vs. Actuals")
+    sns.histplot(error, ax=axes[1])
+    axes[1].set_title("Residuals")
+    pd.Series(scores).plot.barh(ax=axes[2], title="Error Metrics")
+    fig.suptitle("In-Sample Regression Errors", fontsize=16)
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.88)
+    plt.show()
 
     rmse_score = sklearn.metrics.make_scorer(rmse)
 
@@ -120,14 +123,15 @@ if __name__ == "__main__":
     )
     y_pred = sklearn.model_selection.cross_val_predict(pipe, X, y, cv=5)
 
-    # ax = sns.lineplot(x="n", y="RMSE", data=cv_rmse)
-    # ax.set_title(f"Cross-Validation Results KNN | Best N: {best_n:d} | Best RMSE: {best_rmse:.2f}")
+    ax = sns.lineplot(x="n", y="RMSE", data=cv_rmse)
+    ax.set_title(f"Cross-Validation Results KNN | Best N: {best_n:d} | Best RMSE: {best_rmse:.2f}")
 
-    # y_range = list(range(int(y.min() + 1), int(y.max() + 1)))
-    # pd.Series(y_range, index=y_range).plot(ax=ax, lw=2, c="darkred")
-    # error = (y - y_pred).rename("Prediction Errors")
+    y_range = list(range(int(y.min() + 1), int(y.max() + 1)))
+    pd.Series(y_range, index=y_range).plot(ax=ax, lw=2, c="darkred")
+    error = (y - y_pred).rename("Prediction Errors")
 
-    # ax = sns.scatterplot(x=y, y=y_pred)
+    ax = sns.scatterplot(x=y, y=y_pred)
+    plt.show()
 
     scores = dict(
         rmse=np.sqrt(sklearn.metrics.mean_squared_error(y_true=y, y_pred=y_pred)),
@@ -137,16 +141,16 @@ if __name__ == "__main__":
         r2score=sklearn.metrics.explained_variance_score(y_true=y, y_pred=y_pred),
     )
 
-    # fig, axes = plt.subplots(ncols=3, figsize=(15, 5))
-    # sns.scatterplot(x=y, y=y_pred, ax=axes[0])
-    # axes[0].set_xlabel("Log Price")
-    # axes[0].set_ylabel("Predictions")
-    # axes[0].set_ylim(11, 16)
-    # sns.histplot(error, ax=axes[1])
-    # pd.Series(scores).plot.barh(ax=axes[2], title="Error Metrics")
-    # fig.suptitle("Cross-Validation Regression Errors", fontsize=24)
-    # plt.subplots_adjust(top=0.8)
-    # plt.show()
+    fig, axes = plt.subplots(ncols=3, figsize=(15, 5))
+    sns.scatterplot(x=y, y=y_pred, ax=axes[0])
+    axes[0].set_xlabel("Log Price")
+    axes[0].set_ylabel("Predictions")
+    axes[0].set_ylim(11, 16)
+    sns.histplot(error, ax=axes[1])
+    pd.Series(scores).plot.barh(ax=axes[2], title="Error Metrics")
+    fig.suptitle("Cross-Validation Regression Errors", fontsize=24)
+    plt.subplots_adjust(top=0.8)
+    plt.show()
 
     pipe = sklearn.pipeline.Pipeline(
         [
@@ -193,7 +197,7 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(figsize=(16, 9))
     val_curve = ValidationCurve(
-        KNeighborsRegressor(),
+        sklearn.neighbors.KNeighborsRegressor(),
         param_name="n_neighbors",
         param_range=n_neighbors,
         cv=5,
@@ -208,7 +212,7 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(figsize=(16, 9))
     l_curve = LearningCurve(
-        KNeighborsRegressor(n_neighbors=best_k),
+        sklearn.neighbors.KNeighborsRegressor(n_neighbors=best_k),
         train_sizes=np.arange(0.1, 1.01, 0.1),
         scoring=rmse_score,
         cv=5,
