@@ -86,12 +86,12 @@ if __name__ == "__main__":
     prices["bb_low"] = prices.close.sub(prices.bb_low).div(prices.close).apply(np.log1p)
 
     fig, axes = plt.subplots(ncols=2, figsize=(15, 5))
-    sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
-    sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
+    sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
+    sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
     plt.show()
 
     prices["atr"] = prices.groupby("ticker", group_keys=False).apply(compute_atr)
-    sns.distplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
+    sns.histplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
     plt.show()
 
     prices["macd"] = prices.groupby("ticker", group_keys=False).close.apply(compute_macd)
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         ).apply(lambda x: f"{x:,.1f}")
     )
 
-    sns.distplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
+    sns.histplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
     plt.show()
 
     lags = [1, 5, 10, 21, 42, 63]
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     prices = prices.join(stocks[["sector"]])
     prices["year"] = prices.index.get_level_values("date").year
     prices["month"] = prices.index.get_level_values("date").month
-    prices.info(null_counts=True)
+    prices.info(show_counts=True)
     prices.assign(sector=pd.factorize(prices.sector, sort=True)[0]).to_hdf(
         "data.h5", "model_data/no_dummies"
     )
@@ -150,27 +150,26 @@ if __name__ == "__main__":
         prefix_sep=["_", "_", ""],
         drop_first=True,
     )
-    prices.info(null_counts=True)
+    prices.info(show_counts=True)
 
-    prices.to_hdf("data.h5", "model_data")
+    prices.to_hdf("../data/lin_models.h5", "model_data")
 
     target = "target_5d"
     top100 = prices[prices.dollar_vol_rank < 100].copy()
     top100.loc[:, "rsi_signal"] = pd.cut(top100.rsi, bins=[0, 30, 70, 100])
     top100.groupby("rsi_signal")["target_5d"].describe()
 
-    j = sns.jointplot(x=top100.bb_low, y=target, data=top100)
-    j.annotate(pearsonr)
+    j = sns.jointplot(x="bb_low", y=target, data=top100)
+    x = top100.bb_low.to_numpy()
+    y = top100.target_5d.to_numpy()
+    corr, pval = pearsonr(x, y)
     plt.show()
 
     j = sns.jointplot(x="bb_high", y=target, data=top100)
-    j.annotate(pearsonr)
     plt.show()
 
     j = sns.jointplot(x="atr", y=target, data=top100)
-    j.annotate(pearsonr)
     plt.show()
 
     j = sns.jointplot(x="macd", y=target, data=top100)
-    j.annotate(pearsonr)
     plt.show()
