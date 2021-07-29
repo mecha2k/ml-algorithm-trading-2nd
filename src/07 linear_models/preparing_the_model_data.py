@@ -141,7 +141,7 @@ if __name__ == "__main__":
     prices["month"] = prices.index.get_level_values("date").month
     prices.info(show_counts=True)
     prices.assign(sector=pd.factorize(prices.sector, sort=True)[0]).to_hdf(
-        "data.h5", "model_data/no_dummies"
+        "../data/lin_models.h5", "model_data/no_dummies"
     )
     prices = pd.get_dummies(
         prices,
@@ -160,9 +160,10 @@ if __name__ == "__main__":
     top100.groupby("rsi_signal")["target_5d"].describe()
 
     j = sns.jointplot(x="bb_low", y=target, data=top100)
-    x = top100.bb_low.to_numpy()
-    y = top100.target_5d.to_numpy()
-    corr, pval = pearsonr(x, y)
+    x = top100.bb_low
+    y = top100.target_5d
+    finite = np.isfinite(x) & np.isfinite(y)
+    corr, pval = pearsonr(x[finite], y[finite])
     plt.show()
 
     j = sns.jointplot(x="bb_high", y=target, data=top100)
