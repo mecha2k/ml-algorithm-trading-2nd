@@ -161,20 +161,20 @@ if __name__ == "__main__":
     message_labels.name = (
         message_labels.name.str.lower()
         .str.replace("message", "")
-        .str.replace(".", "")
+        .str.replace(".", "", regex=True)
         .str.strip()
-        .str.replace(" ", "_")
+        .str.replace(" ", "_", regex=True)
     )
     message_labels.to_csv("../data/message_labels.csv", index=False)
     print(message_labels.head())
 
     message_types.message_type = message_types.message_type.ffill()
-    message_types = message_types[message_types.name != "message_type"]
+    message_types = message_types.copy()[message_types.name != "message_type"]
     message_types.value = (
         message_types.value.str.lower()
-        .str.replace(" ", "_")
-        .str.replace("(", "")
-        .str.replace(")", "")
+        .str.replace(" ", "_", regex=True)
+        .str.replace("(", "", regex=True)
+        .str.replace(")", "", regex=True)
     )
     print(message_types.info())
     print(message_types.head())
