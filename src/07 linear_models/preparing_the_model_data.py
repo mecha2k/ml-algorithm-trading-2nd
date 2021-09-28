@@ -5,6 +5,7 @@ import seaborn as sns
 
 from scipy.stats import pearsonr
 from talib import RSI, BBANDS, MACD, ATR
+from icecream import ic
 
 
 def compute_bb(close):
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     with pd.HDFStore(DATA_STORE) as store:
         prices = (
             store["quandl/wiki/prices"]
-            .loc[pd.IndexSlice["2013-01":"2017-12", :], ohlcv]
+            .loc[pd.IndexSlice["2013-01":"2013-03", :], ohlcv]
             .rename(columns=lambda x: x.replace("adj_", ""))
         )
         prices = prices.swaplevel().sort_index()
@@ -42,12 +43,13 @@ if __name__ == "__main__":
         stocks = store["us_equities/stocks"].loc[:, ["marketcap", "ipoyear", "sector"]]
         prices.to_csv("../data/prepare_model_prices.csv")
         stocks.to_csv("../data/prepare_model_stocks.csv")
+    print(prices.head())
+    print(stocks.head())
 
     min_obs = int(0.2 * YEAR)
     nobs = prices.groupby(level="ticker").size()
     keep = nobs[nobs > min_obs].index
     prices = prices.loc[pd.IndexSlice[keep, :], :]
-    print(prices.index.names)
 
     stocks = stocks[~stocks.index.duplicated() & stocks.sector.notnull()]
     stocks.sector = stocks.sector.str.lower().str.replace(" ", "_")
