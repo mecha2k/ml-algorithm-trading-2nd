@@ -34,7 +34,7 @@ if __name__ == "__main__":
     with pd.HDFStore(DATA_STORE) as store:
         prices = (
             store["quandl/wiki/prices"]
-            .loc[pd.IndexSlice["2013-01":"2013-03", :], ohlcv]
+            .loc[pd.IndexSlice["2013-01":"2017-12", :], ohlcv]
             .rename(columns=lambda x: x.replace("adj_", ""))
         )
         prices = prices.swaplevel().sort_index()
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     ax.axvline(30, ls="--", lw=1, c="k")
     ax.axvline(70, ls="--", lw=1, c="k")
     ax.set_title("RSI Distribution with Signal Threshold")
-    plt.show()
+    plt.savefig("../images/ch07_im04.png", dpi=300, bboxinches="tight")
 
     prices = prices.join(prices.groupby(level="ticker").close.apply(compute_bb))
     prices["bb_high"] = prices.bb_high.sub(prices.close).div(prices.bb_high).apply(np.log1p)
@@ -88,22 +88,20 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(ncols=2, figsize=(15, 5))
     sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
     sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
-    plt.show()
+    plt.savefig("../images/ch07_im05.png", dpi=300, bboxinches="tight")
 
     prices["atr"] = prices.groupby("ticker", group_keys=False).apply(compute_atr)
     sns.histplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
-    plt.show()
+    plt.savefig("../images/ch07_im06.png", dpi=300, bboxinches="tight")
 
     prices["macd"] = prices.groupby("ticker", group_keys=False).close.apply(compute_macd)
-
     print(
         prices.macd.describe(
             percentiles=[0.001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.95, 0.96, 0.97, 0.98, 0.99, 0.999]
         ).apply(lambda x: f"{x:,.1f}")
     )
-
     sns.histplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
-    plt.show()
+    plt.savefig("../images/ch07_im07.png", dpi=300, bboxinches="tight")
 
     lags = [1, 5, 10, 21, 42, 63]
     returns = prices.groupby(level="ticker").close.pct_change()
@@ -151,7 +149,6 @@ if __name__ == "__main__":
         drop_first=True,
     )
     prices.info(show_counts=True)
-
     prices.to_hdf("../data/lin_models.h5", "model_data")
 
     target = "target_5d"
@@ -164,13 +161,10 @@ if __name__ == "__main__":
     y = top100.target_5d
     finite = np.isfinite(x) & np.isfinite(y)
     corr, pval = pearsonr(x[finite], y[finite])
-    plt.show()
-
+    plt.savefig("../images/ch07_im08.png", dpi=300, bboxinches="tight")
     j = sns.jointplot(x="bb_high", y=target, data=top100)
-    plt.show()
-
+    plt.savefig("../images/ch07_im09.png", dpi=300, bboxinches="tight")
     j = sns.jointplot(x="atr", y=target, data=top100)
-    plt.show()
-
+    plt.savefig("../images/ch07_im10.png", dpi=300, bboxinches="tight")
     j = sns.jointplot(x="macd", y=target, data=top100)
-    plt.show()
+    plt.savefig("../images/ch07_im11.png", dpi=300, bboxinches="tight")

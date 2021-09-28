@@ -1,26 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Logistic Regression with Macro Data
-
-# In[1]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
 import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from icecream import ic
 
-# In[2]:
-
-
-sns.set_style('whitegrid')
-
-
-# ## Data Set
-
+## Data Set
+#
 # | Variable   | Description                                  | Transformation     |
 # |------------|----------------------------------------------|--------------------|
 # | realgdp    | Real gross domestic product                  | Annual Growth Rate |
@@ -34,17 +20,9 @@ sns.set_style('whitegrid')
 # | infl       | Inflation rate                               | Level              |
 # | realint    |  Real interest rate                          | Level              |
 
-# In[3]:
-
-
 data = pd.DataFrame(sm.datasets.macrodata.load().data)
 data.info()
-
-
-# In[4]:
-
-
-data.head()
+ic(data.head())
 
 
 # ## Data Prep
@@ -54,8 +32,8 @@ data.head()
 # In[5]:
 
 
-data['growth_rate'] = data.realgdp.pct_change(4)
-data['target'] = (data.growth_rate > data.growth_rate.rolling(20).mean()).astype(int).shift(-1)
+data["growth_rate"] = data.realgdp.pct_change(4)
+data["target"] = (data.growth_rate > data.growth_rate.rolling(20).mean()).astype(int).shift(-1)
 data.quarter = data.quarter.astype(int)
 
 
@@ -74,15 +52,15 @@ data.tail()
 # In[8]:
 
 
-pct_cols = ['realcons', 'realinv', 'realgovt', 'realdpi', 'm1']
-drop_cols = ['year', 'realgdp', 'pop', 'cpi', 'growth_rate']
+pct_cols = ["realcons", "realinv", "realgovt", "realdpi", "m1"]
+drop_cols = ["year", "realgdp", "pop", "cpi", "growth_rate"]
 data.loc[:, pct_cols] = data.loc[:, pct_cols].pct_change(4)
 
 
 # In[9]:
 
 
-data = pd.get_dummies(data.drop(drop_cols, axis=1), columns=['quarter'], drop_first=True).dropna()
+data = pd.get_dummies(data.drop(drop_cols, axis=1), columns=["quarter"], drop_first=True).dropna()
 
 
 # In[10]:
@@ -97,31 +75,35 @@ data.head()
 data.info()
 
 
-# We use an intercept and convert the quarter values to dummy variables and train the logistic regression model as follows:
-
-# This produces the following summary for our model with 198 observations and 13 variables, including intercept:
-# The summary indicates that the model has been trained using maximum likelihood and provides the maximized value of the log-likelihood function at -67.9.
+# We use an intercept and convert the quarter values to dummy variables and train
+# the logistic regression model as follows:
+# This produces the following summary for our model with 198 observations and
+# 13 variables, including intercept:
+# The summary indicates that the model has been trained using maximum likelihood
+# and provides the maximized value of the log-likelihood function at -67.9.
 
 # In[12]:
 
 
-model = sm.Logit(data.target, sm.add_constant(data.drop('target', axis=1)))
+model = sm.Logit(data.target, sm.add_constant(data.drop("target", axis=1)))
 result = model.fit()
 result.summary()
 
+# The LL-Null value of -136.42 is the result of the maximized log-likelihood function
+# when only an intercept is included. It forms the basis for the pseudo-R2 statistic
+# and the Log-Likelihood Ratio (LLR) test.
+# The pseudo-R2 statistic is a substitute for the familiar R2 available under least squares.
+# It is computed based on the ratio of the maximized log-likelihood function for the
+# null model m0 and the full model m1 as follows:
+# The values vary from 0 (when the model does not improve the likelihood) to 1 where
+# the model fits perfectly and the log-likelihood is maximized at 0. Consequently,
+# higher values indicate a better fit.
 
-# The LL-Null value of -136.42 is the result of the maximized log-likelihood function when only an intercept is included. It forms the basis for the pseudo-R2 statistic and the Log-Likelihood Ratio (LLR) test. 
-# The pseudo-R2 statistic is a substitute for the familiar R2 available under least squares. It is computed based on the ratio of the maximized log-likelihood function for the null model m0 and the full model m1 as follows:
-# The values vary from 0 (when the model does not improve the likelihood) to 1 where the model fits perfectly and the log-likelihood is maximized at 0. Consequently, higher values indicate a better fit.
-# 
+sns.set_style("whitegrid")
 
-# In[13]:
-
-
-plt.rc('figure', figsize=(12, 7))
-plt.text(0.01, 0.05, str(result.summary()), {'fontsize': 14}, fontproperties = 'monospace')
-plt.axis('off')
+plt.rc("figure", figsize=(12, 7))
+plt.text(0.01, 0.05, str(result.summary()), {"fontsize": 14}, fontproperties="monospace")
+plt.axis("off")
 plt.tight_layout()
 plt.subplots_adjust(left=0.2, right=0.8, top=0.8, bottom=0.1)
-plt.savefig('logistic_example.png', bbox_inches='tight', dpi=300);
-
+plt.savefig("logistic_example.png", bbox_inches="tight", dpi=300)

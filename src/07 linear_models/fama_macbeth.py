@@ -7,7 +7,7 @@ import pandas_datareader.data as pdr
 from pathlib import Path
 from statsmodels.api import OLS, add_constant
 from linearmodels.asset_pricing import LinearFactorModel
-
+from icecream import ic
 
 if __name__ == "__main__":
     # ff_factor = "F-F_Research_Data_5_Factors_2x3"
@@ -24,11 +24,8 @@ if __name__ == "__main__":
     with pd.HDFStore("../data/fama.h5") as store:
         ff_factor_data = store["fama/factor"]
         ff_portfolio_data = store["fama/portfolio"]
-
-    ff_factor_data.info()
-    print(ff_factor_data.describe())
-    ff_portfolio_data.info()
-    print(ff_portfolio_data.describe())
+    print(ff_factor_data.head())
+    print(ff_portfolio_data.head())
 
     with pd.HDFStore("../data/assets.h5") as store:
         # prices = store["/quandl/wiki/prices"].adj_close
@@ -45,17 +42,13 @@ if __name__ == "__main__":
 
     ff_factor_data = ff_factor_data.loc[returns.index]
     ff_portfolio_data = ff_portfolio_data.loc[returns.index]
-    print(ff_factor_data.describe())
+    ic(ff_factor_data.head())
 
     excess_returns = returns.sub(ff_factor_data.RF, axis=0)
-    excess_returns.info()
     excess_returns = excess_returns.clip(
         lower=np.percentile(excess_returns, 1), upper=np.percentile(excess_returns, 99)
     )
-
-    ff_portfolio_data.info()
     ff_factor_data = ff_factor_data.drop("RF", axis=1)
-    ff_factor_data.info()
 
     betas = []
     for industry in ff_portfolio_data:
@@ -64,33 +57,29 @@ if __name__ == "__main__":
             exog=add_constant(ff_factor_data),
         ).fit()
         betas.append(step1.params.drop("const"))
-
     betas = pd.DataFrame(betas, columns=ff_factor_data.columns, index=ff_portfolio_data.columns)
-    betas.info()
+    ic(betas.head())
 
     lambdas = []
     for period in ff_portfolio_data.index:
         step2 = OLS(endog=ff_portfolio_data.loc[period, betas.index], exog=betas).fit()
         lambdas.append(step2.params)
     lambdas = pd.DataFrame(lambdas, index=ff_portfolio_data.index, columns=betas.columns.tolist())
-    lambdas.info()
+    ic(lambdas.head())
 
-    lambdas.mean().sort_values().plot.barh(figsize=(12, 4))
-    sns.despine()
-    plt.tight_layout()
-    plt.show()
+    lambdas.mean(axis=0).sort_values().plot.barh(figsize=(12, 4))
+    plt.savefig("../images/ch07_im01.png", dpi=300, bboxinches="tight")
 
     t = lambdas.mean().div(lambdas.std())
-
     window = 24
     ax1 = plt.subplot2grid((1, 3), (0, 0))
     ax2 = plt.subplot2grid((1, 3), (0, 1), colspan=2)
     lambdas.mean().sort_values().plot.barh(ax=ax1)
     lambdas.rolling(window).mean().dropna().plot(lw=1, figsize=(14, 5), sharey=True, ax=ax2)
-    plt.show()
+    plt.savefig("../images/ch07_im02.png", dpi=300, bboxinches="tight")
 
     lambdas.rolling(window).mean().dropna().plot(lw=2, figsize=(14, 7), subplots=True, sharey=True)
-    plt.show()
+    plt.savefig("../images/ch07_im03.png", dpi=300, bboxinches="tight")
 
     mod = LinearFactorModel(portfolios=ff_portfolio_data, factors=ff_factor_data)
     res = mod.fit()

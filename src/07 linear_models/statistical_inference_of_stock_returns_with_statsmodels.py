@@ -9,7 +9,7 @@ from scipy.stats import norm
 sns.set_style("whitegrid")
 idx = pd.IndexSlice
 
-with pd.HDFStore("data.h5") as store:
+with pd.HDFStore("../data/data.h5") as store:
     data = store["model_data"].dropna().drop(["open", "close", "low", "high"], axis=1)
 
 data = data[data.dollar_vol_rank < 100]
