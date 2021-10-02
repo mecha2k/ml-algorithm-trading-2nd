@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 from itertools import product
+from icecream import ic
 
 
 def get_analytical_max_sr(mu, sigma, num_trials):
@@ -31,7 +32,7 @@ def simulate(mu, sigma, num_trials, n_iter):
     return expected_max_sr, mean_max_sr, stdmean_max_sr
 
 
-if __name__ == "__main__":
+def deflated_sr():
     n_iter, sigma, output, count = 1e4, 1, [], 0
     for i, prod_ in enumerate(product(np.linspace(-100, 100, 101), range(10, 1001, 10)), 1):
         if i % 1000 == 0:
@@ -56,4 +57,11 @@ if __name__ == "__main__":
         ],
     )
     print(output.info())
-    output.to_csv("DSR.csv")
+    output.to_csv("../data/DSR.csv")
+
+
+if __name__ == "__main__":
+    # deflated_sr()
+
+    output = pd.read_csv("../data/DSR.csv")
+    ic(output.head())
