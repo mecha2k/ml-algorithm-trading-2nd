@@ -24,56 +24,23 @@ data = pd.DataFrame(sm.datasets.macrodata.load().data)
 data.info()
 ic(data.head())
 
-
-# ## Data Prep
-
-# To obtain a binary target variable, we compute the 20-quarter rolling average of the annual growth rate of quarterly real GDP. We then assign 1 if current growth exceeds the moving average and 0 otherwise. Finally, we shift the indicator variables to align next quarter's outcome with the current quarter.
-
-# In[5]:
-
+# To obtain a binary target variable, we compute the 20-quarter rolling average of the annual growth
+# rate of quarterly real GDP. We then assign 1 if current growth exceeds the moving average and 0 otherwise.
+# Finally, we shift the indicator variables to align next quarter's outcome with the current quarter.
 
 data["growth_rate"] = data.realgdp.pct_change(4)
 data["target"] = (data.growth_rate > data.growth_rate.rolling(20).mean()).astype(int).shift(-1)
 data.quarter = data.quarter.astype(int)
-
-
-# In[6]:
-
-
-data.target.value_counts()
-
-
-# In[7]:
-
-
-data.tail()
-
-
-# In[8]:
-
+ic(data.target.value_counts())
+ic(data.tail())
 
 pct_cols = ["realcons", "realinv", "realgovt", "realdpi", "m1"]
 drop_cols = ["year", "realgdp", "pop", "cpi", "growth_rate"]
 data.loc[:, pct_cols] = data.loc[:, pct_cols].pct_change(4)
 
-
-# In[9]:
-
-
 data = pd.get_dummies(data.drop(drop_cols, axis=1), columns=["quarter"], drop_first=True).dropna()
-
-
-# In[10]:
-
-
-data.head()
-
-
-# In[11]:
-
-
+ic(data.head())
 data.info()
-
 
 # We use an intercept and convert the quarter values to dummy variables and train
 # the logistic regression model as follows:
@@ -81,9 +48,6 @@ data.info()
 # 13 variables, including intercept:
 # The summary indicates that the model has been trained using maximum likelihood
 # and provides the maximized value of the log-likelihood function at -67.9.
-
-# In[12]:
-
 
 model = sm.Logit(data.target, sm.add_constant(data.drop("target", axis=1)))
 result = model.fit()
@@ -100,10 +64,9 @@ result.summary()
 # higher values indicate a better fit.
 
 sns.set_style("whitegrid")
-
 plt.rc("figure", figsize=(12, 7))
 plt.text(0.01, 0.05, str(result.summary()), {"fontsize": 14}, fontproperties="monospace")
 plt.axis("off")
 plt.tight_layout()
 plt.subplots_adjust(left=0.2, right=0.8, top=0.8, bottom=0.1)
-plt.savefig("logistic_example.png", bbox_inches="tight", dpi=300)
+plt.savefig("../images/logistic_example.png", bbox_inches="tight", dpi=300)

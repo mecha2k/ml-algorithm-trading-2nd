@@ -35,7 +35,7 @@ if __name__ == "__main__":
     with pd.HDFStore(DATA_STORE) as store:
         prices = (
             store["quandl/wiki/prices"]
-            .loc[pd.IndexSlice["2013-01":"2013-03", :], ohlcv]
+            .loc[pd.IndexSlice["2013":"2017", :], ohlcv]
             .rename(columns=lambda x: x.replace("adj_", ""))
         )
         prices = prices.swaplevel().sort_index()
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     prices["month"] = prices.index.get_level_values("date").month
     prices.info(show_counts=True)
     prices.assign(sector=pd.factorize(prices.sector, sort=True)[0]).to_hdf(
-        "../data/lin_models.h5", "model_data/no_dummies"
+        "../data/data.h5", "model_data/no_dummies"
     )
     prices = pd.get_dummies(
         prices,
@@ -151,12 +151,12 @@ if __name__ == "__main__":
         drop_first=True,
     )
     prices.info(show_counts=True)
-    prices.to_hdf("../data/lin_models.h5", "model_data")
+    prices.to_hdf("../data/data.h5", "model_data")
 
     target = "target_5d"
     top100 = prices[prices.dollar_vol_rank < 100].copy()
     top100.loc[:, "rsi_signal"] = pd.cut(top100.rsi, bins=[0, 30, 70, 100])
-    top100.groupby("rsi_signal")["target_5d"].describe()
+    ic(top100.groupby("rsi_signal")[target].describe().T)
 
     j = sns.jointplot(x="bb_low", y=target, data=top100)
     x = top100.bb_low
