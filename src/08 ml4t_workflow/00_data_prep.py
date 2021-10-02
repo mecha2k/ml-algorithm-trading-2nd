@@ -37,5 +37,5 @@ def get_backtest_data():
 
 
 df = get_backtest_data()
-print(df.info())
 df.to_hdf("../data/backtest.h5", "data")
+df.info()

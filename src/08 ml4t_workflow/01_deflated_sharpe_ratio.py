@@ -1,18 +1,13 @@
-#!/usr/bin/env python
-# On 20140607 by lopezdeprado@lbl.gov
-from itertools import product
-
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
+from itertools import product
 
 
 def get_analytical_max_sr(mu, sigma, num_trials):
     """Compute the expected maximum Sharpe ratio (Analytically)"""
-
     # Euler-Mascheroni constant
     emc = 0.5772156649
-
     maxZ = (1 - emc) * ss.norm.ppf(1 - 1.0 / num_trials) + emc * ss.norm.ppf(
         1 - 1 / (num_trials * np.e)
     )
@@ -36,7 +31,7 @@ def simulate(mu, sigma, num_trials, n_iter):
     return expected_max_sr, mean_max_sr, stdmean_max_sr
 
 
-def main():
+if __name__ == "__main__":
     n_iter, sigma, output, count = 1e4, 1, [], 0
     for i, prod_ in enumerate(product(np.linspace(-100, 100, 101), range(10, 1001, 10)), 1):
         if i % 1000 == 0:
@@ -62,11 +57,3 @@ def main():
     )
     print(output.info())
     output.to_csv("DSR.csv")
-
-
-# df = pd.read_csv('DSR.csv')
-# print(df.info())
-# print(df.head())
-
-if __name__ == "__main__":
-    main()
