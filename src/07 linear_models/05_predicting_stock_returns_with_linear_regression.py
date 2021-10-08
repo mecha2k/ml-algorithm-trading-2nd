@@ -376,7 +376,7 @@ if __name__ == "__main__":
             alpha=alpha,
             fit_intercept=False,  # StandardScaler centers data
             random_state=42,
-            tol=1e-4,
+            tol=1e-3,
             max_iter=1000,
             warm_start=True,
             selection="random",

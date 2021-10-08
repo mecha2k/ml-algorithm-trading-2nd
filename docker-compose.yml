@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  mlalgorithmtrading2nd:
+    image: mlalgorithmtrading2nd
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+
+
+# docker run -it -v $(pwd):/home/packt/ml4t -p 8888:8888
+#  -e QUANDL_API_KEY=<your API key> --name ml4t appliedai/packt:latest bash
