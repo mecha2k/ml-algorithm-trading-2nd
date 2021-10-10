@@ -1,4 +1,24 @@
 # To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
-fastapi[all]==0.63.0
-uvicorn[standard]==0.13.4
-gunicorn==20.0.4
+
+numpy~=1.21.2
+pandas~=1.2.5
+matplotlib~=3.4.3
+seaborn~=0.11.2
+statsmodels~=0.12.2
+scikit-learn~=0.24.2
+scipy~=1.7.1
+pytz~=2021.1
+beautifulsoup4~=4.10.0
+arch~=4.15
+dataclasses~=0.8
+pykalman~=0.9.5
+requests~=2.26.0
+yfinance~=0.1.63
+bokeh~=2.3.3
+linearmodels~=4.24
+scrapy~=2.5.0
+itemadapter~=0.4.0
+sympy~=1.8
+yellowbrick~=1.3.post1
+pymc3~=3.11.4
+gym~=0.19.0
