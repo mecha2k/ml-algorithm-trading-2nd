@@ -14,12 +14,20 @@ In four parts with **23 chapters plus an appendix**, it covers on **over 800 pag
 </a>
 </p>
 
-This repo contains **over 150 notebooks** that put the concepts, algorithms, and use cases discussed in the book into action. They provide numerous examples that show
+This repo contains **over 150 notebooks** that put the concepts, algorithms, and use cases discussed in the book into action. They provide numerous examples that show:
 - how to work with and extract signals from market, fundamental and alternative text and image data, 
 - how to train and tune models that predict returns for different asset classes and investment horizons, including how to replicate recently published research, and 
 - how to design, backtest, and evaluate trading strategies.
 
-> We **highly recommend** to review the notebooks while reading the book; they are usually in executed state and often contain additional information that the space constraints of the book did not permit to include. 
+> We **highly recommend** reviewing the notebooks while reading the book; they are usually in an executed state and often contain additional information not included due to space constraints.  
+
+In addition to the information in this repo, the book's [website](ml4trading.io) contains chapter summary and additional information.
+
+## Join the ML4T Community!
+
+To make it easy for readers to ask questions about the book's content and code examples, as well as the development and implementation of their own strategies and industry developments, we are hosting an online [platform](https://exchange.ml4trading.io/).
+
+Please [join](https://exchange.ml4trading.io/) our community and connect with fellow traders interested in leveraging ML for trading strategies, share your experience, and learn from each other! 
 
 ## What's new in the 2<sup>nd</sup> Edition?
 
@@ -44,12 +52,25 @@ Another innovation of the second edition is to replicate several trading applica
 
 All applications now use the latest available (at the time of writing) software versions such as pandas 1.0 and TensorFlow 2.2. There is also a customized version of Zipline that makes it easy to include machine learning model predictions when designing a trading strategy.
 
-## Installation and Data Sources
 
-- For instructions on using a Docker image or setting up various `conda` environments to install the packages used in the notebooks, see [here](installation/README.md).
-- To download and preprocess many of the data sources used in this book see [create_datasets](data/create_datasets.ipynb).
+## Installation, data sources and bug reports
 
-# Chapter Summary
+The code examples rely on a wide range of Python libraries from the data science and finance domains. To facilitate installation, we use [Docker](https://www.docker.com/get-started) to provide containerized [conda](https://docs.conda.io/en/latest/) environments.
+
+> Update April 2021: with the update of [Zipline](https://zipline.ml4trading.io), it is no longer necessary to use Docker. The installation instructions now refer to OS-specific environment files that should simplify your running of the notebooks.
+
+> Update Februar 2021: code sample release 2.0 updates the conda environments provided by the Docker image to Python 3.8, Pandas 1.2, and TensorFlow 1.2, among others; the Zipline backtesting environment with now uses Python 3.6.
+
+- The [installation](installation/README.md) directory contains detailed instructions on setting up and using a Docker image to run the notebooks. It also contains configuration files for setting up various `conda` environments and install the packages used in the notebooks directly on your machine if you prefer (and, depending on your system, are prepared to go the extra mile).
+- To download and preprocess many of the data sources used in this book, see the instructions in the [README](data/README.md) file alongside various notebooks in the [data](data) directory.
+
+> If you have any difficulties installing the environments, downloading the data or running the code, please raise a **GitHub issue** in the repo ([here](https://github.com/stefan-jansen/machine-learning-for-trading/issues)). Working with GitHub issues has been described [here](https://guides.github.com/features/issues/).
+
+> **Update**: You can download the **[algoseek](https://www.algoseek.com)** data used in the book [here](https://www.algoseek.com/ml4t-book-data.html). See instructions for preprocessing in [Chapter 2](02_market_and_fundamental_data/02_algoseek_intraday/README.md) and an intraday example with a gradient boosting model in [Chapter 12](12_gradient_boosting_machines/10_intraday_features.ipynb).  
+
+> **Update**: The [figures](figures) directory contains color versions of the charts used in the book. 
+
+# Outline & Chapter Summary
 
 The [book](https://www.amazon.com/Machine-Learning-Algorithmic-Trading-alternative/dp/1839217715?pf_rd_r=GZH2XZ35GB3BET09PCCA&pf_rd_p=c5b6893a-24f2-4a59-9d4b-aff5065c90ec&pd_rd_r=91a679c7-f069-4a6e-bdbb-a2b3f548f0c8&pd_rd_w=2B0Q0&pd_rd_wg=GMY5S&ref_=pd_gw_ci_mcx_mr_hp_d) has four parts that address different challenges that arise when sourcing and working with market, fundamental and alternative data sourcing, developing ML solutions to various predictive tasks in the trading context, and designing and evaluating a trading strategy that relies on predictive signals generated by an ML model.
 
@@ -86,7 +107,6 @@ The [book](https://www.amazon.com/Machine-Learning-Algorithmic-Trading-alternati
 * [22 Deep Reinforcement Learning: Building a Trading Agent](#22-deep-reinforcement-learning-building-a-trading-agent)
 * [23 Conclusions and Next Steps](#23-conclusions-and-next-steps)
 * [24 Appendix - Alpha Factor Library](#24-appendix---alpha-factor-library)
-
 
 ## Part 1: From Data to Strategy Development
 
@@ -144,10 +164,10 @@ If you are already familiar with ML, you know that feature engineering is a cruc
 
 This [chapter](04_alpha_factor_research) outlines the key takeaways of this research as a starting point for your own quest for alpha factors. It also presents essential tools to compute and test alpha factors, highlighting how the NumPy, pandas, and TA-Lib libraries facilitate the manipulation of data and present popular smoothing techniques like the wavelets and the Kalman filter that help reduce noise in data. After reading it, you will know about:
 - Which categories of factors exist, why they work, and how to measure them,
-- Creating e alpha factors using NumPy, pandas, and TA-Lib,
-- How to denoise data using wavelets and the Kalman filter,
-- Using e Zipline offline and on Quantopian to test individual and multiple alpha factors,
-- How to use Alphalens to evaluate predictive performance using, among other metrics, the information coefficient.
+- Creating alpha factors using NumPy, pandas, and TA-Lib,
+- How to de-noise data using wavelets and the Kalman filter,
+- Using Zipline to test individual and multiple alpha factors,
+- How to use [Alphalens](https://github.com/quantopian/alphalens) to evaluate predictive performance.
  
 ### 05 Portfolio Optimization and Performance Evaluation
 
@@ -161,7 +181,7 @@ There are several approaches to optimize portfolios. These include the applicati
 - Managing portfolio weights using mean-variance optimization and alternatives
 - Using machine learning to optimize asset allocation in a portfolio context
 - Simulating trades and create a portfolio based on alpha factors using Zipline
-- How to evaluate portfolio performance using pyfolio
+- How to evaluate portfolio performance using [pyfolio](https://quantopian.github.io/pyfolio/)
 
 ## Part 2: Machine Learning for Trading: Fundamentals
 
@@ -204,7 +224,7 @@ Linear models are standard tools for inference and prediction in regression and 
 ### 08 The ML4T Workflow: From Model to Strategy Backtesting
 
 This [chapter](08_ml4t_workflow) presents an end-to-end perspective on designing, simulating, and evaluating a trading strategy driven by an ML algorithm. 
-We will demonstrate in detail how to backtest an ML-driven strategy in a historical market context using the Python libraries [backtrader](https://www.backtrader.com/) and [Zipline](https://www.zipline.io/index.html). 
+We will demonstrate in detail how to backtest an ML-driven strategy in a historical market context using the Python libraries [backtrader](https://www.backtrader.com/) and [Zipline](https://zipline.ml4trading.io/index.html). 
 The ML4T workflow ultimately aims to gather evidence from historical data that helps decide whether to deploy a candidate strategy in a live market and put financial resources at risk. A realistic simulation of your strategy needs to faithfully represent how security markets operate and how trades execute. Also, several methodological aspects require attention to avoid biased results and false discoveries that will lead to poor investment decisions.
 
 <p align="center">
@@ -336,7 +356,6 @@ Applications include identifying critical themes in company disclosures, earning
 <p align="center">
 <img src="https://i.imgur.com/VVSnTCa.png" width="60%">
 </p>
-
 
 More specifically, it covers:
 - How topic modeling has evolved, what it achieves, and why it matters

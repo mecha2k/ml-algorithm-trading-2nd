@@ -4,11 +4,28 @@ The backtesting engine Zipline powers Quantopian’s online research, backtestin
 
 Quantopian first released Zipline in 2012 as version 0.5, and the latest version 1.3 dates from July 2018. Zipline works well with its sister libraries [Alphalens](https://quantopian.github.io/alphalens/index.html), [pyfolio](https://quantopian.github.io/pyfolio/), and [empyrical](http://quantopian.github.io/empyrical/) that we introduced in Chapters 4 and 5 and integrates well with NumPy, pandas and numeric libraries, but may not always support the latest version.
 
+## Content
+
+1. [Installation](#installation)
+2. [Zipline Architecture](#zipline-architecture)
+3. [Exchange calendars and the Pipeline API for robust simulations](#exchange-calendars-and-the-pipeline-api-for-robust-simulations)
+    * [Bundles and friends: Point-in-time data with on-the-fly adjustments](#bundles-and-friends-point-in-time-data-with-on-the-fly-adjustments)
+    * [The Algorithm API: Backtests on a schedule](#the-algorithm-api-backtests-on-a-schedule)
+    * [Known Issues](#known-issues)
+4. [Code Example: How to load your own OHLCV bundles with minute data](#code-example-how-to-load-your-own-ohlcv-bundles-with-minute-data)
+    * [Getting AlgoSeek data ready to be bundled](#getting-algoseek-data-ready-to-be-bundled)
+    * [Writing your custom bundle ingest function](#writing-your-custom-bundle-ingest-function)
+    * [Registering your bundle](#registering-your-bundle)
+    * [Creating and registering a custom TradingCalendar](#creating-and-registering-a-custom-tradingcalendar)
+5. [Code Example: The Pipeline API - Backtesting a machine learning signal](#code-example-the-pipeline-api---backtesting-a-machine-learning-signal)
+6. [Code Example: How to train a model during the backtest](#code-example-how-to-train-a-model-during-the-backtest)
+7. [Code Example: How to use the research environment on Quantopian](#code-example-how-to-use-the-research-environment-on-quantopian)
+
 ## Installation
 
 Please follow the instructions in the [installation](../../installation/) directory to use the patched Zipline version that we'll use for the examples in this book.
 
-> To run the code examples in this section, activate the `ml4t-zipline` `conda` environment, or otherwise install and use the patched Zipline version reference above.  
+> This notebook uses the `conda` environment `backtest`. Please see the installation [instructions](../../installation/README.md) for downloading the latest Docker image or alternative ways to set up your environment.
 
 ## Zipline Architecture
 
@@ -16,7 +33,9 @@ Zipline is designed to operate at the scale of thousands of securities, and each
 
 This section of the book takes a closer look at the key concepts and elements of the architecture shown in the following Figure before demonstrating how to use Zipline to backtest ML-driven models on the data of your choice.
 
-![The Zipline Architechture](../../assets/zipline.png)
+<p align="center">
+<img src="https://i.imgur.com/LZChG64.png" width="75%">
+</p>
 
 ## Exchange calendars and the Pipeline API for robust simulations
 
@@ -26,11 +45,11 @@ Key features that contribute to the goals of scalability and reliability are dat
 
 The principal data store is a **bundle** that resides on disk in compressed, columnar [bcolz](https://bcolz.readthedocs.io/en/latest/) format for efficient retrieval, combined with metadata stored in an SQLite database. Bundles are designed to contain only OHLCV data and are limited to daily and minute frequency. A great feature is that bundles store split and dividend information, and Zipline computes **point-in-time adjustments** depending on the time period you pick for your backtest. 
 
-Zipline relies on the [Trading Calendars](https://www.zipline.io/trading-calendars.html) library (also maintained by Quantopian) for operational details on exchanges around the world, such as time zone, market open and closing times, or holidays. Data sources have domains (for now, these are countries) and need to conform to the assigned exchange calendar. Quantopian is actively developing support for international securities, and these features may evolve.
+Zipline relies on the [Trading Calendars](https://zipline.ml4trading.io/trading-calendars.html) library (also maintained by Quantopian) for operational details on exchanges around the world, such as time zone, market open and closing times, or holidays. Data sources have domains (for now, these are countries) and need to conform to the assigned exchange calendar. Quantopian is actively developing support for international securities, and these features may evolve.
 
-After installation, the command `zipline ingest -b bundle` lets you install the Quandl Wiki dataset (daily frequency) right away. The result ends up in the `.zipline` directory that by default resides in your home folder but can modify the location by setting the `ZIPLINE_ROOT` environment variable . In addition, you can design your own bundles with OHLCV data.
+After installation, the command `zipline ingest -b quandl` lets you install the Quandl Wiki dataset (daily frequency) right away. The result ends up in the `.zipline` directory that by default resides in your home folder but can modify the location by setting the `ZIPLINE_ROOT` environment variable . In addition, you can design your own bundles with OHLCV data.
 
- A shortcoming of bundles is that they do not let you store data other than price and volume information. However, two alternatives let you accomplish this: the `fetch_csv()` function downloads DataFrames from a URL and was designed for other Quandl data sources, e.g. fundamentals. Zipline reasonably expects the data to refer to the same securities for which you have provided OHCLV data and aligns the bars accordingly. It’s not very difficult to make minor changes to the library's source code to load from local CSV or HDF5 using pandas instead, and the [patched version](https://github.com/stefan-jansen/zipline) included in the `conda` environment `ml4t-zipline` includes this modification. 
+A shortcoming of bundles is that they do not let you store data other than price and volume information. However, two alternatives let you accomplish this: the `fetch_csv()` function downloads DataFrames from a URL and was designed for other Quandl data sources, e.g. fundamentals. Zipline reasonably expects the data to refer to the same securities for which you have provided OHCLV data and aligns the bars accordingly. It’s not very difficult to make minor changes to the library's source code to load from local CSV or HDF5 using pandas instead, and the [patched version](https://github.com/stefan-jansen/zipline) included in the `conda` environment `backtest` includes this modification. 
 
 In addition, the `DataFrameLoader` and the `BlazeLoader` permit you to feed additional attributes to a `Pipeline` (see the `DataFrameLoader` demo later in the chapter). The `BlazeLoader` can interface with numerous sources, including databases. However, since the Pipeline API is limited to daily data, `fetch_csv()` will be critical to adding features at minute frequency as we will do in later chapters.
 
@@ -46,12 +65,9 @@ Upon completion, the algorithm returns a DataFrame containing portfolio performa
 
 ### Known Issues
 
-Zipline currently requires the presence of Treasury curves and the S&P 500 returns for benchmarking (https://github.com/quantopian/zipline/issues/2480). The latter relies on the IEX API that now requires registration to obtain a key. It is easy to patch Zipline to circumvent this and download data from the Federal Reserve's [FRED](https://fred.stlouisfed.org/series/SP500) service instead. Alternatively, you can move the SPY returns provided in zipline/resources/market_data/SPY_benchmark.csv to your .zipline folder that usually lives in your home directory unless you changed its location (assuming you only run backtests for the provided interval).
-
 [Live trading](https://github.com/zipline-live/zipline) your own systems is only available with Interactive Brokers and not fully supported by Quantopian.
 
 ## Code Example: How to load your own OHLCV bundles with minute data
-
 
 We will use the NASDAQ100 sample provided by AlgoSeek that we introduced in [Chapter 2](../../02_market_and_fundamental_data/02_algoseek_intraday) to demonstrate how to write your own custom bundle for data at **minute frequency**. See [Chapter 11](../../11_decision_trees_random_forests/00_custom_bundle) for an example using daily data on Japanese equities. 
 
@@ -74,7 +90,7 @@ The result is an HDF5 store `algoseek.h5` containing price and volume data on so
 
 ### Writing your custom bundle ingest function
 
-The Zipline [documentation](https://www.zipline.io/bundles.html#writing-a-new-bundle) outlines the required parameters for an `ingest()` function that kicks off the I/O process but does not provide a lot of practical detail. The script `algoseek_1min_trades.py` shows how to get this part to work for minute data.
+The Zipline [documentation](https://zipline.ml4trading.io/bundles.html#writing-a-new-bundle) outlines the required parameters for an `ingest()` function that kicks off the I/O process but does not provide a lot of practical detail. The script `algoseek_1min_trades.py` shows how to get this part to work for minute data.
 
 In a nutshell, there is a `load_equities()` function that provides the metadata, a `ticker_generator()` function that feeds symbols to a `data_generator()` which in turn loads and format each symbol’s market data, and an `algoseek_to_bundle()` function that integrates all pieces and returns the desired `ingest()` function. 
 
@@ -130,4 +146,4 @@ The principal new element is a `CustomFactor` that receives features and returns
 
 ## Code Example: How to use the research environment on Quantopian
 
-The notebook [ml4t_quantopian](04_ml4t_workflow_with_zipline/04_ml4t_quantopian.ipynb) shows how to train an ML model on the Quantopian platform to utilize the broad range of data sources available there.
+The notebook [ml4t_quantopian](04_ml4t_quantopian.ipynb) shows how to train an ML model on the Quantopian platform to utilize the broad range of data sources available there.
