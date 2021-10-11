@@ -8,5 +8,5 @@ services:
       dockerfile: ./Dockerfile
     command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn src.06 machine_learning_process.cross_validation:app --host 0.0.0.0 --port 8000"]
     ports:
-      - 8000:8000
-      - 5678:5678
+      - "8000:8000"
+      - "5678:5678"

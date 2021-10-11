@@ -14,7 +14,7 @@ dependencies:
   - alphalens-reloaded
   - arviz
   - autopep8
-  - backtrader
+#  - backtrader
   - beautifulsoup4
   - bokeh
   - catboost
@@ -91,7 +91,7 @@ dependencies:
   - yellowbrick
   - yfinance
   - zipline-reloaded
-  - pip:
-      - livelossplot
-      - pymdptoolbox
-      - PyPortfolioOpt
+#  - pip:
+#      - livelossplot
+#      - pymdptoolbox
+#      - PyPortfolioOpt
