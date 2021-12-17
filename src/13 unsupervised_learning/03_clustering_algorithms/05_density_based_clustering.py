@@ -64,7 +64,7 @@ plt.savefig("images/05-01.png", bboxinches="tight")
 
 ## Perform DBSCAN clustering
 # Density-based spatial clustering of applications with noise (DBSCAN) has been developed in 1996 and awarded the
-# ‘test of time’ award at the KDD conference 2014 because of the attention it has received in theory an practice.
+# ‘test of time’ award at the KDD conference 2014 because of the attention it has received in theory a practice.
 #
 # It aims to identify core- and non-core samples, where the former extend a cluster and the latter are part of a cluster
 # but do not have sufficient nearby neighbors to further grow the cluster. Other samples are outliers and not assigned
