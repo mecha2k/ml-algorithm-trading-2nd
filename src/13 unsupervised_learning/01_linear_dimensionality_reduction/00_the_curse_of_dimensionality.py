@@ -45,7 +45,6 @@ def simulate_distances(m, n, mean, var, corr):
 n_points = 1000
 dimensions = range(1, 2502, 100)
 
-
 ### Normal Distribution Params
 mean = 0.5
 var = (mean / 3) ** 2  # 99% of sample in [0, 1]
