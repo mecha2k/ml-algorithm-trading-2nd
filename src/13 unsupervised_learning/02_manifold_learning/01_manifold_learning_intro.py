@@ -59,7 +59,7 @@ label_dict = pd.read_csv(fashion_mnist_path / "label_dict.csv", squeeze=True, he
 h = w = int(np.sqrt(fashion_data.shape[1]))  # 28 x 28 pixels
 n_samples = 15
 
-fig, ax = plt.subplots(figsize=(18, 8))
+fig, ax = plt.subplots(figsize=(24, 10))
 fashion_sample = np.empty(shape=(h * len(classes), w * n_samples))
 for row, label in enumerate(classes):
     label_idx = np.argwhere(fashion_label == label).squeeze()
@@ -70,7 +70,8 @@ for row, label in enumerate(classes):
         sample = fashion_data[sample_idx].reshape(h, w)
         fashion_sample[i : i + h, j : j + w] = sample
 ax.imshow(fashion_sample, cmap="Blues")
-ax.set_title("Fashion Images", fontsize=14)
+ax.set_title("Fashion Images", fontsize=24)
+plt.tight_layout()
 plt.axis("off")
 plt.savefig("images/01-01.png", bboxinches="tight")
 
@@ -86,7 +87,7 @@ samples = []
 for i, label in enumerate(classes):
     label_idx = np.argwhere(fashion_label == label).squeeze()
     samples = choice(label_idx, size=n, replace=False)
-    sns.heatmap(fashion_data[samples], cmap="Blues", ax=axes[i], cbar=False)
+    sns.heatmap(fashion_data[samples], cmap="Blues", ax=axes[i], cbar=True)
     axes[i].set_title(label_dict[label], fontsize=14)
     axes[i].axis("off")
 fig.tight_layout(h_pad=0.1)
@@ -94,7 +95,7 @@ plt.savefig("images/01-02.png", bboxinches="tight")
 
 ### Pixel structure of random images
 # The ten class patterns are clearly distinct from 100 random 'images'.
-fig, ax = plt.subplots(figsize=(14, 2))
-sns.heatmap(np.random.randint(low=0, high=255, size=(100, 784)), cmap="Blues", ax=ax, cbar=False)
+fig, ax = plt.subplots(figsize=(15, 5))
+sns.heatmap(np.random.randint(low=0, high=255, size=(100, 784)), cmap="Blues", ax=ax, cbar=True)
 plt.axis("off")
 plt.savefig("images/01-03.png", bboxinches="tight")

@@ -129,7 +129,7 @@ pca = PCA()
 n_trials, n_samples = 100, 500
 explained = np.empty(shape=(n_trials, n_samples))
 for trial in range(n_trials):
-    returns_sample = returns.sample(n=n_samples)
+    returns_sample = returns.sample(n=n_samples, replace=True)
     returns_sample = returns_sample.dropna(thresh=int(returns_sample.shape[0] * 0.95), axis=1)
     returns_sample = returns_sample.dropna(thresh=int(returns_sample.shape[1] * 0.95))
     daily_avg = returns_sample.mean(1)

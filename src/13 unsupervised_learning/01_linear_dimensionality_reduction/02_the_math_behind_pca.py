@@ -103,7 +103,7 @@ pca2 = PCA(n_components=2)
 projected_data = pca2.fit_transform(data)
 ic(projected_data.shape)
 
-fig = plt.figure(figsize=(14, 6))
+fig = plt.figure(figsize=(14, 8))
 ax1 = fig.add_subplot(1, 2, 1, projection="3d")
 ax1.scatter(x, y, z, s=15, c="k")
 format3D(ax1)
@@ -197,7 +197,7 @@ C = pca.components_.T.copy()
 proj_matrix = C.dot(inv(C.T.dot(C))).dot(C.T)
 C[:, 0] *= 2
 
-ax = plt.figure(figsize=(12, 5)).gca(projection="3d")
+ax = plt.figure(figsize=(12, 6)).gca(projection="3d")
 ax.plot_surface(xs, ys, zs, alpha=0.2, color="k", linewidth=1, antialiased=True)
 
 ax.scatter(x, y, z, c="k", s=25)
@@ -217,7 +217,7 @@ plt.close("all")
 data_3D_inv = pca.inverse_transform(data_2D)
 avg_error = np.mean(np.sum(np.square(data_3D_inv - data), axis=1))
 
-fig = plt.figure(figsize=(8, 5))
+fig = plt.figure(figsize=(10, 6))
 ax = fig.add_subplot(
     111,
     aspect="equal",
@@ -242,7 +242,7 @@ ic(n_samples, n_features)
 
 #### Evaluate the cumulative explained variance
 pca = PCA(n_components=64).fit(X)
-pd.Series(pca.explained_variance_ratio_).cumsum().plot(figsize=(8, 5))
+pd.Series(pca.explained_variance_ratio_).cumsum().plot(figsize=(10, 6))
 plt.annotate(
     "Elbow",
     xy=(15, 0.8),

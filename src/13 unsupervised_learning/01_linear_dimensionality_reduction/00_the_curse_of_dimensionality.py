@@ -20,7 +20,7 @@ sns.set_style("white")
 def get_distance_metrics(points):
     """Calculate mean of pairwise distances and
     mean of min pairwise distances"""
-    pairwise_dist = squareform(pdist(points))
+    pairwise_dist = squareform(pdist(points, metric="euclidean"))
     fill_diagonal(pairwise_dist, np.nanmean(pairwise_dist, axis=1))
     avg_distance = np.mean(np.nanmean(pairwise_dist, axis=1))
     fill_diagonal(pairwise_dist, np.nanmax(pairwise_dist, axis=1))
@@ -43,7 +43,7 @@ def simulate_distances(m, n, mean, var, corr):
 
 ### Sampling Parameters
 n_points = 1000
-dimensions = range(1, 2502, 100)
+dimensions = range(1, 1001, 100)
 
 ### Normal Distribution Params
 mean = 0.5

@@ -42,7 +42,7 @@ x2 = 1.5 * x1 + 2 * randn(n_signals)
 data = pd.DataFrame({"$x_1$": x1, "$x_2$": x2})
 ax = data.plot.scatter(x=0, y=1, s=10, title="2D Noisy Data", figsize=(7, 8))
 ax.set_aspect("equal")
-plt.tight_layout()
+plt.savefig("images/02-01-rand.png", dpi=300, bboxinches="tight")
 
 ### Compute Principal Components
 pca = PCA()
@@ -64,9 +64,7 @@ ic(np.dot(pc1.T, pc2))
 ### Plot Principal Components as new Basis Vectors
 # The below figure shows how the first and second principal components align with the directions of maximum
 # variance while being orthogonal.
-
 l1, l2 = pca.singular_values_ / 10
-
 ax = data.plot.scatter(x=0, y=1, s=15, title="Principal Component Vectors", figsize=(6, 8))
 ax.set_aspect("equal")
 origin_x, origin_y = pca.mean_

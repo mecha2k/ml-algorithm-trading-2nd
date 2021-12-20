@@ -1,32 +1,29 @@
 import warnings
 
-warnings.filterwarnings("ignore")
 
 from pathlib import Path
 from os.path import join
 
 import pandas as pd
 import numpy as np
-from numpy.random import choice
-
-from sklearn.datasets import fetch_openml, make_swiss_roll, make_blobs
-from sklearn.manifold import TSNE
 import umap
-
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 import ipyvolume as ipv
-
-from plotly.offline import init_notebook_mode, iplot
 import plotly.graph_objs as go
-
 import colorlover as cl
+
+from numpy.random import choice
+from sklearn.datasets import fetch_openml, make_swiss_roll, make_blobs
+from sklearn.manifold import TSNE
+from matplotlib.colors import ListedColormap
+from plotly.offline import init_notebook_mode, iplot
+
 
 sns.set_style("white")
 init_notebook_mode(connected=True)
 ipv_cmap = sns.color_palette("Paired", n_colors=10)
-
+warnings.filterwarnings("ignore")
 
 ## T-Stochastic Neighbor Embedding (TSNE): Parameter Settings
 # [t-SNE](https://lvdmaaten.github.io/tsne/) is an award-winning algorithm developed in 2010 by Laurens van der Maaten
@@ -75,7 +72,6 @@ plt.savefig("images/03-01.png", bboxinches="tight")
 ### Convergence with `n_iter`
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
 axes = axes.flatten()
-
 axes[0].scatter(data[:, 0], data[:, 1], s=15, c=label, cmap=cmap)
 axes[0].set_title("Original Data")
 axes[0].axes.get_xaxis().set_visible(False)
@@ -87,7 +83,6 @@ for i, n in enumerate([250, 500, 1000, 2500, 5000], 1):
     axes[i].set_title(f"Iterations: {n:,.0f}", fontsize=14)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-
 sns.despine()
 plt.savefig("images/03-02.png", bboxinches="tight")
 
@@ -98,7 +93,6 @@ data, label = make_blobs(
 
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
 axes = axes.flatten()
-
 axes[0].scatter(data[:, 0], data[:, 1], s=15, c=label, cmap=cmap)
 axes[0].set_title("Original Data")
 axes[0].axes.get_xaxis().set_visible(False)
@@ -110,7 +104,6 @@ for i, p in enumerate([2, 10, 20, 30, 50], 1):
     axes[i].set_title(f"Perplexity: {p:.0f}")
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-
 sns.despine()
 plt.savefig("images/03-03.png", bboxinches="tight")
 
@@ -121,19 +114,16 @@ data, label = make_blobs(
 
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
 axes = axes.flatten()
-
 axes[0].scatter(data[:, 0], data[:, 1], s=15, c=label, cmap=cmap)
 axes[0].set_title("Original Data")
 axes[0].axes.get_xaxis().set_visible(False)
 axes[0].axes.get_yaxis().set_visible(False)
-
 for i, p in enumerate([2, 10, 30, 50, 100], 1):
     embedding = TSNE(perplexity=p, n_iter=5000).fit_transform(data)
     axes[i].scatter(embedding[:, 0], embedding[:, 1], s=15, c=label, cmap=cmap)
     axes[i].set_title("Perplexity: {:.0f}".format(p))
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-
 sns.despine()
 plt.savefig("images/03-04.png", bboxinches="tight")
 
@@ -144,20 +134,16 @@ data, label = make_blobs(
 
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
 axes = axes.flatten()
-
 axes[0].scatter(data[:, 0], data[:, 1], s=10, c=label, cmap=cmap)
 axes[0].set_title("Original Data")
 axes[0].axes.get_xaxis().set_visible(False)
 axes[0].axes.get_yaxis().set_visible(False)
-
-
 for i, p in enumerate([2, 10, 30, 50, 100], 1):
     embedding = TSNE(perplexity=p, n_iter=5000).fit_transform(data)
     axes[i].scatter(embedding[:, 0], embedding[:, 1], s=10, c=label, cmap=cmap)
     axes[i].set_title("Perplexity: {:.0f}".format(p))
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-
 sns.despine()
 plt.savefig("images/03-05.png", bboxinches="tight")
 
@@ -244,7 +230,6 @@ plt.savefig("images/03-08.png", bboxinches="tight")
 ### UMAP
 fig, axes = plt.subplots(nrows=5, ncols=4, figsize=(16, 20))
 method = "umap"
-
 path = swiss_path / method
 labels = np.load(swiss_path / "labels.npy")
 
