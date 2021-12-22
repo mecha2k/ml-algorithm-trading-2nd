@@ -67,7 +67,8 @@ returns = returns.apply(lambda x: x.fillna(daily_avg))
 # components using the full SVD algorithm:
 cov = np.cov(returns, rowvar=False)
 
-pca = PCA(n_components="mle")
+# pca = PCA(n_components="mle")
+pca = PCA(n_components=0.99)
 pca.fit(returns)
 
 ### Visualize Explained Variance
@@ -83,10 +84,9 @@ var_expl = pd.Series(pca.explained_variance_ratio_)
 var_expl.index += 1
 var_expl.iloc[:15].sort_values().plot.barh(title=title, ax=axes[0])
 var_expl.cumsum().plot(
-    ylim=(0, 1), ax=axes[1], title="Cumulative Explained Variance", xlim=(1, 300)
+    ylim=(0, 1), ax=axes[1], title="Cumulative Explained Variance", xlim=(1, 250)
 )
 axes[1].yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y:.0%}"))
-sns.despine()
 plt.savefig("images/04-01.png", bboxinches="tight")
 
 risk_factors = pd.DataFrame(
@@ -97,7 +97,7 @@ risk_factors = pd.DataFrame(
 risk_factors.info()
 
 # We can select the top two principal components to verify that they are indeed uncorrelated:
-risk_factors["Principal Component 1"].corr(risk_factors["Principal Component 2"])
+print(risk_factors["Principal Component 1"].corr(risk_factors["Principal Component 2"]))
 
 # Moreover, we can plot the time series to highlight how each factor captures different volatility patterns.
 with sns.axes_style("white"):
@@ -110,7 +110,6 @@ with sns.axes_style("white"):
         lw=1,
         xlim=(risk_factors.index.min(), risk_factors.index.max()),
     )
-    sns.despine()
     plt.savefig("images/04-02.png", bboxinches="tight")
 
 # A risk factor model would employ a subset of the principal components as features to predict future returns,
@@ -120,19 +119,19 @@ idx = pd.IndexSlice
 with pd.HDFStore("../../data/assets.h5") as store:
     returns = (
         store["quandl/wiki/prices"]
-        .loc[idx["2000":"2018", :], "adj_close"]
+        .loc[idx["2010":"2018", :], "adj_close"]
         .unstack("ticker")
         .pct_change()
     )
 
 pca = PCA()
-n_trials, n_samples = 100, 500
+n_trials, n_samples = 10, 200
 explained = np.empty(shape=(n_trials, n_samples))
 for trial in range(n_trials):
     returns_sample = returns.sample(n=n_samples, replace=True)
     returns_sample = returns_sample.dropna(thresh=int(returns_sample.shape[0] * 0.95), axis=1)
     returns_sample = returns_sample.dropna(thresh=int(returns_sample.shape[1] * 0.95))
-    daily_avg = returns_sample.mean(1)
+    daily_avg = returns_sample.mean(axis=1)
     returns_sample = returns_sample.apply(lambda x: x.fillna(daily_avg))
     pca.fit(returns_sample)
     explained[trial, : len(pca.components_)] = pca.explained_variance_ratio_
@@ -143,13 +142,13 @@ explained.info()
 fig, axes = plt.subplots(ncols=2, figsize=(14, 4.5))
 pc10 = explained.iloc[:, :10].stack().reset_index()
 pc10.columns = ["Trial", "Principal Component", "Value"]
+print(pc10)
 
 pc10["Cumulative"] = pc10.groupby("Trial").Value.transform(np.cumsum)
 sns.barplot(x="Principal Component", y="Value", data=pc10, ax=axes[0])
 sns.lineplot(x="Principal Component", y="Cumulative", data=pc10, ax=axes[1])
 axes[1].set_xlim(1, 10)
 axes[1].yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y:.0%}"))
-fig.suptitle("Explained Variance of Top 10 Principal Components | 100 Trials")
-sns.despine()
+fig.suptitle(f"Explained Variance of Top 10 Principal Components | {n_trials} Trials")
 fig.subplots_adjust(top=0.90)
 plt.savefig("images/04-03.png", bboxinches="tight")
