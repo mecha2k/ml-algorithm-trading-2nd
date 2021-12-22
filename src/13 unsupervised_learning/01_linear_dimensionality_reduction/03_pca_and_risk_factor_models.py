@@ -59,7 +59,7 @@ returns.info()
 
 # We are left with 315 equity return series covering a similar period.
 # We impute any remaining missing values using the average return for any given trading day:
-daily_avg = returns.mean(1)
+daily_avg = returns.mean(axis=1)
 returns = returns.apply(lambda x: x.fillna(daily_avg))
 
 ## Fit PCA
