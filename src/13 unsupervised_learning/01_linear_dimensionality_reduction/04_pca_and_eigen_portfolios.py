@@ -42,8 +42,7 @@ returns = returns.dropna(thresh=int(returns.shape[0] * 0.95), axis=1)
 returns = returns.dropna(thresh=int(returns.shape[1] * 0.95))
 returns.info()
 
-cov = returns.cov()
-sns.clustermap(cov)
+sns.clustermap(returns.corr())
 plt.savefig("images/05-01.png", bboxinches="tight")
 
 ### Run PCA
@@ -51,9 +50,13 @@ plt.savefig("images/05-01.png", bboxinches="tight")
 # days. We estimate all principal components and find that the two largest explain 57.6% and 12.4% of the covariation,
 # respectively:
 pca = PCA()
+cov = returns.cov()
 pca.fit(cov)
-pd.Series(pca.explained_variance_ratio_).to_frame("Explained Variance").head().style.format(
-    "{:,.2%}".format
+print(
+    pd.Series(pca.explained_variance_ratio_)
+    .to_frame("Explained Variance")
+    .head()
+    # .style.format("{:,.2%}".format)
 )
 
 ### Create PF weights from principal components
@@ -70,7 +73,6 @@ axes = eigen_portfolios.T.plot.bar(subplots=True, layout=(2, 2), figsize=(14, 8)
 for ax in axes.flatten():
     ax.set_ylabel("Portfolio Weight")
     ax.set_xlabel("")
-sns.despine()
 plt.savefig("images/05-02.png", bboxinches="tight")
 
 ### Eigenportfolio Performance
@@ -78,12 +80,11 @@ plt.savefig("images/05-02.png", bboxinches="tight")
 # we find that portfolio 1 performs very similarly, whereas the other portfolios capture different return patterns.
 fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(14, 6), sharex=True)
 axes = axes.flatten()
-returns.mean(1).add(1).cumprod().sub(1).plot(title="The Market", ax=axes[0])
+returns.mean(axis=1).add(1).cumprod().sub(1).plot(title="The Market", ax=axes[0])
 for i in range(3):
     rc = returns.mul(eigen_portfolios.iloc[i]).sum(1).add(1).cumprod().sub(1)
     rc.plot(title=f"Portfolio {i+1}", ax=axes[i + 1], lw=1, rot=0)
 
 for i in range(4):
     axes[i].set_xlabel("")
-sns.despine()
 plt.savefig("images/05-03.png", bboxinches="tight")
