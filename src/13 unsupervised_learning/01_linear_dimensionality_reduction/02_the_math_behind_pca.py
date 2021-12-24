@@ -27,6 +27,9 @@ from icecream import ic
 sns.set_style("white")
 seed(42)
 
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 18
+
 
 def format3D(axis, labels=("x", "y", "z"), limits=None):
     """3D plot helper function to set labels, pane color, and axis limits"""
@@ -229,7 +232,6 @@ ax = fig.add_subplot(
 ax.scatter(data_2D[:, 0], data_2D[:, 1], color="k", s=15)
 ax.arrow(0, 0, 0, 0.5, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
 ax.arrow(0, 0, 1, 0, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
-sns.despine()
 plt.savefig("images/03-05.png", bboxinches="tight")
 
 ### How many Components to represent 64 dimensions?
