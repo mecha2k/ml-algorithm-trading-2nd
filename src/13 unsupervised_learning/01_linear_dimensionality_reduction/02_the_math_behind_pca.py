@@ -244,18 +244,18 @@ ic(n_samples, n_features)
 
 #### Evaluate the cumulative explained variance
 pca = PCA(n_components=64).fit(X)
-pd.Series(pca.explained_variance_ratio_).cumsum().plot(figsize=(10, 6))
+pca_df = pd.Series(pca.explained_variance_ratio_).cumsum().to_frame()
+pca_df.plot(figsize=(10, 6))
 plt.annotate(
     "Elbow",
-    xy=(15, 0.8),
+    xy=(12, 0.8),
     xycoords="data",
     xytext=(20, 0.65),
     textcoords="data",
     horizontalalignment="center",
     arrowprops=dict(color="k", lw=2, arrowstyle="->"),
 )
-plt.axhline(0.95, c="k", lw=1, ls="--")
-sns.despine()
+plt.axhline(0.8, c="k", lw=1, ls="--")
 plt.savefig("images/03-06.png", bboxinches="tight")
 
 ### Automate generation of Components
