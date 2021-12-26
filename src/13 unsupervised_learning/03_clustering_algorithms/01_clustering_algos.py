@@ -20,7 +20,7 @@
 # Important additional aspects of a clustering algorithm include whether
 # - it requires exclusive cluster membership,
 # - makes hard, i.e., binary, or soft, probabilistic assignment, and
-# - is complete and assigns all data points to clusters.
+# - is complete and assigns all data points to cluster.
 # This notebook compares several clustering algorithms using toy datasets.
 from warnings import filterwarnings
 
