@@ -41,6 +41,9 @@ import seaborn as sns
 sns.set_style("white")
 seed(42)
 
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
+
 flatui = ["#9b59b6", "#3498db", "#95a5a6", "#e74c3c", "#34495e", "#2ecc71"]
 cmap = ListedColormap(sns.color_palette(flatui))
 
@@ -116,25 +119,20 @@ for d, (dataset_label, dataset, algo_params) in enumerate(datasets):
     )
 
     for a, (name, algorithm) in enumerate(clustering_algorithms):
-
         if name == "GaussianMixture":
             algorithm.fit(X)
             y_pred = algorithm.predict(X)
         else:
             y_pred = algorithm.fit_predict(X)
-
         axes[d, a].scatter(X[:, 0], X[:, 1], s=5, c=y_pred, cmap=cmap)
-
         if d == 0:
-            axes[d, a].set_title(name, size=14)
+            axes[d, a].set_title(name, size=16)
         if a == 0:
-            axes[d, a].set_ylabel(dataset_label, size=12)
-
+            axes[d, a].set_ylabel(dataset_label, size=14)
         if y is None:
             y = [0.5] * n_samples
         mi = adjusted_mutual_info_score(labels_pred=y_pred, labels_true=y)
         axes[d, a].text(0.85, 0.91, f"MI: {mi:.2f}", transform=axes[d, a].transAxes, fontsize=12)
         axes[d, a].axes.get_xaxis().set_visible(False)
 
-sns.despine()
 plt.savefig("images/01-01.png", bboxinches="tight")

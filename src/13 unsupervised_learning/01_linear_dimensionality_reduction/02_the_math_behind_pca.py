@@ -27,6 +27,9 @@ from icecream import ic
 sns.set_style("white")
 seed(42)
 
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 18
+
 
 def format3D(axis, labels=("x", "y", "z"), limits=None):
     """3D plot helper function to set labels, pane color, and axis limits"""
@@ -229,7 +232,6 @@ ax = fig.add_subplot(
 ax.scatter(data_2D[:, 0], data_2D[:, 1], color="k", s=15)
 ax.arrow(0, 0, 0, 0.5, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
 ax.arrow(0, 0, 1, 0, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
-sns.despine()
 plt.savefig("images/03-05.png", bboxinches="tight")
 
 ### How many Components to represent 64 dimensions?
@@ -242,18 +244,18 @@ ic(n_samples, n_features)
 
 #### Evaluate the cumulative explained variance
 pca = PCA(n_components=64).fit(X)
-pd.Series(pca.explained_variance_ratio_).cumsum().plot(figsize=(10, 6))
+pca_df = pd.Series(pca.explained_variance_ratio_).cumsum().to_frame()
+pca_df.plot(figsize=(10, 6))
 plt.annotate(
     "Elbow",
-    xy=(15, 0.8),
+    xy=(12, 0.8),
     xycoords="data",
     xytext=(20, 0.65),
     textcoords="data",
     horizontalalignment="center",
     arrowprops=dict(color="k", lw=2, arrowstyle="->"),
 )
-plt.axhline(0.95, c="k", lw=1, ls="--")
-sns.despine()
+plt.axhline(0.8, c="k", lw=1, ls="--")
 plt.savefig("images/03-06.png", bboxinches="tight")
 
 ### Automate generation of Components

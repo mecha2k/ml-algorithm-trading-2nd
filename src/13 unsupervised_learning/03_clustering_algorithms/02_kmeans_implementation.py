@@ -218,12 +218,8 @@ from PIL import Image
 
 frames = [Image.open(image) for image in glob.glob("images/03-02-iter*.png")]
 frame_one = frames[0]
-frame_one.save(
-    "images/03-02.gif", format="GIF", append_images=frames, save_all=True, duration=2000, loop=1
-)
+frame_one.save("images/03-02.gif", format="GIF", append_images=frames, save_all=True, duration=200)
 
 frames = [Image.open(image) for image in glob.glob("images/03-03-iter*.png")]
 frame_one = frames[0]
-frame_one.save(
-    "images/03-03.gif", format="GIF", append_images=frames, save_all=True, duration=2000, loop=1
-)
+frame_one.save("images/03-03.gif", format="GIF", append_images=frames, save_all=True, duration=200)
