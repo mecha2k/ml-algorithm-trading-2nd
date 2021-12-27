@@ -55,7 +55,7 @@ plt.figure(figsize=(14, 8))
 plt.scatter(x, y, c=labels, s=20, cmap=cmap)
 plt.title("Sample Data", fontsize=14)
 sns.despine()
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/02-01.png", bboxinches="tight")
 
 
 ## K-Means Implementation
@@ -102,7 +102,7 @@ def plot_clusters(x, y, labels, centroids, assignments, distance, iteration, ste
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
 
-    plt.savefig(f"images/03-02-iter{iteration}.png", bboxinches="tight")
+    plt.savefig(f"images/02-02-iter{iteration}.png", bboxinches="tight")
 
 
 ### Run K-Means Experiment
@@ -169,7 +169,7 @@ def plot_voronoi(x, y, labels, centroids, assignments, distance, iteration, step
     title = f"Iteration: {iteration} | {step} | Distance: {distance:,.1f}"
     ax.set_title(title)
     sns.despine()
-    plt.savefig(f"images/03-03-iter{iteration}.png", bboxinches="tight")
+    plt.savefig(f"images/02-03-iter{iteration}.png", bboxinches="tight")
 
 
 ### Run Voronoi Experiment
@@ -216,10 +216,10 @@ while delta > tolerance:
 import glob
 from PIL import Image
 
-frames = [Image.open(image) for image in glob.glob("images/03-02-iter*.png")]
+frames = [Image.open(image) for image in glob.glob("images/02-02-iter*.png")]
 frame_one = frames[0]
-frame_one.save("images/03-02.gif", format="GIF", append_images=frames, save_all=True, duration=200)
+frame_one.save("images/02-02.gif", format="GIF", append_images=frames, save_all=True, duration=200)
 
-frames = [Image.open(image) for image in glob.glob("images/03-03-iter*.png")]
+frames = [Image.open(image) for image in glob.glob("images/02-03-iter*.png")]
 frame_one = frames[0]
-frame_one.save("images/03-03.gif", format="GIF", append_images=frames, save_all=True, duration=200)
+frame_one.save("images/02-03.gif", format="GIF", append_images=frames, save_all=True, duration=200)

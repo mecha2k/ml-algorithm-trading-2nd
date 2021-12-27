@@ -11,6 +11,8 @@
 # - Ward’s method: minimize within-cluster variance
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from scipy.cluster.hierarchy import dendrogram, linkage, cophenet
 from sklearn.decomposition import PCA
@@ -20,12 +22,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
 from scipy.spatial.distance import pdist
 
-import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.colors import ListedColormap
-
-import seaborn as sns
-
+from collections import OrderedDict
 from IPython.display import HTML
 
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
@@ -65,7 +64,6 @@ ax = plt.figure(figsize=(14, 6)).gca(
     ylabel=f"Explained Variance: {ev2:.2%}",
 )
 ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
-sns.despine()
 plt.savefig("images/04-01.png", bboxinches="tight")
 
 ### Perform agglomerative clustering
@@ -114,7 +112,6 @@ for i, method in enumerate(methods):
         ax=axes[i],
     )
     axes[i].set_title(f"Method: {method.capitalize()} | Correlation: {c:.2f}", fontsize=14)
-sns.despine()
 plt.savefig("images/04-03.png", bboxinches="tight")
 
 # Different linkage methods produce different dendrogram ‘looks’ so that we can not use this visualization to compare
@@ -123,9 +120,6 @@ plt.savefig("images/04-03.png", bboxinches="tight")
 # correlation or measures like inertia if aligned with the overall goal are more appropriate.
 ### Get Cluster Members
 n = len(Z)
-
-from collections import OrderedDict
-
 clusters = OrderedDict()
 
 for i, row in enumerate(Z, 1):
@@ -186,7 +180,6 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for i in [0, 1]:
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-sns.despine()
 plt.savefig("images/04-04.png", bboxinches="tight")
 
 ### Comparing Mutual Information for different Linkage Options
@@ -197,7 +190,6 @@ for linkage_method in ["ward", "complete", "average"]:
     mutual_info[linkage_method] = adjusted_mutual_info_score(clusters, labels)
 
 ax = pd.Series(mutual_info).sort_values().plot.barh(figsize=(12, 4), title="Mutual Information")
-sns.despine()
 plt.savefig("images/04-05.png", bboxinches="tight")
 
 ## Strengths and Weaknesses

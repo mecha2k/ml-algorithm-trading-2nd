@@ -1,30 +1,24 @@
-# K-Means: Evaluating cluster quality
-# Cluster quality metrics help select among alternative clustering results. This notebook illustrates several options,
+# K-Means: Evaluating cluster quality metrics help select among alternative clustering results. This notebook illustrates several options,
 # namely inertia and the silhouette scores.
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import warnings
 
-warnings.filterwarnings("ignore")
-
 from time import sleep
-
-import numpy as np
 from numpy.random import seed
-import pandas as pd
-
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_samples, silhouette_score
-
-import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-import seaborn as sns
-
 from IPython import display
 
 seed(42)
 sns.set_style("white")
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 cmap = ListedColormap(sns.color_palette("Paired", 10))
+warnings.filterwarnings("ignore")
 
 
 ## 2D Cluster Demo
@@ -44,9 +38,11 @@ def sample_clusters(n_points=500, n_dimensions=2, n_clusters=5, cluster_std=1):
 # number of clusters has been found (assuming it exists), new centroids reduce the within-cluster variance by much less
 # as they tend to split natural groupings. Hence, when k-Means finds a good cluster representation of the data, the inertia
 # tends to follow an elbow-shaped path similar to the explained variance ratio for PCA.
-def inertia_plot_update(inertias, ax, delay=1):
+def inertia_plot_update(inertias, ax):
     inertias.plot(
-        color="k",
+        color="blue",
+        marker="o",
+        markersize=5,
         lw=1,
         title="Inertia",
         ax=ax,
@@ -64,7 +60,9 @@ def plot_kmeans_result(data, labels, centroids, assignments, ncluster, Z, ax):
     for i, c in enumerate(centroids):
         ax.scatter(*c, marker=f"${i}$", s=50, edgecolor="", zorder=10)
         xy = pd.DataFrame(data[assignments == i], columns=["x", "y"]).assign(cx=c[0], cy=c[1])
-        ax.plot(xy[["x", "cx"]].T, xy[["y", "cy"]].T, ls="--", color="k", lw=0.5)
+        ax.plot(
+            np.array(xy[["x", "cx"]].T), np.array(xy[["y", "cy"]].T), ls="--", color="grey", lw=0.2
+        )
     # plot voronoi
     ax.imshow(
         Z,
@@ -97,7 +95,6 @@ axes[0].set_title("{} Sample Clusters".format(n_clusters))
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-sns.despine()
 for c, n_clusters in enumerate(range(1, max_clusters + 1), 2):
     kmeans = KMeans(n_clusters=n_clusters, random_state=42).fit(data)
     centroids, assignments, inertia = kmeans.cluster_centers_, kmeans.labels_, kmeans.inertia_
@@ -147,7 +144,6 @@ def plot_final_assignments(x, y, centroids, assignments, n_cluster, ax):
     ax.scatter(*centroids.T, marker="o", c="w", s=200, edgecolor="k")
     for i, c in enumerate(centroids):
         ax.scatter(*c, marker="${}$".format(i), s=50, edgecolor="k")
-
     ax.set_title("{} Clusters".format(n_cluster))
 
 
