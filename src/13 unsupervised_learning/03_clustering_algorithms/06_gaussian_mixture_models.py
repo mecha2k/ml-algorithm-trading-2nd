@@ -18,26 +18,25 @@
 #     1. Expectation Step: Soft assignment - compute probabilities for each point from each distribution
 #     2. Maximization Step: Adjust normal-distribution parameters to make data points most likely
 
-import warnings
-
-warnings.filterwarnings("ignore")
 
 import pandas as pd
 import numpy as np
-from numpy import atleast_2d
+import warnings
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+from numpy import atleast_2d
 from sklearn.decomposition import PCA
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import adjusted_mutual_info_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
-
-import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-import seaborn as sns
+
 
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 sns.set_style("white")
+warnings.filterwarnings("ignore")
 
 ## Load Iris Data
 iris = load_iris()
