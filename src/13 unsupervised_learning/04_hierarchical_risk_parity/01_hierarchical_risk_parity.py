@@ -133,10 +133,8 @@ def get_hrp_allocation(cov, tickers):
         for i in range(0, len(clusters), 2):  # parse in pairs
             cluster0 = clusters[i]
             cluster1 = clusters[i + 1]
-
             cluster0_var = get_cluster_var(cov, cluster0)
             cluster1_var = get_cluster_var(cov, cluster1)
-
             weight_scaler = 1 - cluster0_var / (cluster0_var + cluster1_var)
             weights[cluster0] *= weight_scaler
             weights[cluster1] *= 1 - weight_scaler
