@@ -18,26 +18,25 @@
 #     1. Expectation Step: Soft assignment - compute probabilities for each point from each distribution
 #     2. Maximization Step: Adjust normal-distribution parameters to make data points most likely
 
-import warnings
-
-warnings.filterwarnings("ignore")
-
 import pandas as pd
 import numpy as np
-from numpy import atleast_2d
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
 
+from numpy import atleast_2d
 from sklearn.decomposition import PCA
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import adjusted_mutual_info_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
-
-import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-import seaborn as sns
 
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 sns.set_style("white")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 18
+warnings.filterwarnings("ignore")
 
 ## Load Iris Data
 iris = load_iris()
@@ -62,7 +61,6 @@ ax = plt.figure(figsize=(10, 6)).gca(
 ax.scatter(*features_2D.T, c=data.label, s=15, cmap=cmap)
 ax.set_xticklabels([])
 ax.set_xticks([])
-sns.despine()
 plt.savefig("images/06-01.png", bboxinches="tight")
 
 ## Perform GMM clustering
@@ -71,22 +69,17 @@ gmm = GaussianMixture(n_components=n_components)
 gmm.fit(features_standardized)
 
 data["clusters"] = gmm.predict(features_standardized)
-
 labels, clusters = data.label, data.clusters
 mi = adjusted_mutual_info_score(labels, clusters)
 
 fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
-
 axes[0].scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
 axes[0].set_title("Original Data")
 axes[1].scatter(*features_2D.T, c=data.clusters, s=25, cmap=cmap)
 axes[1].set_title("Clusters | MI={:.2f}".format(mi))
-
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-
-sns.despine()
 plt.savefig("images/06-02.png", bboxinches="tight")
 
 ### Visualize Gaussian Distributions
@@ -106,10 +99,8 @@ fig, ax = plt.subplots(figsize=(14, 8))
 CS = ax.contour(X, Y, Z, cmap="RdBu_r", alpha=0.8)
 CB = plt.colorbar(CS, shrink=0.8)
 ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
-
 ax.axes.get_xaxis().set_visible(False)
 ax.axes.get_yaxis().set_visible(False)
-sns.despine()
 plt.savefig("images/06-03.png", bboxinches="tight")
 
 fig = plt.figure(figsize=(14, 6))
@@ -128,4 +119,4 @@ for n_components in range(2, 8):
     gmm = GaussianMixture(n_components=n_components)
     gmm.fit(features_standardized)
     bic[n_components] = gmm.bic(features_standardized)
-pd.Series(bic)
+print(pd.Series(bic))

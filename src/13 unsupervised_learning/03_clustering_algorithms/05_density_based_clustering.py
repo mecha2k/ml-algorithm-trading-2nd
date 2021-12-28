@@ -25,12 +25,14 @@ from matplotlib import cm
 from IPython import display
 
 cmap = cm.get_cmap("viridis")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 18
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 warnings.filterwarnings("ignore")
 
 ## Load Iris Data
 iris = load_iris()
-iris.keys()
+print(iris.keys())
 features = iris.feature_names
 data = pd.DataFrame(data=np.column_stack([iris.data, iris.target]), columns=features + ["label"])
 data.label = data.label.astype(int)
@@ -163,9 +165,9 @@ def plot_dbscan(data, assignments, axes, delay=0.5):
         ax=axes[1],
     )
 
-    display.display(plt.gcf())
-    display.clear_output(wait=True)
-    sleep(delay)
+    # display.display(plt.gcf())
+    # display.clear_output(wait=True)
+    # sleep(delay)
 
 
 #### DBSCAN Execution
@@ -199,81 +201,83 @@ while to_do:
         for member in new_cluster:
             assignments.update({member: n_clusters})
         n_clusters += 1
+plt.savefig("images/05-05.png", bboxinches="tight")
 
-# ### HDBSCAN
-# # Hierarchical DBSCAN is a more recent development that assumes clusters are islands of potentially differing density to
-# # overcome the DBSCAN challenges just mentioned. It also aims to identify the core and non-core samples. It uses the
-# # arameters min_cluster_ size, and min_samples to select a neighborhood and extend a cluster. The algorithm iterates over
-# # multiple eps values and chooses the most stable clustering. In addition to identifying clusters of varying density,
-# # it provides insight into the density and hierarchical structure of the data.
-# # The following figures show how DBSCAN and HDBSCAN are able to identify very differently shaped clusters.
-# clusterer = HDBSCAN()
-# data["clusters"] = clusterer.fit_predict(features_standardized)
-#
-# labels, clusters = data.label, data.clusters
-# mi = adjusted_mutual_info_score(labels, clusters)
-#
-# fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
-# axes[0].scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
-# axes[0].set_title("Original Data")
-# axes[1].scatter(*features_2D.T, c=data.clusters, s=25, cmap=cmap)
-# axes[1].set_title("Clusters | MI={:.2f}".format(mi))
-# for ax in axes:
-#     ax.axes.get_xaxis().set_visible(False)
-#     ax.axes.get_yaxis().set_visible(False)
-# plt.savefig("images/05-05.png", bboxinches="tight")
-#
-# ### Alternative Dataset
-# alternative_data = np.load("clusterable_data.npy")
-# fig, ax = plt.subplots(figsize=(12, 6))
-# ax.set_aspect("equal")
-# ax.scatter(*alternative_data.T, s=20)
-#
-# ax.axes.get_xaxis().set_visible(False)
-# ax.axes.get_yaxis().set_visible(False)
-# plt.savefig("images/05-06.png", bboxinches="tight")
-#
-# ### Compare DBSCAN & HDBSCAN
-# dbscan = DBSCAN(eps=0.02, min_samples=10)
-# db_clusters = dbscan.fit_predict(alternative_data)
-#
-# hdbscan = HDBSCAN(min_cluster_size=15, gen_min_span_tree=True)
-# hdb_clusters = hdbscan.fit_predict(alternative_data)
-#
-# cluster_sizes = pd.DataFrame(
-#     {
-#         "HDBSCAN": pd.Series(hdb_clusters).value_counts(),
-#         "DBSCAN": pd.Series(db_clusters).value_counts(),
-#     }
-# )
-#
-# cluster_sizes.sort_index(ascending=False).plot.barh(
-#     subplots=True, layout=(2, 1), figsize=(8, 8), legend=False
-# )
-# plt.savefig("images/05-07.png", bboxinches="tight")
-#
-# fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
-# cmap = ListedColormap(sns.color_palette("Paired", len(np.unique(db_clusters))))
-# axes[0].scatter(*alternative_data.T, c=db_clusters, s=10, cmap=cmap)
-# axes[0].set_title("DBSCAN")
-# axes[1].scatter(*alternative_data.T, c=hdb_clusters, s=10, cmap=cmap)
-# axes[1].set_title("HDBSCAN")
-#
-# for ax in axes:
-#     ax.axes.get_xaxis().set_visible(False)
-#     ax.axes.get_yaxis().set_visible(False)
-# plt.savefig("images/05-08.png", bboxinches="tight")
-#
-# ### HDBSCAN: Density-based Dendrogram
-# fig, ax = plt.subplots(figsize=(14, 6))
-# hdbscan.condensed_tree_.plot(
-#     select_clusters=True, cmap="Blues", selection_palette=sns.color_palette("Set2", 8)
-# )
-# plt.savefig("images/05-09.png", bboxinches="tight")
-#
-# ### Minimum Spanning Tree
-# fig, ax = plt.subplots(figsize=(14, 7))
-# hdbscan.minimum_spanning_tree_.plot(
-#     edge_cmap="Blues", edge_alpha=0.6, node_size=20, edge_linewidth=1
-# )
-# plt.savefig("images/05-10.png", bboxinches="tight")
+
+## HDBSCAN
+# Hierarchical DBSCAN is a more recent development that assumes clusters are islands of potentially differing density to
+# overcome the DBSCAN challenges just mentioned. It also aims to identify the core and non-core samples. It uses the
+# arameters min_cluster_ size, and min_samples to select a neighborhood and extend a cluster. The algorithm iterates over
+# multiple eps values and chooses the most stable clustering. In addition to identifying clusters of varying density,
+# it provides insight into the density and hierarchical structure of the data.
+# The following figures show how DBSCAN and HDBSCAN are able to identify very differently shaped clusters.
+clusterer = HDBSCAN()
+data["clusters"] = clusterer.fit_predict(features_standardized)
+
+labels, clusters = data.label, data.clusters
+mi = adjusted_mutual_info_score(labels, clusters)
+
+fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
+axes[0].scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
+axes[0].set_title("Original Data")
+axes[1].scatter(*features_2D.T, c=data.clusters, s=25, cmap=cmap)
+axes[1].set_title("Clusters | MI={:.2f}".format(mi))
+for ax in axes:
+    ax.axes.get_xaxis().set_visible(False)
+    ax.axes.get_yaxis().set_visible(False)
+plt.savefig("images/05-06.png", bboxinches="tight")
+
+### Alternative Dataset
+alternative_data = np.load("clusterable_data.npy")
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.set_aspect("equal")
+ax.scatter(*alternative_data.T, s=20)
+
+ax.axes.get_xaxis().set_visible(False)
+ax.axes.get_yaxis().set_visible(False)
+plt.savefig("images/05-07.png", bboxinches="tight")
+
+### Compare DBSCAN & HDBSCAN
+dbscan = DBSCAN(eps=0.02, min_samples=10)
+db_clusters = dbscan.fit_predict(alternative_data)
+
+hdbscan = HDBSCAN(min_cluster_size=15, gen_min_span_tree=True)
+hdb_clusters = hdbscan.fit_predict(alternative_data)
+
+cluster_sizes = pd.DataFrame(
+    {
+        "HDBSCAN": pd.Series(hdb_clusters).value_counts(),
+        "DBSCAN": pd.Series(db_clusters).value_counts(),
+    }
+)
+
+cluster_sizes.sort_index(ascending=False).plot.barh(
+    subplots=True, layout=(2, 1), figsize=(8, 8), legend=False
+)
+plt.savefig("images/05-08.png", bboxinches="tight")
+
+fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
+cmap = ListedColormap(sns.color_palette("Paired", len(np.unique(db_clusters))))
+axes[0].scatter(*alternative_data.T, c=db_clusters, s=10, cmap=cmap)
+axes[0].set_title("DBSCAN")
+axes[1].scatter(*alternative_data.T, c=hdb_clusters, s=10, cmap=cmap)
+axes[1].set_title("HDBSCAN")
+
+for ax in axes:
+    ax.axes.get_xaxis().set_visible(False)
+    ax.axes.get_yaxis().set_visible(False)
+plt.savefig("images/05-09.png", bboxinches="tight")
+
+### HDBSCAN: Density-based Dendrogram
+fig, ax = plt.subplots(figsize=(14, 6))
+hdbscan.condensed_tree_.plot(
+    select_clusters=True, cmap="Blues", selection_palette=sns.color_palette("Set2", 8)
+)
+plt.savefig("images/05-10.png", bboxinches="tight")
+
+### Minimum Spanning Tree
+fig, ax = plt.subplots(figsize=(14, 7))
+hdbscan.minimum_spanning_tree_.plot(
+    edge_cmap="Blues", edge_alpha=0.6, node_size=20, edge_linewidth=1
+)
+plt.savefig("images/05-11.png", bboxinches="tight")

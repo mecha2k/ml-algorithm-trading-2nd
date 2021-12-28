@@ -4,15 +4,16 @@
 # 'similar' assets as substitutes when constructing the portfolio.
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from scipy.cluster.hierarchy import linkage
 from scipy.spatial.distance import pdist, squareform
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-sns.set_style("whitegrid")
 np.random.seed(42)
+sns.set_style("whitegrid")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 14
 
 with pd.HDFStore("../../data/assets.h5") as store:
     sp500_stocks = store["sp500/stocks"].index
@@ -28,12 +29,11 @@ monthly_returns = monthly_returns.dropna(axis=1)
 monthly_returns.columns.names = ["Ticker"]
 monthly_returns.info()
 
-
 ## HRP Source
 # The first step is to compute a distance matrix that represents proximity for correlated assets and meets distance
 # metric requirements. The resulting matrix becomes an input to the scipy hierarchical clustering function that computes
 # the successive clusters using one of several available methods as discussed above.
-def get_inverse_var_pf(cov, **kargs):
+def get_inverse_var_pf(cov):
     """Compute the inverse-variance portfolio"""
     ivp = 1 / np.diag(cov)
     return ivp / ivp.sum()
@@ -145,14 +145,15 @@ def get_hrp_allocation(cov, tickers):
 
 hrp_allocation = get_hrp_allocation(cov, sorted_tickers)
 
-## Visualize the result
-# The resulting portfolio allocation produces weights that sum to 1 and reflect the structure present in the correlation matrix.
+## Visualize the result, The resulting portfolio allocation produces weights that sum to 1 and reflect the structure
+# present in the correlation matrix.
 title = "Hierarchical Risk Parity - Portfolio Allocation"
-hrp_allocation.sort_values(ascending=False).iloc[::2].plot.bar(figsize=(15, 4), title=title)
-sns.despine()
-plt.savefig("images/01-03.png", bboxinches="tight")
+plt.figure(figsize=(16, 4))
+hrp_allocation.sort_values(ascending=False).iloc[::2].plot.bar(title=title, fontsize=4)
+plt.savefig("images/01-03.png", dpi=450, bboxinches="tight")
 
-# How about a pie chart..
-ax = hrp_allocation.sort_values().plot.pie(figsize=(15, 15), cmap="Blues")
+# How about a pie chart.
+plt.figure(figsize=(15, 15))
+ax = hrp_allocation.sort_values().plot.pie(cmap="Blues", fontsize=6)
 ax.set_ylabel("")
-plt.savefig("images/01-04.png", bboxinches="tight")
+plt.savefig("images/01-04.png", dpi=450, bboxinches="tight")

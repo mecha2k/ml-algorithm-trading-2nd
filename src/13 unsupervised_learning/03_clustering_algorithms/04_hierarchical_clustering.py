@@ -1,5 +1,4 @@
-# # Hierarchical Clustering
-# Hierarchical clustering avoids the need to specify a target number of clusters because it assumes that data can
+# Hierarchical Clustering avoids the need to specify a target number of clusters because it assumes that data can
 # successively be merged into increasingly dissimilar clusters. It does not pursue a global objective but decides
 # incrementally how to produce a sequence of nested clusters that range from a single cluster to clusters consisting of
 # the individual data points. While hierarchical clustering does not have hyperparameters like k-Means, the measure of
@@ -27,8 +26,10 @@ from matplotlib.colors import ListedColormap
 from collections import OrderedDict
 from IPython.display import HTML
 
-cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 sns.set_style("white")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 18
+cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 
 # if you have difficulties with ffmpeg to run the simulation,
 # see https://stackoverflow.com/questions/13316397/matplotlib-animation-no-moviewriters-available
@@ -38,7 +39,7 @@ plt.rcParams["animation.bitrate"] = 2000
 
 ## Load Iris Data
 iris = load_iris()
-iris.keys()
+print(iris.keys())
 print(iris.DESCR)
 
 ## Create DataFrame
@@ -83,7 +84,7 @@ linkage_matrix[["distance", "n_objects"]].plot(
 )
 plt.savefig("images/04-02.png", bboxinches="tight")
 
-### Compare linkage types
+## Compare linkage types
 # Hierarchical clustering provides insight into degrees of similarity among observations as it continues to merge data.
 # A significant change in the similarity metric from one merge to the next suggests a natural clustering existed prior
 # to this point.
@@ -95,6 +96,7 @@ plt.savefig("images/04-02.png", bboxinches="tight")
 # the four different distance metrics introduced above. It evaluates the fit of the hierarchical clustering using the
 # cophenetic correlation coefficient that compares the pairwise distances among points and the cluster similarity metric
 # at which a pairwise merge occurred. A coefficient of 1 implies that closer points always merge earlier.
+
 methods = ["single", "complete", "average", "ward"]
 pairwise_distance = pdist(features_standardized)
 
@@ -118,6 +120,7 @@ plt.savefig("images/04-03.png", bboxinches="tight")
 # results across methods. In addition, the Ward method that minimizes the within-cluster variance may not properly reflect
 # the change in variance but the total variance that may be misleading. Instead, other quality metrics like the cophenetic
 # correlation or measures like inertia if aligned with the overall goal are more appropriate.
+
 ### Get Cluster Members
 n = len(Z)
 clusters = OrderedDict()
@@ -130,7 +133,7 @@ for i, row in enumerate(Z, 1):
         else:
             cluster += clusters[int(c)]
     clusters[n + i] = cluster
-print(clusters[230])
+# print(clusters[230])
 
 ### Animate Agglomerative Clustering
 def get_2D_coordinates():
@@ -150,10 +153,7 @@ for i, cluster in enumerate(Z[:, :2], 1):
     new_point.append(cluster_size.sum())
     cluster_state[n_clusters + i] = new_point
     cluster_states[i] = cluster_state
-print(cluster_states[100])
-
-### Set up Animation
-scat = ax.scatter([], [])
+# print(cluster_states[100])
 
 
 def animate(i):
@@ -163,7 +163,10 @@ def animate(i):
     return scat
 
 
-anim = FuncAnimation(fig, animate, frames=cluster_states.keys(), interval=250, blit=False)
+### Set up Animation
+# scat = ax.scatter([], [])
+# anim = FuncAnimation(fig=fig, func=animate, frames=cluster_states.keys(), interval=10, blit=False)
+# anim.save("images/04-animation.gif", writer="imagemagick")
 # HTML(anim.to_html5_video())
 
 ### Scikit-Learn implementation
@@ -189,7 +192,8 @@ for linkage_method in ["ward", "complete", "average"]:
     clusters = clusterer.fit_predict(features_standardized)
     mutual_info[linkage_method] = adjusted_mutual_info_score(clusters, labels)
 
-ax = pd.Series(mutual_info).sort_values().plot.barh(figsize=(12, 4), title="Mutual Information")
+plt.figure(figsize=(12, 4))
+ax = pd.Series(mutual_info).sort_values().plot.barh(title="Mutual Information")
 plt.savefig("images/04-05.png", bboxinches="tight")
 
 ## Strengths and Weaknesses

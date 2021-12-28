@@ -42,7 +42,7 @@ sns.set_style("white")
 seed(42)
 
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 16
+plt.rcParams["font.size"] = 18
 
 flatui = ["#9b59b6", "#3498db", "#95a5a6", "#e74c3c", "#34495e", "#2ecc71"]
 cmap = ListedColormap(sns.color_palette(flatui))
