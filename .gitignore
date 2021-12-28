@@ -18,6 +18,7 @@ src/choromedriver
 .DS_Store
 .vscode
 
+master
 
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
