@@ -42,10 +42,10 @@ from zipline.finance import commission, slippage
 from zipline.pipeline import Pipeline, CustomFactor
 from zipline.pipeline.factors import Returns, AverageDollarVolume
 
-from pypfopt.efficient_frontier import EfficientFrontier
-from pypfopt import risk_models, objective_functions
-from pypfopt import expected_returns
-from pypfopt.exceptions import OptimizationError
+# from pypfopt.efficient_frontier import EfficientFrontier
+# from pypfopt import risk_models, objective_functions
+# from pypfopt import expected_returns
+# from pypfopt.exceptions import OptimizationError
 from pyfolio.utils import extract_rets_pos_txn_from_zipline
 
 sns.set_style("whitegrid")
@@ -62,7 +62,7 @@ VOL_SCREEN = 1000
 
 
 class MeanReversion(CustomFactor):
-    """Compute ratio of latest monthly return to 12m average,
+    """Compute ratio of the latest monthly return to 12m average,
     normalized by std dev of monthly returns"""
 
     inputs = [Returns(window_length=MONTH)]
@@ -196,85 +196,52 @@ if __name__ == "__main__":
     end = pd.Timestamp("2017-01-01", tz=UTC)
     capital_base = 1e7
 
-    # # ## Run Algorithm
-    #
-    # # The algorithm executes upon calling the `run_algorithm()` function and returns the backtest performance `DataFrame`.
-    #
-    # # In[14]:
-    #
-    #
-    # backtest = run_algorithm(
-    #     start=start,
-    #     end=end,
-    #     initialize=initialize,
-    #     before_trading_start=before_trading_start,
-    #     bundle="quandl",
-    #     capital_base=capital_base,
-    # )
-    #
-    #
-    # # ## Extract pyfolio Inputs
-    #
-    # # The `extract_rets_pos_txn_from_zipline` utility provided by `pyfolio` extracts the data used to compute performance metrics.
-    #
-    # # In[15]:
-    #
-    #
-    # returns, positions, transactions = extract_rets_pos_txn_from_zipline(backtest)
-    #
-    #
-    # # ## Persist Results for use with `pyfolio`
-    #
-    # # In[16]:
-    #
-    #
-    # with pd.HDFStore("backtests.h5") as store:
-    #     store.put("returns/pf_opt", returns)
-    #     store.put("transactions/pf_opt", transactions)
-    #
-    #
-    # # In[17]:
-    #
-    #
-    # with pd.HDFStore("backtests.h5") as store:
-    #     returns_pf = store["returns/pf_opt"]
-    #     tx_pf = store["transactions/pf_opt"]
-    #     returns_ew = store["returns/equal_weight"]
-    #     tx_ew = store["transactions/equal_weight"]
-    #
-    #
-    # # ## Plot Results
-    #
-    # # In[18]:
-    #
-    #
-    # fig, axes = plt.subplots(nrows=2, figsize=(14, 6))
-    # returns.add(1).cumprod().sub(1).plot(ax=axes[0], title="Cumulative Returns")
-    # transactions.groupby(transactions.dt.dt.day).txn_dollars.sum().cumsum().plot(
-    #     ax=axes[1], title="Cumulative Transactions"
-    # )
-    # sns.despine()
-    # fig.tight_layout()
-    #
-    #
-    # # In[19]:
-    #
-    #
-    # fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(16, 8), sharey="col")
-    # returns_ew.add(1).cumprod().sub(1).plot(ax=axes[0][0], title="Cumulative Returns - Equal Weight")
-    # returns_pf.add(1).cumprod().sub(1).plot(
-    #     ax=axes[1][0], title="Cumulative Returns - Mean-Variance Optimization"
-    # )
-    # tx_ew.groupby(tx_ew.dt.dt.day).txn_dollars.sum().cumsum().plot(
-    #     ax=axes[0][1], title="Cumulative Transactions - Equal Weight"
-    # )
-    # tx_pf.groupby(tx_pf.dt.dt.day).txn_dollars.sum().cumsum().plot(
-    #     ax=axes[1][1], title="Cumulative Transactions - Mean-Variance Optimization"
-    # )
-    # fig.suptitle("Equal Weight vs Mean-Variance Optimization", fontsize=16)
-    # sns.despine()
-    # fig.tight_layout()
-    # fig.subplots_adjust(top=0.9)
-    #
-    #
-    # # In[ ]:
+    # The algorithm executes upon calling the `run_algorithm()` function and returns the backtest performance `DataFrame`.
+    backtest = run_algorithm(
+        start=start,
+        end=end,
+        initialize=initialize,
+        before_trading_start=before_trading_start,
+        bundle="quandl",
+        capital_base=capital_base,
+    )
+
+    # The `extract_rets_pos_txn_from_zipline` utility provided by `pyfolio` extracts the data used to compute
+    # performance metrics.
+    returns, positions, transactions = extract_rets_pos_txn_from_zipline(backtest)
+
+    with pd.HDFStore("../data/backtests.h5") as store:
+        store.put("returns/pf_opt", returns)
+        store.put("transactions/pf_opt", transactions)
+
+    with pd.HDFStore("backtests.h5") as store:
+        returns_pf = store["returns/pf_opt"]
+        tx_pf = store["transactions/pf_opt"]
+        returns_ew = store["returns/equal_weight"]
+        tx_ew = store["transactions/equal_weight"]
+
+    fig, axes = plt.subplots(nrows=2, figsize=(14, 6))
+    returns.add(1).cumprod().sub(1).plot(ax=axes[0], title="Cumulative Returns")
+    transactions.groupby(transactions.dt.dt.day).txn_dollars.sum().cumsum().plot(
+        ax=axes[1], title="Cumulative Transactions"
+    )
+    fig.tight_layout()
+    plt.savefig("images/02-01.png", bboxinches="tight")
+
+    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(16, 8), sharey="col")
+    returns_ew.add(1).cumprod().sub(1).plot(
+        ax=axes[0][0], title="Cumulative Returns - Equal Weight"
+    )
+    returns_pf.add(1).cumprod().sub(1).plot(
+        ax=axes[1][0], title="Cumulative Returns - Mean-Variance Optimization"
+    )
+    tx_ew.groupby(tx_ew.dt.dt.day).txn_dollars.sum().cumsum().plot(
+        ax=axes[0][1], title="Cumulative Transactions - Equal Weight"
+    )
+    tx_pf.groupby(tx_pf.dt.dt.day).txn_dollars.sum().cumsum().plot(
+        ax=axes[1][1], title="Cumulative Transactions - Mean-Variance Optimization"
+    )
+    fig.suptitle("Equal Weight vs Mean-Variance Optimization", fontsize=16)
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.9)
+    plt.savefig("images/02-02.png", bboxinches="tight")
