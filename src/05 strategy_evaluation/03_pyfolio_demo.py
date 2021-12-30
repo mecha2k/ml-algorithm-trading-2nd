@@ -11,6 +11,7 @@
 #    - on Quantopian
 
 import pandas as pd
+import pandas_datareader.data as web
 import seaborn as sns
 import matplotlib.pyplot as plt
 import warnings
@@ -27,6 +28,7 @@ from pyfolio.plotting import (
 )
 from pyfolio.timeseries import perf_stats, extract_interesting_date_ranges
 from pathlib import Path
+from datetime import datetime
 
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
@@ -62,8 +64,17 @@ if __name__ == "__main__":
     sector_map = df.reindex(assets).fillna("Unknown").to_dict()
 
     ### Benchmark
-    with pd.HDFStore(HDF_PATH) as store:
-        benchmark_rets = store["sp500/fred"].close.pct_change()
+    start = datetime(2000, 1, 1)
+    end = datetime(2021, 12, 31)
+    src_data = "../data/sp500_fred.pkl"
+    try:
+        data = pd.read_pickle(src_data)
+        print("data reading from file...")
+    except FileNotFoundError:
+        data = web.DataReader("SP500", "fred", start, end)
+        data.to_pickle(src_data)
+
+    benchmark_rets = data.SP500.pct_change()
     benchmark_rets.name = "S&P500"
     benchmark_rets = benchmark_rets.tz_localize("UTC").filter(returns.index)
     print(benchmark_rets.tail())
