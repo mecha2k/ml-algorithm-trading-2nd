@@ -50,14 +50,14 @@ def compute_factors():
 
 
 def exec_trades(data, assets, target_percent):
-    """Place orders for assets using target portfolio percentage"""
+    # Place orders for assets using target portfolio percentage
     for asset in assets:
         if data.can_trade(asset) and not get_open_orders(asset):
             order_target_percent(asset, target_percent)
 
 
 def rebalance(context, data):
-    """Compute long, short and obsolete holdings; place trade orders"""
+    # Compute long, short and obsolete holdings; place trade orders
     factor_data = context.factor_data
     record(factor_data=factor_data.ranking)
 
@@ -74,8 +74,7 @@ def rebalance(context, data):
 
 
 def initialize(context):
-    """Setup: register pipeline, schedule rebalancing,
-    and set trading params"""
+    # Setup: register pipeline, schedule rebalancing, and set trading params
     attach_pipeline(compute_factors(), "factor_pipeline")
     schedule_function(
         rebalance, date_rules.week_start(), time_rules.market_open(), calendar=calendars.US_EQUITIES
@@ -85,7 +84,7 @@ def initialize(context):
 
 
 def before_trading_start(context, data):
-    """Run factor pipeline"""
+    # Run factor pipeline
     context.factor_data = pipeline_output("factor_pipeline")
 
 
