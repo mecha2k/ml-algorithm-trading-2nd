@@ -64,7 +64,7 @@ for i, p in enumerate([2, 10, 20, 30, 50], 1):
     axes[i].set_title(f"Perplexity: {p:.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png", bboxinches="tight")
 
 ### Convergence with `n_iter`
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
@@ -80,7 +80,7 @@ for i, n in enumerate([250, 500, 1000, 2500, 5000], 1):
     axes[i].set_title(f"Iterations: {n:,.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png", bboxinches="tight")
 
 ### Different Cluster Sizes
 data, label = make_blobs(

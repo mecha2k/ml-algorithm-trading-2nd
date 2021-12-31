@@ -67,7 +67,7 @@ ax = plt.figure().gca(projection="3d")
 ax.scatter(x, y, z, s=25)
 format3D(ax)
 plt.gcf().set_size_inches(14, 6)
-plt.savefig("images/03-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png", bboxinches="tight")
 
 ## Principal Components using scikit-learn
 # The [sklearn.decomposition.PCA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)
@@ -113,7 +113,7 @@ format3D(ax1)
 ax2 = fig.add_subplot(1, 2, 2, projection="3d")
 ax2.scatter(*projected_data.T, s=15, c="k")
 format3D(ax1)
-plt.savefig("images/03-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png", bboxinches="tight")
 ic(pca2.explained_variance_ratio_)
 
 ## Principal Components from Covariance Matrix

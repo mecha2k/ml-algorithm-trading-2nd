@@ -195,7 +195,7 @@ if __name__ == "__main__":
         ax=axes[1], title="Cumulative Transactions"
     )
     fig.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png", bboxinches="tight")
 
     positions.index = positions.index.date
     fig, ax = plt.subplots(figsize=(15, 8))
@@ -205,7 +205,7 @@ if __name__ == "__main__":
         ax=ax,
         center=0,
     )
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/01-02.png", bboxinches="tight")
 
     print(positions.head())
     transactions.info()
