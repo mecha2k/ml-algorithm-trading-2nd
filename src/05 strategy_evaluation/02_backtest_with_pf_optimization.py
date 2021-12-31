@@ -42,10 +42,10 @@ from zipline.finance import commission, slippage
 from zipline.pipeline import Pipeline, CustomFactor
 from zipline.pipeline.factors import Returns, AverageDollarVolume
 
-# from pypfopt.efficient_frontier import EfficientFrontier
-# from pypfopt import risk_models, objective_functions
-# from pypfopt import expected_returns
-# from pypfopt.exceptions import OptimizationError
+from pypfopt.efficient_frontier import EfficientFrontier
+from pypfopt import risk_models, objective_functions
+from pypfopt import expected_returns
+from pypfopt.exceptions import OptimizationError
 from pyfolio.utils import extract_rets_pos_txn_from_zipline
 
 sns.set_style("whitegrid")
@@ -214,7 +214,7 @@ if __name__ == "__main__":
         store.put("returns/pf_opt", returns)
         store.put("transactions/pf_opt", transactions)
 
-    with pd.HDFStore("backtests.h5") as store:
+    with pd.HDFStore("../data/backtests.h5") as store:
         returns_pf = store["returns/pf_opt"]
         tx_pf = store["transactions/pf_opt"]
         returns_ew = store["returns/equal_weight"]

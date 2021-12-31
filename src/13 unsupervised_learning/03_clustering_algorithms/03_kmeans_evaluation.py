@@ -102,7 +102,7 @@ for c, n_clusters in enumerate(range(1, max_clusters + 1), 2):
     inertia_plot_update(inertias, axes[1])
     Z = kmeans.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
     plot_kmeans_result(data, labels, centroids, assignments, n_clusters, Z, axes[c])
-plt.savefig("images/03-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png", bboxinches="tight")
 
 ## Evaluating the Silhouette Score
 # The [silhouette coefficient](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)
@@ -188,7 +188,7 @@ for row, n_cluster in enumerate(range(2, max_clusters + 1), 1):
 
 fig.suptitle(f"KMeans Silhouette Plot with {n_clusters} Clusters", fontsize=14)
 fig.subplots_adjust(top=0.95)
-plt.savefig("images/03-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png", bboxinches="tight")
 
 ## Summary
 # In sum, given the usually unsupervised nature, it is necessary to vary the hyperparameters of the cluster algorithms
