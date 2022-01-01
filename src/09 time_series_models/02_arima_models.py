@@ -53,8 +53,8 @@ if __name__ == "__main__":
     # seasonal differencing => yoy instantanteous returns
     industrial_production_log_diff = industrial_production_log.diff(12).dropna()
 
-    ## Univariate Time Series Models
-    ### Autoregressive (AR) Model
+    # Univariate Time Series Models
+    ## Autoregressive (AR) Model
     # Multiple linear-regression models expressed the variable of interest as a linear combination of predictors or
     # input variables. Univariate time series models relate the value of the time series at the point in time of interest
     # to a linear combination of lagged values of the series and possibly past disturbance terms.
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # building blocks:
     # - Autoregressive (AR) terms consisting of p-lagged values of the time series
     # - Moving average (MA) terms that contain q-lagged disturbances
-
+    #
     # Chapter 8 introduces the ARIMA building blocks, simple autoregressive (AR) and moving average (MA) models, and
     # explains how to combine them in autoregressive moving-average (ARMA) models that may account for series integration
     # as ARIMA models or include exogenous variables as AR(I)MAX models.
@@ -87,7 +87,6 @@ if __name__ == "__main__":
     model1.params.to_frame("SARIMAX").join(model2.params.to_frame("diff"))
 
     ## Finding the optimal ARMA lags
-
     ### Run candidate models
     # We iterate over various (p, q) lag combinations and collect diagnostic statistics to compare the result.
     train_size = 120
@@ -107,10 +106,8 @@ if __name__ == "__main__":
                     model = tsa.ARMA(endog=train_set, order=(p, q)).fit()
                 except LinAlgError:
                     convergence_error += 1
-                    model = None
                 except ValueError:
                     stationarity_error += 1
-                    model = None
 
                 forecast, _, _ = model.forecast(steps=1)
                 y_pred.append(forecast[0])
@@ -179,7 +176,7 @@ if __name__ == "__main__":
     ).fit(start_params=[0, 0, 0, 0, 0, 0, 1])
     print(sarimax_model.summary())
 
-    plot_correlogram(sarimax_model.resid)
+    plot_correlogram(pd.Series(sarimax_model.resid))
     plt.savefig("images/02_03.png", dpi=300, bboxinches="tight")
 
     # We will build a SARIMAX model for monthly data on an industrial production time series for the 1988-2017 period.
@@ -193,69 +190,67 @@ if __name__ == "__main__":
     results = {}
     test_set = industrial_production_log_diff.iloc[train_size:]
 
-    for p1 in range(4):
-        for q1 in range(4):
-            for p2 in range(3):
-                for q2 in range(3):
-                    preds = test_set.copy().to_frame("y_true").assign(y_pred=np.nan)
-                    aic, bic = [], []
-                    if p1 == 0 and q1 == 0:
-                        continue
-                    print(p1, q1, p2, q2)
-                    convergence_error = stationarity_error = 0
-                    y_pred = []
-                    for i, T in enumerate(range(train_size, len(industrial_production_log_diff))):
-                        train_set = industrial_production_log_diff.iloc[T - train_size : T]
-                        try:
-                            with warnings.catch_warnings():
-                                warnings.filterwarnings("ignore")
-                                model = tsa.SARIMAX(
-                                    endog=train_set.values,
-                                    order=(p1, 0, q1),
-                                    seasonal_order=(p2, 0, q2, 12),
-                                ).fit(disp=0)
-                        except LinAlgError:
-                            convergence_error += 1
-                            model = None
-                        except ValueError:
-                            stationarity_error += 1
-                            model = None
-
-                        preds.iloc[i, 1] = model.forecast(steps=1)[0]
-                        aic.append(model.aic)
-                        bic.append(model.bic)
-
-                    preds.dropna(inplace=True)
-                    mse = mean_squared_error(preds.y_true, preds.y_pred)
-                    results[(p1, q1, p2, q2)] = [
-                        np.sqrt(mse),
-                        preds.y_true.sub(preds.y_pred).pow(2).std(),
-                        np.mean(aic),
-                        np.std(aic),
-                        np.mean(bic),
-                        np.std(bic),
-                        convergence_error,
-                        stationarity_error,
-                    ]
-
-    ### Compare model metrics
-    sarimax_results = pd.DataFrame(results).T
-    sarimax_results.columns = [
-        "RMSE",
-        "RMSE_std",
-        "AIC",
-        "AIC_std",
-        "BIC",
-        "BIC_std",
-        "convergence",
-        "stationarity",
-    ]
-    sarimax_results["CV"] = sarimax_results.RMSE_std.div(sarimax_results.RMSE)
-    sarimax_results.index.names = ["p1", "q1", "p2", "q2"]
-    sarimax_results.info()
-
-    with pd.HDFStore("../data/arima.h5") as store:
-        store.put("sarimax", sarimax_results)
+    # for p1 in range(4):
+    #     for q1 in range(4):
+    #         for p2 in range(3):
+    #             for q2 in range(3):
+    #                 preds = test_set.copy().to_frame("y_true").assign(y_pred=np.nan)
+    #                 aic, bic = [], []
+    #                 if p1 == 0 and q1 == 0:
+    #                     continue
+    #                 print(p1, q1, p2, q2)
+    #                 convergence_error = stationarity_error = 0
+    #                 y_pred = []
+    #                 for i, T in enumerate(range(train_size, len(industrial_production_log_diff))):
+    #                     train_set = industrial_production_log_diff.iloc[T - train_size : T]
+    #                     try:
+    #                         with warnings.catch_warnings():
+    #                             warnings.filterwarnings("ignore")
+    #                             model = tsa.SARIMAX(
+    #                                 endog=train_set.values,
+    #                                 order=(p1, 0, q1),
+    #                                 seasonal_order=(p2, 0, q2, 12),
+    #                             ).fit(disp=0)
+    #                     except LinAlgError:
+    #                         convergence_error += 1
+    #                     except ValueError:
+    #                         stationarity_error += 1
+    #
+    #                     preds.iloc[i, 1] = model.forecast(steps=1)[0]
+    #                     aic.append(model.aic)
+    #                     bic.append(model.bic)
+    #
+    #                 preds.dropna(inplace=True)
+    #                 mse = mean_squared_error(preds.y_true, preds.y_pred)
+    #                 results[(p1, q1, p2, q2)] = [
+    #                     np.sqrt(mse),
+    #                     preds.y_true.sub(preds.y_pred).pow(2).std(),
+    #                     np.mean(aic),
+    #                     np.std(aic),
+    #                     np.mean(bic),
+    #                     np.std(bic),
+    #                     convergence_error,
+    #                     stationarity_error,
+    #                 ]
+    #
+    # ### Compare model metrics
+    # sarimax_results = pd.DataFrame(results).T
+    # sarimax_results.columns = [
+    #     "RMSE",
+    #     "RMSE_std",
+    #     "AIC",
+    #     "AIC_std",
+    #     "BIC",
+    #     "BIC_std",
+    #     "convergence",
+    #     "stationarity",
+    # ]
+    # sarimax_results["CV"] = sarimax_results.RMSE_std.div(sarimax_results.RMSE)
+    # sarimax_results.index.names = ["p1", "q1", "p2", "q2"]
+    # sarimax_results.info()
+    #
+    # with pd.HDFStore("../data/arima.h5") as store:
+    #     store.put("sarimax", sarimax_results)
     with pd.HDFStore("../data/arima.h5") as store:
         sarimax_results = store.get("sarimax")
 
