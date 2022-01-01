@@ -13,7 +13,7 @@ sns.set_style("whitegrid")
 
 
 if __name__ == "__main__":
-    data = pd.read_hdf("../data/backtest.h5", "data")
+    data = pd.read_hdf("../data/backtest_08.h5", "data")
     sp500 = web.DataReader("SP500", "fred", "2014", "2018").pct_change()
     ic(data.head())
     ic(sp500.head())
@@ -42,9 +42,8 @@ if __name__ == "__main__":
     axes[1].set_title("Daily Standard Deviation")
     axes[0].yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     axes[1].xaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
-    sns.despine()
     fig.tight_layout()
-    plt.savefig("../images/vec_backtest.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_vec_backtest.png", dpi=300, bboxinches="tight")
 
     res = strategy.join(sp500).dropna()
     ic(res.std())

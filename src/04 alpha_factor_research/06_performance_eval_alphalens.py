@@ -13,7 +13,7 @@
 #
 # The analysis can be conducted using tearsheets or individual computations and plots.
 
-# > This notebook requires the `conda` environment `backtest`. Please see the [installation instructions](../installation/README.md) for running the latest Docker image or alternative ways to set up your environment.
+# > This notebook requires the `conda` environment `backtest`. Please see the [installation instructions](../installation/README_quantopian.md) for running the latest Docker image or alternative ways to set up your environment.
 
 # ## Imports & Settings
 

@@ -34,8 +34,9 @@ def simulate(mu, sigma, num_trials, n_iter):
 
 def deflated_sr():
     n_iter, sigma, output, count = 1e4, 1, [], 0
-    for i, prod_ in enumerate(product(np.linspace(-100, 100, 101), range(10, 1001, 10)), 1):
-        if i % 1000 == 0:
+    mu_trials = list(product(np.linspace(-100, 100, 101), range(100, 1001, 100)))
+    for i, prod_ in enumerate(mu_trials, 1):
+        if i % 100 == 0:
             print(i, end=" ", flush=True)
         mu, num_trials = prod_[0], prod_[1]
         expected_max_sr, mean_max_sr, std_max_sr = simulate(mu, sigma, num_trials, n_iter)
@@ -61,7 +62,7 @@ def deflated_sr():
 
 
 if __name__ == "__main__":
-    # deflated_sr()
+    deflated_sr()
 
     output = pd.read_csv("../data/DSR.csv")
     ic(output.head())

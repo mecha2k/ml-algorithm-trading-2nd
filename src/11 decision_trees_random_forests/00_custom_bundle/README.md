@@ -61,7 +61,7 @@ In Linux or MacOSX, this implies opening the shell and running the following com
 ```bash
 cd $ZIPLINE_ROOT
 ln -s PROJECT_DIR/11 decision_trees_random_forests/00_custom_bundle/stooq_jp_stocks.py
-ln -s PROJECT_DIR/machine-learning-for-trading/11 decision_trees_random_forests/00_custom_bundle/extension.py .
+ln -s PROJECT_DIR/machine-learning-for-trading/11 decision_trees_random_forests/00_custom_bundle/04_01_extension.py .
 mkdir custom_data
 ln -s PROJECT_DIR/11 decision_trees_random_forests/00_custom_bundle/stooq.h5 custom_data/.
 ``` 

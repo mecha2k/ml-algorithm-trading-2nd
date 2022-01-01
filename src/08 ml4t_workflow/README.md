@@ -132,4 +132,4 @@ The open source [Zipline](http://www.zipline.io/index.html) library is an event-
 
  [Chapter 4](../04_alpha_factor_research), we introduced `zipline` to simulate the computation of alpha factors, and in [Chapter 5](../05_strategy_evaluation) we added trades to simulate a simple strategy and measure its performance as well as optimize portfolio holdings using different techniques.
 
-The code for this section is in the subdirectory [ml4t_workflow_with_zipline](04_ml4t_workflow_with_zipline). Please see the [README](04_ml4t_workflow_with_zipline/README.md) for details.
+The code for this section is in the subdirectory [ml4t_workflow_with_zipline](04_ml4t_workflow_with_zipline). Please see the [README](README_quantopian.md) for details.

@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-__author__ = "Stefan Jansen"
-
 import sqlite3
 from pathlib import Path
 from os import getenv
@@ -14,7 +10,7 @@ np.random.seed(42)
 idx = pd.IndexSlice
 
 
-PROJECT_DIR = Path("..", "..")
+PROJECT_DIR = Path("", "")
 data_path = PROJECT_DIR / "data" / "nasdaq100"
 
 ZIPLINE_ROOT = getenv("ZIPLINE_ROOT")

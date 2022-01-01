@@ -1,11 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-__author__ = "Stefan Jansen"
-
-from pathlib import Path
-from os import getenv
 import numpy as np
 import pandas as pd
+from pathlib import Path
+from os import getenv
 
 pd.set_option("display.expand_frame_repr", False)
 np.random.seed(42)

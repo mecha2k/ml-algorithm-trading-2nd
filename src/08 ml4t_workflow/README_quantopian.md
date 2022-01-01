@@ -53,7 +53,7 @@ Zipline currently requires the presence of Treasury curves and the S&P 500 retur
 ## Code Example: How to load your own OHLCV bundles with minute data
 
 
-We will use the NASDAQ100 sample provided by AlgoSeek that we introduced in [Chapter 2](../../02_market_and_fundamental_data/02_algoseek_intraday) to demonstrate how to write your own custom bundle for data at **minute frequency**. See [Chapter 11](../../11%20decision_trees_random_forests/00_custom_bundle) for an example using daily data on Japanese equities. 
+We will use the NASDAQ100 sample provided by AlgoSeek that we introduced in [Chapter 2](../../02_market_and_fundamental_data/02_algoseek_intraday) to demonstrate how to write your own custom bundle for data at **minute frequency**. See [Chapter 11](../11%20decision_trees_random_forests/00_custom_bundle) for an example using daily data on Japanese equities. 
 
 There are four steps:
 
@@ -62,7 +62,7 @@ There are four steps:
 3. Register the bundle in an `extension.py` script that lives in your `ZIPLINE_ROOT/.zipline` directory (per default in your user's home folder), and symlink the data sources.
 4. For AlgoSeek data, we also provide a custom `TradingCalendar` because it includes trading activity outside the standard NYSE market hours.
 
-The directory [custom_bundles](01_custom_bundles) contains the code examples. 
+The directory [custom_bundles](04_ml4t_workflow_with_zipline/01_custom_bundles) contains the code examples. 
 
 ### Getting AlgoSeek data ready to be bundled
 
