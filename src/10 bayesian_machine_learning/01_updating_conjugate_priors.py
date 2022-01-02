@@ -10,6 +10,8 @@ from matplotlib.ticker import FuncFormatter
 
 np.random.seed(42)
 sns.set_style("dark")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
 warnings.filterwarnings("ignore")
 # mpl.rcParams["text.usetex"] = True
 # mpl.rcParams["text.latex.preamble"] = [r"\usepackage{amsmath}"]
@@ -78,7 +80,7 @@ if __name__ == "__main__":
     title = "Bayesian Probabilities: Updating the Posterior"
     fig.suptitle(title, y=1.02, fontsize=14)
     fig.tight_layout()
-    plt.savefig("../images/ch10_bayesian-01.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_01.png", bboxinches="tight")
 
     ## Stock Price Moves
     # We will collect samples of different sizes of binarized daily S&P 500 returns where the positive
@@ -132,4 +134,4 @@ if __name__ == "__main__":
     title = "Bayesian Probabilities: Updating the Posterior"
     fig.suptitle(title, y=1.02, fontsize=14)
     fig.tight_layout()
-    plt.savefig("../images/ch10_bayesian-02.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_02.png", bboxinches="tight")
