@@ -86,7 +86,7 @@ def format_time(t):
 
 ### Set Data paths
 # We will store the download in a `data` subdirectory and convert the result to `hdf` format (discussed in the last section of chapter 2).
-data_path = Path("../data")  # set to e.g. external harddrive
+data_path = Path("../../data")  # set to e.g. external harddrive
 itch_store = str(data_path / "itch.h5")
 order_book_store = data_path / "order_book.h5"
 
@@ -229,7 +229,7 @@ if __name__ == "__main__":
         .str.replace(" ", "_")
     )
     # message_labels.to_csv('message_labels.csv', index=False)
-    message_labels.head()
+    print(message_labels.head())
 
     ### Finalize specification details
     # Each message consists of several fields that are defined by offset, length and type of value. The `struct` module
@@ -326,7 +326,6 @@ if __name__ == "__main__":
     start = time()
     with file_name.open("rb") as data:
         while True:
-
             # determine message size in bytes
             message_size = int.from_bytes(data.read(2), byteorder="big", signed=False)
 
