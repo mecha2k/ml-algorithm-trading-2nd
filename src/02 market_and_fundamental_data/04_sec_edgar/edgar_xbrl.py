@@ -1,20 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Working with filing data from the SEC's EDGAR service
-
-# In[1]:
-
-
-import warnings
-warnings.filterwarnings('ignore')
-
-
-# In[2]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-
+# Working with filing data from the SEC's EDGAR service
 from pathlib import Path
 from datetime import date
 import json
@@ -31,43 +15,28 @@ from pprint import pprint
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import warnings
 
-
-# In[3]:
-
-
-sns.set_style('whitegrid')
-
-
-# In[4]:
-
+sns.set_style("whitegrid")
 
 # store data in this directory since we won't use it in other chapters
-data_path = Path('data') # perhaps set to external harddrive to accomodate large amount of data
+# perhaps set to external harddrive to accomodate large amount of data
+data_path = Path("../../data")
 if not data_path.exists():
     data_path.mkdir()
 
-
-# ## Download FS & Notes Data
-
-# The following code downloads and extracts all historical filings contained in the [Financial Statement and Notes](https://www.sec.gov/dera/data/financial-statement-and-notes-data-set.html) (FSN) datasets from Q1/2014 through Q3/2020. 
-# 
-# > The SEC has moved to a monthly cadence after Q3/2020; feel free to extend the code by creating the correpsonding file names (see linked website) and download those as well.
+## Download FS & Notes Data
+# The following code downloads and extracts all historical filings contained in the [Financial Statement and Notes]
+# (https://www.sec.gov/dera/data/financial-statement-and-notes-data-set.html) (FSN) datasets from Q1/2014 through Q3/2020.
+# > The SEC has moved to a monthly cadence after Q3/2020; feel free to extend the code by creating the correpsonding
+# file names (see linked website) and download those as well.
 
 # **Downloads over 40GB of data!**
+SEC_URL = "https://www.sec.gov/"
+FSN_PATH = "files/dera/data/financial-statement-and-notes-data-sets/"
 
-# In[5]:
-
-
-SEC_URL = 'https://www.sec.gov/'
-FSN_PATH = 'files/dera/data/financial-statement-and-notes-data-sets/'
-
-
-# In[6]:
-
-
-filing_periods = [(d.year, d.quarter) for d in pd.date_range('2014', '2020-09-30', freq='Q')]
-filing_periods
+filing_periods = [(d.year, d.quarter) for d in pd.date_range("2014", "2020-09-30", freq="Q")]
+print(filing_periods)
 
 
 # In[7]:
@@ -75,15 +44,15 @@ filing_periods
 
 for yr, qtr in tqdm(filing_periods):
     # set (and create) directory
-    path = data_path / f'{yr}_{qtr}' / 'source'
+    path = data_path / f"{yr}_{qtr}" / "source"
     if not path.exists():
         path.mkdir(parents=True)
-    
+
     # define url and get file
-    filing = f'{yr}q{qtr}_notes.zip'
+    filing = f"{yr}q{qtr}_notes.zip"
     url = SEC_URL + FSN_PATH + filing
     response = requests.get(url).content
-    
+
     # decompress and save
     try:
         with ZipFile(BytesIO(response)) as zip_file:
@@ -91,11 +60,11 @@ for yr, qtr in tqdm(filing_periods):
                 local_file = path / file
                 if local_file.exists():
                     continue
-                with local_file.open('wb') as output:
+                with local_file.open("wb") as output:
                     for line in zip_file.open(file).readlines():
                         output.write(line)
     except BadZipFile:
-        print(f'\nBad zip file: {yr} {qtr}\n')
+        print(f"\nBad zip file: {yr} {qtr}\n")
         continue
 
 
@@ -103,28 +72,30 @@ for yr, qtr in tqdm(filing_periods):
 
 # The data is fairly large and to enable faster access than the original text files permit, it is better to convert the text files to binary, columnar parquet format (see Section 'Efficient data storage with pandas' in chapter 2 for a performance comparison of various data-storage options compatible with pandas DataFrames):
 
-# > Some fo the `txt.tsv` source files contain a small number of faulty lines; the code below drops those lines but indicates the line numbers where you can find the errors if you would like to investigate further. 
+# > Some fo the `txt.tsv` source files contain a small number of faulty lines; the code below drops those lines but indicates the line numbers where you can find the errors if you would like to investigate further.
 
 # In[21]:
 
 
-for f in tqdm(sorted(list(data_path.glob('**/*.tsv')))):
+for f in tqdm(sorted(list(data_path.glob("**/*.tsv")))):
     # set (and create) directory
-    parquet_path = f.parent.parent / 'parquet'
+    parquet_path = f.parent.parent / "parquet"
     if not parquet_path.exists():
-        parquet_path.mkdir(parents=True)    
+        parquet_path.mkdir(parents=True)
 
     # write content to .parquet
-    file_name = f.stem  + '.parquet'
+    file_name = f.stem + ".parquet"
     if not (parquet_path / file_name).exists():
         try:
-            df = pd.read_csv(f, sep='\t', encoding='latin1', low_memory=False, error_bad_lines=False)
+            df = pd.read_csv(
+                f, sep="\t", encoding="latin1", low_memory=False, error_bad_lines=False
+            )
             df.to_parquet(parquet_path / file_name)
         except Exception as e:
-            print(e, ' | ', f)
+            print(e, " | ", f)
         # optional: uncomment to delete original .tsv
 #         else:
-            # f.unlink
+# f.unlink
 
 
 # ## Metadata json
@@ -132,7 +103,7 @@ for f in tqdm(sorted(list(data_path.glob('**/*.tsv')))):
 # In[22]:
 
 
-file = data_path / '2018_3' / 'source' / '2018q3_notes-metadata.json'
+file = data_path / "2018_3" / "source" / "2018q3_notes-metadata.json"
 with file.open() as f:
     data = json.load(f)
 
@@ -161,7 +132,7 @@ pprint(data)
 # In[23]:
 
 
-sub = pd.read_parquet(data_path / '2018_3' / 'parquet' / 'sub.parquet')
+sub = pd.read_parquet(data_path / "2018_3" / "parquet" / "sub.parquet")
 sub.info()
 
 
@@ -172,10 +143,25 @@ sub.info()
 # In[24]:
 
 
-name = 'APPLE INC'
+name = "APPLE INC"
 apple = sub[sub.name == name].T.dropna().squeeze()
-key_cols = ['name', 'adsh', 'cik', 'name', 'sic', 'countryba', 'stprba',
-            'cityba', 'zipba', 'bas1', 'form', 'period', 'fy', 'fp', 'filed']
+key_cols = [
+    "name",
+    "adsh",
+    "cik",
+    "name",
+    "sic",
+    "countryba",
+    "stprba",
+    "cityba",
+    "zipba",
+    "bas1",
+    "form",
+    "period",
+    "fy",
+    "fp",
+    "filed",
+]
 apple.loc[key_cols]
 
 
@@ -189,9 +175,9 @@ apple.loc[key_cols]
 
 
 aapl_subs = pd.DataFrame()
-for sub in data_path.glob('**/sub.parquet'):
+for sub in data_path.glob("**/sub.parquet"):
     sub = pd.read_parquet(sub)
-    aapl_sub = sub[(sub.cik.astype(int) == apple.cik) & (sub.form.isin(['10-Q', '10-K']))]
+    aapl_sub = sub[(sub.cik.astype(int) == apple.cik) & (sub.form.isin(["10-Q", "10-K"]))]
     aapl_subs = pd.concat([aapl_subs, aapl_sub])
 
 
@@ -213,13 +199,13 @@ aapl_subs.form.value_counts()
 
 
 aapl_nums = pd.DataFrame()
-for num in data_path.glob('**/num.parquet'):
-    num = pd.read_parquet(num).drop('dimh', axis=1)
+for num in data_path.glob("**/num.parquet"):
+    num = pd.read_parquet(num).drop("dimh", axis=1)
     aapl_num = num[num.adsh.isin(aapl_subs.adsh)]
     print(len(aapl_num))
     aapl_nums = pd.concat([aapl_nums, aapl_num])
-aapl_nums.ddate = pd.to_datetime(aapl_nums.ddate, format='%Y%m%d')   
-aapl_nums.to_parquet(data_path / 'aapl_nums.parquet')
+aapl_nums.ddate = pd.to_datetime(aapl_nums.ddate, format="%Y%m%d")
+aapl_nums.to_parquet(data_path / "aapl_nums.parquet")
 
 
 # In total, the nine years of filing history provide us with over 18,000 numerical values for AAPL.
@@ -238,7 +224,7 @@ aapl_nums.info()
 
 
 stock_split = 7
-split_date = pd.to_datetime('20140604')
+split_date = pd.to_datetime("20140604")
 split_date
 
 
@@ -248,46 +234,48 @@ split_date
 
 
 # Filter by tag; keep only values measuring 1 quarter
-eps = aapl_nums[(aapl_nums.tag == 'EarningsPerShareDiluted')
-                & (aapl_nums.qtrs == 1)].drop('tag', axis=1)
+eps = aapl_nums[(aapl_nums.tag == "EarningsPerShareDiluted") & (aapl_nums.qtrs == 1)].drop(
+    "tag", axis=1
+)
 
 # Keep only most recent data point from each filing
-eps = eps.groupby('adsh').apply(lambda x: x.nlargest(n=1, columns=['ddate']))
+eps = eps.groupby("adsh").apply(lambda x: x.nlargest(n=1, columns=["ddate"]))
 
 # Adjust earnings prior to stock split downward
-eps.loc[eps.ddate < split_date,'value'] = eps.loc[eps.ddate < split_date, 'value'].div(7)
-eps = eps[['ddate', 'value']].set_index('ddate').squeeze().sort_index()
-eps = eps.rolling(4,min_periods=4).sum().dropna()
+eps.loc[eps.ddate < split_date, "value"] = eps.loc[eps.ddate < split_date, "value"].div(7)
+eps = eps[["ddate", "value"]].set_index("ddate").squeeze().sort_index()
+eps = eps.rolling(4, min_periods=4).sum().dropna()
 
 
 # In[31]:
 
 
-eps.plot(lw=2, figsize=(14, 6), title='Diluted Earnings per Share')
-plt.xlabel('')
-plt.savefig('diluted eps', dps=300);
+eps.plot(lw=2, figsize=(14, 6), title="Diluted Earnings per Share")
+plt.xlabel("")
+plt.savefig("diluted eps", dps=300)
 
 
 # In[32]:
 
 
-symbol = 'AAPL.US'
+symbol = "AAPL.US"
 
-aapl_stock = (web.
-              DataReader(symbol, 'quandl', start=eps.index.min())
-              .resample('D')
-              .last()
-             .loc['2014':eps.index.max()])
+aapl_stock = (
+    web.DataReader(symbol, "quandl", start=eps.index.min())
+    .resample("D")
+    .last()
+    .loc["2014" : eps.index.max()]
+)
 aapl_stock.info()
 
 
 # In[33]:
 
 
-pe = aapl_stock.AdjClose.to_frame('price').join(eps.to_frame('eps'))
-pe = pe.fillna(method='ffill').dropna()
-pe['P/E Ratio'] = pe.price.div(pe.eps)
-pe['P/E Ratio'].plot(lw=2, figsize=(14, 6), title='TTM P/E Ratio');
+pe = aapl_stock.AdjClose.to_frame("price").join(eps.to_frame("eps"))
+pe = pe.fillna(method="ffill").dropna()
+pe["P/E Ratio"] = pe.price.div(pe.eps)
+pe["P/E Ratio"].plot(lw=2, figsize=(14, 6), title="TTM P/E Ratio")
 
 
 # In[34]:
@@ -299,11 +287,11 @@ pe.info()
 # In[35]:
 
 
-axes = pe.plot(subplots=True, figsize=(16,8), legend=False, lw=2)
-axes[0].set_title('Adj. Close Price')
-axes[1].set_title('Diluted Earnings per Share')
-axes[2].set_title('Trailing P/E Ratio')
-plt.tight_layout();
+axes = pe.plot(subplots=True, figsize=(16, 8), legend=False, lw=2)
+axes[0].set_title("Adj. Close Price")
+axes[1].set_title("Diluted Earnings per Share")
+axes[2].set_title("Trailing P/E Ratio")
+plt.tight_layout()
 
 
 # ## Explore Additional Fields
@@ -323,29 +311,35 @@ aapl_nums.tag.value_counts()
 # In[37]:
 
 
-fields = ['EarningsPerShareDiluted',
-          'PaymentsOfDividendsCommonStock',
-          'WeightedAverageNumberOfDilutedSharesOutstanding',
-          'OperatingIncomeLoss',
-          'NetIncomeLoss',
-          'GrossProfit']
+fields = [
+    "EarningsPerShareDiluted",
+    "PaymentsOfDividendsCommonStock",
+    "WeightedAverageNumberOfDilutedSharesOutstanding",
+    "OperatingIncomeLoss",
+    "NetIncomeLoss",
+    "GrossProfit",
+]
 
 
 # In[38]:
 
 
-dividends = (aapl_nums
-             .loc[aapl_nums.tag == 'PaymentsOfDividendsCommonStock', ['ddate', 'value']]
-             .groupby('ddate')
-             .mean())
-shares = (aapl_nums
-          .loc[aapl_nums.tag == 'WeightedAverageNumberOfDilutedSharesOutstanding', ['ddate', 'value']]
-          .drop_duplicates()
-          .groupby('ddate')
-          .mean())
+dividends = (
+    aapl_nums.loc[aapl_nums.tag == "PaymentsOfDividendsCommonStock", ["ddate", "value"]]
+    .groupby("ddate")
+    .mean()
+)
+shares = (
+    aapl_nums.loc[
+        aapl_nums.tag == "WeightedAverageNumberOfDilutedSharesOutstanding", ["ddate", "value"]
+    ]
+    .drop_duplicates()
+    .groupby("ddate")
+    .mean()
+)
 df = dividends.div(shares).dropna()
-ax = df.plot.bar(figsize=(14, 5), title='Dividends per Share', legend=False)
-ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime('%Y-%m')))
+ax = df.plot.bar(figsize=(14, 5), title="Dividends per Share", legend=False)
+ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime("%Y-%m")))
 
 
 # ## Bonus: Textual Information
@@ -353,7 +347,7 @@ ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime('%Y-%m')))
 # In[39]:
 
 
-txt = pd.read_parquet(data_path / '2016_2' / 'parquet' /  'txt.parquet')
+txt = pd.read_parquet(data_path / "2016_2" / "parquet" / "txt.parquet")
 
 
 # AAPL's adsh is not avaialble in the txt file but you can obtain notes from the financial statements here:
@@ -362,4 +356,3 @@ txt = pd.read_parquet(data_path / '2016_2' / 'parquet' /  'txt.parquet')
 
 
 txt.head()
-
