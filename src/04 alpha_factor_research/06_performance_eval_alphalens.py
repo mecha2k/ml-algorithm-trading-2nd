@@ -40,23 +40,23 @@ performance = pd.read_pickle("../data/single_factor.pkl")
 performance.info()
 
 prices = pd.concat([df.to_frame(d) for d, df in performance.prices.dropna().items()], axis=1).T
-prices.columns = [re.findall(r"\[(.+)\]", str(col))[0] for col in prices.columns]
+prices.columns = [re.findall(r"\[(.+)]", str(col))[0] for col in prices.columns]
 prices.index = prices.index.normalize()
 prices.info()
 
 factor_data = pd.concat(
     [df.to_frame(d) for d, df in performance.factor_data.dropna().items()], axis=1
 ).T
-factor_data.columns = [re.findall(r"\[(.+)\]", str(col))[0] for col in factor_data.columns]
+factor_data.columns = [re.findall(r"\[(.+)]", str(col))[0] for col in factor_data.columns]
 factor_data.index = factor_data.index.normalize()
 factor_data = factor_data.stack()
 factor_data.index.names = ["date", "asset"]
-factor_data.head()
+print(factor_data.head())
 
 with pd.HDFStore("../data/assets.h5") as store:
     sp500 = store["sp500/stooq"].close
 sp500 = sp500.resample("D").ffill().tz_localize("utc").filter(prices.index.get_level_values(0))
-sp500.head()
+print(sp500.head())
 
 # We can create the alphalens input data in the required format using the `get_clean_factor_and_forward_returns`
 # utility function that also returns the signal quartiles and the forward returns for the given holding periods:
