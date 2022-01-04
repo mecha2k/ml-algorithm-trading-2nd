@@ -3,11 +3,15 @@ import seaborn as sns
 import pandas as pd
 import talib
 
+idx = pd.IndexSlice
+sns.set_style("whitegrid")
+sns.set_palette("pastel")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
+
+DATA_STORE = "../data/assets.h5"
 
 if __name__ == "__main__":
-    sns.set_style("whitegrid")
-    DATA_STORE = "../data/assets.h5"
-
     with pd.HDFStore(DATA_STORE) as store:
         data = (
             store["quandl/wiki/prices"]
@@ -35,8 +39,7 @@ if __name__ == "__main__":
     macd_data.AAPL.plot(ax=axes[0])
     macd_data.drop("AAPL", axis=1).plot(ax=axes[1])
     fig.tight_layout()
-    sns.despine()
-    plt.savefig("../images/ch04_BBANDS.png", format="png", dpi=300)
+    plt.savefig("images/02-01.png", bboxinches="tight")
 
     data = pd.DataFrame(
         {"AAPL": data.close, "BB Up": up, "BB Mid": mid, "BB down": low, "RSI": rsi, "MACD": macd}
@@ -50,5 +53,4 @@ if __name__ == "__main__":
     data.MACD.plot(ax=axes[2], lw=1, title="Moving Average Convergence/Divergence", rot=0)
     axes[2].set_xlabel("")
     fig.tight_layout()
-    sns.despine()
-    plt.savefig("../images/ch04_RSI,MACD.png", format="png", dpi=300)
+    plt.savefig("images/02-02.png", bboxinches="tight")
