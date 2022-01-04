@@ -21,7 +21,7 @@ sns.set_style("whitegrid")
 
 # store data in this directory since we won't use it in other chapters
 # perhaps set to external harddrive to accomodate large amount of data
-data_path = Path("../../data")
+data_path = Path("../../data/sec_gov")
 if not data_path.exists():
     data_path.mkdir()
 
@@ -120,7 +120,7 @@ sub.info()
 
 ### Get AAPL submission
 # The submission dataset contains the unique identifiers required to retrieve the filings: the Central Index Key (CIK)
-# and the Accession Number (adsh). The following shows some of the information about Apple's 2018Q1 10-Q filing:
+# and the Accession Number (adsh). The following shows some information about Apple's 2018Q1 10-Q filing:
 
 name = "APPLE INC"
 apple = sub[sub.name == name].T.dropna().squeeze()
@@ -263,5 +263,5 @@ ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime("%Y-%m")))
 ## Bonus: Textual Information
 txt = pd.read_parquet(data_path / "2016_2" / "parquet" / "txt.parquet")
 
-# AAPL's adsh is not avaialble in the txt file but you can obtain notes from the financial statements here:
+# AAPL's adsh is not avaialble in the txt file, but you can obtain notes from the financial statements here:
 print(txt.head())
