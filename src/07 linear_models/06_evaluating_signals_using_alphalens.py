@@ -1,86 +1,179 @@
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import warnings
+#!/usr/bin/env python
+# coding: utf-8
 
+# # Alphalens Analysis
+
+# In[1]:
+
+
+import warnings
+warnings.filterwarnings('ignore')
+
+
+# In[2]:
+
+
+from pathlib import Path
+import pandas as pd
 from alphalens.tears import create_summary_tear_sheet
 from alphalens.utils import get_clean_factor_and_forward_returns
-from icecream import ic
 
-sns.set_style("darkgrid")
-warnings.filterwarnings("ignore")
 
-if __name__ == "__main__":
-    idx = pd.IndexSlice
-    YEAR = 252
+# In[3]:
 
-    with pd.HDFStore("../data/data.h5") as store:
-        lr_predictions = store["lr/predictions"]
-        lasso_predictions = store["lasso/predictions"]
-        lasso_scores = store["lasso/scores"]
-        ridge_predictions = store["ridge/predictions"]
-        ridge_scores = store["ridge/scores"]
 
-    def get_trade_prices(tickers, start, stop):
-        prices = pd.read_hdf("../data/assets.h5", "quandl/wiki/prices").swaplevel().sort_index()
-        prices.index.names = ["symbol", "date"]
-        prices = prices.loc[idx[tickers, str(start) : str(stop)], "adj_open"]
-        return prices.unstack("symbol").sort_index().shift(-1).tz_localize("UTC")
+idx = pd.IndexSlice
 
-    def get_best_alpha(scores):
-        return scores.groupby("alpha").ic.mean().idxmax()
 
-    def get_factor(predictions):
-        return (
-            predictions.unstack("symbol")
-            .dropna(how="all")
-            .stack()
-            .tz_localize("UTC", level="date")
+# ## Load Data
+
+# In[4]:
+
+
+with pd.HDFStore('data.h5') as store:
+    lr_predictions = store['lr/predictions']
+    lasso_predictions = store['lasso/predictions']
+    lasso_scores = store['lasso/scores']
+    ridge_predictions = store['ridge/predictions']
+    ridge_scores = store['ridge/scores']
+
+
+# In[5]:
+
+
+DATA_STORE = Path('..', 'data', 'assets.h5')
+
+
+# In[6]:
+
+
+def get_trade_prices(tickers, start, stop):
+    prices = (pd.read_hdf(DATA_STORE, 'quandl/wiki/prices').swaplevel().sort_index())
+    prices.index.names = ['symbol', 'date']
+    prices = prices.loc[idx[tickers, str(start):str(stop)], 'adj_open']
+    return (prices
+            .unstack('symbol')
             .sort_index()
-        )
+            .shift(-1)
+            .tz_localize('UTC'))
 
-    ## Linear Regression
-    lr_factor = get_factor(lr_predictions.predicted.swaplevel())
-    ic(lr_factor.head())
 
-    tickers = lr_factor.index.get_level_values("symbol").unique()
-    trade_prices = get_trade_prices(tickers, 2014, 2017)
-    trade_prices.info()
+# In[7]:
 
-    lr_factor_data = get_clean_factor_and_forward_returns(
-        factor=lr_factor, prices=trade_prices, quantiles=5, periods=(1, 5, 10, 21)
-    )
-    lr_factor_data.info()
 
-    create_summary_tear_sheet(lr_factor_data)
+def get_best_alpha(scores):
+    return scores.groupby('alpha').ic.mean().idxmax()
 
-    ## Ridge Regression
-    best_ridge_alpha = get_best_alpha(ridge_scores)
-    ridge_predictions = ridge_predictions[ridge_predictions.alpha == best_ridge_alpha].drop(
-        "alpha", axis=1
-    )
-    ridge_factor = get_factor(ridge_predictions.predicted.swaplevel())
-    ic(ridge_factor.head())
 
-    ridge_factor_data = get_clean_factor_and_forward_returns(
-        factor=ridge_factor, prices=trade_prices, quantiles=5, periods=(1, 5, 10, 21)
-    )
-    ridge_factor_data.info()
+# In[8]:
 
-    create_summary_tear_sheet(ridge_factor_data)
 
-    ## Lasso Regression
-    best_lasso_alpha = get_best_alpha(lasso_scores)
-    lasso_predictions = lasso_predictions[lasso_predictions.alpha == best_lasso_alpha].drop(
-        "alpha", axis=1
-    )
-    lasso_factor = get_factor(lasso_predictions.predicted.swaplevel())
-    ic(lasso_factor.head())
+def get_factor(predictions):
+    return (predictions.unstack('symbol')
+            .dropna(how='all')
+            .stack()
+            .tz_localize('UTC', level='date')
+            .sort_index())    
 
-    lasso_factor_data = get_clean_factor_and_forward_returns(
-        factor=lasso_factor, prices=trade_prices, quantiles=5, periods=(1, 5, 10, 21)
-    )
-    lasso_factor_data.info()
 
-    create_summary_tear_sheet(lasso_factor_data)
+# ## Linear Regression
+
+# In[9]:
+
+
+lr_factor = get_factor(lr_predictions.predicted.swaplevel())
+lr_factor.head()
+
+
+# In[10]:
+
+
+tickers = lr_factor.index.get_level_values('symbol').unique()
+
+
+# In[11]:
+
+
+trade_prices = get_trade_prices(tickers, 2014, 2017)
+trade_prices.info()
+
+
+# In[12]:
+
+
+lr_factor_data = get_clean_factor_and_forward_returns(factor=lr_factor,
+                                                      prices=trade_prices,
+                                                      quantiles=5,
+                                                      periods=(1, 5, 10, 21))
+lr_factor_data.info()
+
+
+# In[13]:
+
+
+create_summary_tear_sheet(lr_factor_data);
+
+
+# ## Ridge Regression
+
+# In[14]:
+
+
+best_ridge_alpha = get_best_alpha(ridge_scores)
+ridge_predictions = ridge_predictions[ridge_predictions.alpha==best_ridge_alpha].drop('alpha', axis=1)
+
+
+# In[15]:
+
+
+ridge_factor = get_factor(ridge_predictions.predicted.swaplevel())
+ridge_factor.head()
+
+
+# In[16]:
+
+
+ridge_factor_data = get_clean_factor_and_forward_returns(factor=ridge_factor,
+                                                         prices=trade_prices,
+                                                         quantiles=5,
+                                                         periods=(1, 5, 10, 21))
+ridge_factor_data.info()
+
+
+# In[17]:
+
+
+create_summary_tear_sheet(ridge_factor_data);
+
+
+# ## Lasso Regression
+
+# In[18]:
+
+
+best_lasso_alpha = get_best_alpha(lasso_scores)
+lasso_predictions = lasso_predictions[lasso_predictions.alpha==best_lasso_alpha].drop('alpha', axis=1)
+
+
+# In[19]:
+
+
+lasso_factor = get_factor(lasso_predictions.predicted.swaplevel())
+lasso_factor.head()
+
+
+# In[20]:
+
+
+lasso_factor_data = get_clean_factor_and_forward_returns(factor=lasso_factor,
+                                                      prices=trade_prices,
+                                                      quantiles=5,
+                                                      periods=(1, 5, 10, 21))
+lasso_factor_data.info()
+
+
+# In[21]:
+
+
+create_summary_tear_sheet(lasso_factor_data);
+

@@ -3,7 +3,7 @@
 # We will use the fairly straightforward [k-nearest neighbors]
 # (https://scikit-learn.org/stable/modules/neighbors.html) (KNN) algorithm that allows us to tackle both regression and
 # classification problems.
-# In its default sklearn implementation, it identifies the k nearest data points (based on the Euclidean distance) to
+# In its default sklearn implementation, it identifies the k the nearest data points (based on the Euclidean distance) to
 # make a prediction. It predicts the most frequent class among the neighbors or the average outcome in the classification
 # or regression case, respectively.
 
@@ -47,10 +47,10 @@ from sklearn.metrics import (
 )
 from yellowbrick.model_selection import ValidationCurve, LearningCurve
 from pathlib import Path
+from icecream import ic
 import warnings
 
-### Kings County Housing Data
-# Data from [Kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction)
+### Kings County Housing Data from [Kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction)
 # Download via API:
 # ```kaggle datasets download -d harlfoxem/housesalesprediction```
 
@@ -84,10 +84,10 @@ if __name__ == "__main__":
         ascending=False
     )
     print(mi_reg)
-
     X = X_all.loc[:, mi_reg.iloc[:10].index]
 
     ### Bivariate Scatter Plots
+    fig = plt.figure(figsize=(10, 6))
     g = sns.pairplot(X.assign(price=y), y_vars=["price"], x_vars=X.columns)
     plt.tight_layout()
     plt.savefig("images/01-02.png", bboxinches="tight")
@@ -95,6 +95,7 @@ if __name__ == "__main__":
     ### Explore Correlations
     X.info()
 
+    fig = plt.figure(figsize=(10, 6))
     correl = X.apply(lambda x: spearmanr(x, y)[0])
     correl.sort_values().plot.barh()
     plt.tight_layout()
@@ -156,6 +157,7 @@ if __name__ == "__main__":
     cv_rmse = cv_rmse.stack().reset_index()
     cv_rmse.columns = ["n", "fold", "RMSE"]
 
+    fig = plt.figure(figsize=(10, 6))
     ax = sns.lineplot(x="n", y="RMSE", data=cv_rmse)
     ax.set_title(f"Cross-Validation Results KNN | Best N: {best_n:d} | Best RMSE: {best_rmse:.2f}")
     plt.savefig("images/01-05.png", bboxinches="tight")
@@ -166,7 +168,10 @@ if __name__ == "__main__":
     )
     y_pred = cross_val_predict(pipe, X, y, cv=5)
 
+    fig = plt.figure(figsize=(10, 6))
     ax = sns.scatterplot(x=y, y=y_pred)
+    plt.savefig("images/01-05-1.png", bboxinches="tight")
+
     y_range = list(range(int(y.min() + 1), int(y.max() + 1)))
     pd.Series(y_range, index=y_range).plot(ax=ax, lw=2, c="darkred")
 
@@ -202,10 +207,7 @@ if __name__ == "__main__":
     param_grid = {"knn__n_neighbors": n_neighbors}
 
     estimator = GridSearchCV(
-        estimator=pipe,
-        param_grid=param_grid,
-        cv=n_folds,
-        scoring=rmse_score,  # n_jobs=-1
+        estimator=pipe, param_grid=param_grid, cv=n_folds, scoring=rmse_score, n_jobs=-1
     )
     estimator.fit(X=X, y=y)
     cv_results = estimator.cv_results_
@@ -222,6 +224,7 @@ if __name__ == "__main__":
     mean_rmse = test_scores.groupby("k").RMSE.mean()
     best_k, best_score = mean_rmse.idxmin(), mean_rmse.min()
 
+    fig = plt.figure(figsize=(10, 6))
     sns.pointplot(x="k", y="RMSE", data=test_scores, scale=0.3, join=False, errwidth=2)
     plt.title("Cross Validation Results")
     plt.tight_layout()
@@ -238,11 +241,10 @@ if __name__ == "__main__":
         param_range=n_neighbors,
         cv=5,
         scoring=rmse_score,
-        # n_jobs=-1,
+        n_jobs=-1,
         ax=ax,
     )
     val_curve.fit(X, y)
-    val_curve.poof()
     fig.tight_layout()
     plt.savefig("images/01-08.png", bboxinches="tight")
 
@@ -252,11 +254,10 @@ if __name__ == "__main__":
         train_sizes=np.arange(0.1, 1.01, 0.1),
         scoring=rmse_score,
         cv=5,
-        #                         n_jobs=-1,
+        n_jobs=-1,
         ax=ax,
     )
     l_curve.fit(X, y)
-    l_curve.poof()
     fig.tight_layout()
     plt.savefig("images/01-09.png", bboxinches="tight")
 
@@ -269,11 +270,7 @@ if __name__ == "__main__":
     pipe = Pipeline([("scaler", StandardScaler()), ("knn", KNeighborsClassifier())])
     param_grid = {"knn__n_neighbors": n_neighbors}
     estimator = GridSearchCV(
-        estimator=pipe,
-        param_grid=param_grid,
-        cv=n_folds,
-        scoring=scoring,
-        #                          n_jobs=-1
+        estimator=pipe, param_grid=param_grid, cv=n_folds, scoring=scoring, n_jobs=-1
     )
     estimator.fit(X=X, y=y_binary)
     best_k = estimator.best_params_["knn__n_neighbors"]
@@ -285,11 +282,10 @@ if __name__ == "__main__":
         param_range=n_neighbors,
         cv=n_folds,
         scoring=scoring,
-        #                       n_jobs=-1,
+        n_jobs=-1,
         ax=ax,
     )
     val_curve.fit(X, y_binary)
-    val_curve.poof()
     fig.tight_layout()
     plt.savefig("images/01-10.png", bboxinches="tight")
 
@@ -299,11 +295,10 @@ if __name__ == "__main__":
         train_sizes=np.arange(0.1, 1.01, 0.1),
         scoring=scoring,
         cv=5,
-        #                         n_jobs=-1,
+        n_jobs=-1,
         ax=ax,
     )
     l_curve.fit(X, y_binary)
-    l_curve.poof()
     fig.tight_layout()
     plt.savefig("images/01-11.png", bboxinches="tight")
 
@@ -335,53 +330,30 @@ if __name__ == "__main__":
     # |Log loss, aka logistic loss or cross-entropy loss | log_loss(y_true, y_pred[, eps, …])|
     # |Matthews correlation coefficient (MCC) | matthews_corrcoef(y_true, y_pred[, …])|
 
-    # In[42]:
-
     y_score = cross_val_predict(
         KNeighborsClassifier(best_k), X=X, y=y_binary, cv=5, n_jobs=-1, method="predict_proba"
     )[:, 1]
 
-    # #### Using Predicted Probabilities
-
-    # In[43]:
-
+    #### Using Predicted Probabilities
     pred_scores = dict(y_true=y_binary, y_score=y_score)
 
-    # ##### ROC AUC
-
-    # In[44]:
-
-    roc_auc_score(**pred_scores)
-
-    # In[45]:
+    ##### ROC AUC
+    ic(roc_auc_score(**pred_scores))
 
     cols = ["False Positive Rate", "True Positive Rate", "threshold"]
     roc = pd.DataFrame(dict(zip(cols, roc_curve(**pred_scores))))
+    roc.info()
 
-    # ##### Precision-Recall
-
-    # In[46]:
-
+    ##### Precision-Recall
     precision, recall, ts = precision_recall_curve(y_true=y_binary, probas_pred=y_score)
     pr_curve = pd.DataFrame({"Precision": precision, "Recall": recall})
 
-    # ##### F1 Score - Optimize Threshold
-
-    # In[47]:
-
+    ##### F1 Score - Optimize Threshold
     f1 = pd.Series({t: f1_score(y_true=y_binary, y_pred=y_score > t) for t in ts})
     best_threshold = f1.idxmax()
 
-    # ##### Plot
-
-    # In[48]:
-
-    roc.info()
-
-    # In[49]:
-
+    ##### Plot
     fig, axes = plt.subplots(ncols=3, figsize=(15, 5))
-
     ax = sns.scatterplot(
         x="False Positive Rate", y="True Positive Rate", data=roc, size=5, legend=False, ax=axes[0]
     )
@@ -399,75 +371,51 @@ if __name__ == "__main__":
     axes[2].set_xlabel("Threshold")
     axes[2].axvline(best_threshold, lw=1, ls="--", color="k")
     axes[2].text(s=f"Max F1 @ {best_threshold:.2f}", x=0.5, y=0.95)
-    sns.despine()
     fig.tight_layout()
+    plt.savefig("images/01-12.png", bboxinches="tight")
 
-    # ##### Average Precision
+    ##### Average Precision
+    ic(average_precision_score(y_true=y_binary, y_score=y_score))
 
-    # In[50]:
+    ##### Brier Score
+    ic(brier_score_loss(y_true=y_binary, y_prob=y_score))
 
-    average_precision_score(y_true=y_binary, y_score=y_score)
-
-    # ##### Brier Score
-
-    # In[51]:
-
-    brier_score_loss(y_true=y_binary, y_prob=y_score)
-
-    # #### Use Predictions after thresholding
-
-    # In[52]:
-
+    #### Use Predictions after thresholding
     y_pred = y_score > best_threshold
-
-    # In[53]:
-
     scores = dict(y_true=y_binary, y_pred=y_pred)
 
-    # ##### F-beta Score
+    ##### F-beta Score
+    ic(fbeta_score(**scores, beta=1))
+    ic(classification_report(**scores))
 
-    # In[54]:
+    ##### Confusion Matrix
+    ic(confusion_matrix(**scores))
 
-    fbeta_score(**scores, beta=1)
-
-    # In[55]:
-
-    print(classification_report(**scores))
-
-    # ##### Confusion Matrix
-
-    # In[56]:
-
-    confusion_matrix(**scores)
-
-    # ##### Accuracy
-
-    # In[57]:
-
-    accuracy_score(**scores)
+    ##### Accuracy
+    ic(accuracy_score(**scores))
 
     ##### Zero-One Loss
-    zero_one_loss(**scores)
+    ic(zero_one_loss(**scores))
 
     ##### Hamming Loss
     # Fraction of labels that are incorrectly predicted
-    hamming_loss(**scores)
+    ic(hamming_loss(**scores))
 
     ##### Cohen's Kappa
     # Score that expresses the level of agreement between two annotators on a classification problem.
-    cohen_kappa_score(y1=y_binary, y2=y_pred)
+    ic(cohen_kappa_score(y1=y_binary, y2=y_pred))
 
     ##### Hinge Loss
-    hinge_loss(y_true=y_binary, pred_decision=y_pred)
+    ic(hinge_loss(y_true=y_binary, pred_decision=y_pred))
 
     ##### Jaccard Similarity
-    jaccard_score(**scores)
+    ic(jaccard_score(**scores))
 
     ##### Log Loss / Cross Entropy Loss
-    log_loss(**scores)
+    ic(log_loss(**scores))
 
     ##### Matthews Correlation Coefficient
-    matthews_corrcoef(**scores)
+    ic(matthews_corrcoef(**scores))
 
     ## Multi-Class
     y_multi = pd.qcut(y, q=3, labels=[0, 1, 2])

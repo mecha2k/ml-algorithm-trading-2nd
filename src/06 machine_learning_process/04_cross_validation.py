@@ -1,18 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-__author__ = 'Stefan Jansen'
-
-from sklearn.model_selection import (train_test_split,
-                                     KFold,
-                                     LeaveOneOut,
-                                     LeavePOut,
-                                     ShuffleSplit,
-                                     TimeSeriesSplit)
+from sklearn.model_selection import (
+    train_test_split,
+    KFold,
+    LeaveOneOut,
+    LeavePOut,
+    ShuffleSplit,
+    TimeSeriesSplit,
+)
 
 data = list(range(1, 11))
 print(data)
 
-print(train_test_split(data, train_size=.8))
+print(train_test_split(data, train_size=0.8))
 
 kf = KFold(n_splits=5)
 for train, validate in kf.split(data):
