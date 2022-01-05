@@ -6,7 +6,6 @@ from itertools import product
 
 def get_analytical_max_sr(mu, sigma, num_trials):
     """Compute the expected maximum Sharpe ratio (Analytically)"""
-
     # Euler-Mascheroni constant
     emc = 0.5772156649
 
@@ -35,7 +34,7 @@ def simulate(mu, sigma, num_trials, n_iter):
 
 def main():
     n_iter, sigma, output, count = 1e4, 1, [], 0
-    for i, prod_ in enumerate(product(np.linspace(-100, 100, 101), range(10, 1001, 10)), 1):
+    for i, prod_ in enumerate(product(np.linspace(-100, 100, 101), range(10, 101, 10)), 1):
         if i % 1000 == 0:
             print(i, end=" ", flush=True)
         mu, num_trials = prod_[0], prod_[1]
@@ -58,12 +57,8 @@ def main():
         ],
     )
     print(output.info())
-    output.to_csv("DSR.csv")
+    output.to_csv("../../data/08_DSR.csv")
 
-
-# df = pd.read_csv('DSR.csv')
-# print(df.info())
-# print(df.head())
 
 if __name__ == "__main__":
     main()
