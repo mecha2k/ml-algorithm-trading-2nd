@@ -6,6 +6,7 @@ from io import BytesIO
 from zipfile import ZipFile, BadZipFile
 from tqdm import tqdm
 import requests
+import os
 
 import pandas_datareader.data as web
 import pandas as pd
@@ -16,8 +17,15 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import warnings
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
 
 sns.set_style("whitegrid")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
+warnings.filterwarnings("ignore")
+pd.options.display.float_format = "{:,.2f}".format
 
 # store data in this directory since we won't use it in other chapters
 # perhaps set to external harddrive to accomodate large amount of data
@@ -38,30 +46,30 @@ FSN_PATH = "files/dera/data/financial-statement-and-notes-data-sets/"
 filing_periods = [(d.year, d.quarter) for d in pd.date_range("2014", "2020-09-30", freq="Q")]
 print(filing_periods)
 
-for yr, qtr in tqdm(filing_periods):
-    # set (and create) directory
-    path = data_path / f"{yr}_{qtr}" / "source"
-    if not path.exists():
-        path.mkdir(parents=True)
-
-    # define url and get file
-    filing = f"{yr}q{qtr}_notes.zip"
-    url = SEC_URL + FSN_PATH + filing
-    response = requests.get(url).content
-
-    # decompress and save
-    try:
-        with ZipFile(BytesIO(response)) as zip_file:
-            for file in zip_file.namelist():
-                local_file = path / file
-                if local_file.exists():
-                    continue
-                with local_file.open("wb") as output:
-                    for line in zip_file.open(file).readlines():
-                        output.write(line)
-    except BadZipFile:
-        print(f"\nBad zip file: {yr} {qtr}\n")
-        continue
+# for yr, qtr in tqdm(filing_periods):
+#     # set (and create) directory
+#     path = data_path / f"{yr}_{qtr}" / "source"
+#     if not path.exists():
+#         path.mkdir(parents=True)
+#
+#     # define url and get file
+#     filing = f"{yr}q{qtr}_notes.zip"
+#     url = SEC_URL + FSN_PATH + filing
+#     response = requests.get(url).content
+#
+#     # decompress and save
+#     try:
+#         with ZipFile(BytesIO(response)) as zip_file:
+#             for file in zip_file.namelist():
+#                 local_file = path / file
+#                 if local_file.exists():
+#                     continue
+#                 with local_file.open("wb") as output:
+#                     for line in zip_file.open(file).readlines():
+#                         output.write(line)
+#     except BadZipFile:
+#         print(f"\nBad zip file: {yr} {qtr}\n")
+#         continue
 
 ## Save to parquet
 # The data is fairly large and to enable faster access than the original text files permit, it is better to convert
@@ -70,25 +78,25 @@ for yr, qtr in tqdm(filing_periods):
 # > Some fo the `txt.tsv` source files contain a small number of faulty lines; the code below drops those lines but
 # indicates the line numbers where you can find the errors if you would like to investigate further.
 
-for f in tqdm(sorted(list(data_path.glob("**/*.tsv")))):
-    # set (and create) directory
-    parquet_path = f.parent.parent / "parquet"
-    if not parquet_path.exists():
-        parquet_path.mkdir(parents=True)
-
-    # write content to .parquet
-    file_name = f.stem + ".parquet"
-    if not (parquet_path / file_name).exists():
-        try:
-            df = pd.read_csv(
-                f, sep="\t", encoding="latin1", low_memory=False, error_bad_lines=False
-            )
-            df.to_parquet(parquet_path / file_name)
-        except Exception as e:
-            print(e, " | ", f)
-        # optional: uncomment to delete original .tsv
-    # else:
-    #     f.unlink
+# for f in tqdm(sorted(list(data_path.glob("**/*.tsv")))):
+#     # set (and create) directory
+#     parquet_path = f.parent.parent / "parquet"
+#     if not parquet_path.exists():
+#         parquet_path.mkdir(parents=True)
+#
+#     # write content to .parquet
+#     file_name = f.stem + ".parquet"
+#     if not (parquet_path / file_name).exists():
+#         try:
+#             df = pd.read_csv(
+#                 f, sep="\t", encoding="latin1", low_memory=False, error_bad_lines=False
+#             )
+#             df.to_parquet(parquet_path / file_name)
+#         except Exception as e:
+#             print(e, " | ", f)
+#         # optional: uncomment to delete original .tsv
+#     # else:
+#     #     f.unlink
 
 ## Metadata json
 file = data_path / "2018_3" / "source" / "2018q3_notes-metadata.json"
@@ -147,32 +155,35 @@ print(apple.loc[key_cols])
 # Using the central index key, we can identify all historical quarterly filings available for Apple, and combine
 # this information to obtain 26 Forms 10-Q and nine annual Forms 10-K.
 
-### Get filings
-aapl_subs = pd.DataFrame()
-for sub in data_path.glob("**/sub.parquet"):
-    sub = pd.read_parquet(sub)
-    aapl_sub = sub[(sub.cik.astype(int) == apple.cik) & (sub.form.isin(["10-Q", "10-K"]))]
-    aapl_subs = pd.concat([aapl_subs, aapl_sub])
+# ### Get filings
+# aapl_subs = pd.DataFrame()
+# for sub in data_path.glob("**/sub.parquet"):
+#     sub = pd.read_parquet(sub)
+#     aapl_sub = sub[(sub.cik.astype(int) == apple.cik) & (sub.form.isin(["10-Q", "10-K"]))]
+#     aapl_subs = pd.concat([aapl_subs, aapl_sub])
+#
+# # We find 15 quarterly 10-Q and 4 annual 10-K reports:
+# print(aapl_subs.form.value_counts())
+#
+# ### Get numerical filing data
+# # With the Accession Number for each filing, we can now rely on the taxonomies to select the appropriate XBRL tags
+# # (listed in the TAG file) from the NUM and TXT files to obtain the numerical or textual/footnote data points of interest.
+# # First, let's extract all numerical data available from the 19 Apple filings:
+# aapl_nums = pd.DataFrame()
+# for num in data_path.glob("**/num.parquet"):
+#     num = pd.read_parquet(num).drop("dimh", axis=1)
+#     aapl_num = num[num.adsh.isin(aapl_subs.adsh)]
+#     print(len(aapl_num))
+#     aapl_nums = pd.concat([aapl_nums, aapl_num])
+# aapl_nums.ddate = pd.to_datetime(aapl_nums.ddate, format="%Y%m%d")
 
-
-# We find 15 quarterly 10-Q and 4 annual 10-K reports:
-print(aapl_subs.form.value_counts())
-
-### Get numerical filing data
-# With the Accession Number for each filing, we can now rely on the taxonomies to select the appropriate XBRL tags
-# (listed in the TAG file) from the NUM and TXT files to obtain the numerical or textual/footnote data points of interest.
-# First, let's extract all numerical data available from the 19 Apple filings:
-aapl_nums = pd.DataFrame()
-for num in data_path.glob("**/num.parquet"):
-    num = pd.read_parquet(num).drop("dimh", axis=1)
-    aapl_num = num[num.adsh.isin(aapl_subs.adsh)]
-    print(len(aapl_num))
-    aapl_nums = pd.concat([aapl_nums, aapl_num])
-aapl_nums.ddate = pd.to_datetime(aapl_nums.ddate, format="%Y%m%d")
-aapl_nums.to_parquet(data_path / "aapl_nums.parquet")
-
+# aapl_subs.to_parquet(data_path / "aapl_subs.parquet")
+# aapl_nums.to_parquet(data_path / "aapl_nums.parquet")
 
 # In total, the nine years of filing history provide us with over 18,000 numerical values for AAPL.
+aapl_subs = pd.read_parquet(data_path / "aapl_subs.parquet")
+aapl_nums = pd.read_parquet(data_path / "aapl_nums.parquet")
+aapl_subs.info()
 aapl_nums.info()
 
 
@@ -201,11 +212,13 @@ eps = eps.rolling(4, min_periods=4).sum().dropna()
 
 eps.plot(lw=2, figsize=(14, 6), title="Diluted Earnings per Share")
 plt.xlabel("")
-plt.savefig("diluted eps", dps=300)
+plt.tight_layout()
+plt.savefig("../images/04-diluted eps", dps=300)
 
+api_key = os.getenv("quandl")
 symbol = "AAPL.US"
 aapl_stock = (
-    web.DataReader(symbol, "quandl", start=eps.index.min())
+    web.DataReader(symbol, "quandl", start=eps.index.min(), api_key=api_key)
     .resample("D")
     .last()
     .loc["2014" : eps.index.max()]
@@ -216,6 +229,8 @@ pe = aapl_stock.AdjClose.to_frame("price").join(eps.to_frame("eps"))
 pe = pe.fillna(method="ffill").dropna()
 pe["P/E Ratio"] = pe.price.div(pe.eps)
 pe["P/E Ratio"].plot(lw=2, figsize=(14, 6), title="TTM P/E Ratio")
+plt.tight_layout()
+plt.savefig("../images/04-01", dps=300)
 pe.info()
 
 axes = pe.plot(subplots=True, figsize=(16, 8), legend=False, lw=2)
@@ -223,6 +238,7 @@ axes[0].set_title("Adj. Close Price")
 axes[1].set_title("Diluted Earnings per Share")
 axes[2].set_title("Trailing P/E Ratio")
 plt.tight_layout()
+plt.savefig("../images/04-02", dps=300)
 
 
 ## Explore Additional Fields
@@ -258,6 +274,8 @@ shares = (
 df = dividends.div(shares).dropna()
 ax = df.plot.bar(figsize=(14, 5), title="Dividends per Share", legend=False)
 ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime("%Y-%m")))
+plt.tight_layout()
+plt.savefig("../images/04-03", dps=300)
 
 
 ## Bonus: Textual Information

@@ -22,6 +22,7 @@ from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import roc_auc_score
 
 import theano
+import arviz as az
 import pymc3 as pm
 from pymc3.variational.callbacks import CheckParametersConvergence
 import statsmodels.formula.api as smf
@@ -45,7 +46,7 @@ for p in [data_path, fig_path, model_path]:
 
 
 ## The Data: Recessions & Leading Indicators
-# We will use a small and simple dataset so we can focus on the workflow. We use the Federal Reserve’s Economic Data
+# We will use a small and simple dataset, so we can focus on the workflow. We use the Federal Reserve’s Economic Data
 # (FRED) service (see Chapter 2) to download the US recession dates as defined by the National Bureau of Economic
 # Research. We also source four variables that are commonly used to predict the onset of a recession (Kelley 2019)
 # and available via FRED, namely:
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     # the observed RVs via likelihood distributions and unobserved RVs via prior distributions. PyMC3 includes numerous
     # probability distributions for this purpose.
     # The PyMC3 library makes it very straightforward to perform approximate Bayesian inference for logistic regression.
-    # Logistic regression models the probability that individual i earns a high income based on k features as outlined
+    # Logistic regression models the probability that individual I earn a high income based on k features as outlined
     # in the below figure that uses plate notation:
 
     ### Manual Model Specification
@@ -269,7 +270,7 @@ if __name__ == "__main__":
     # It also runs variational inference via ADVI to find good starting parameters for the sampler. One among several
     # alternatives is to use the MAP estimate.
     # To see convergence looks like, we first draw only 100 samples after tuning the sampler for 1,000 iterations that
-    # will be discarded. The sampling process can be parallelized for multiple chains using the cores argument (except
+    # will be discarded. The sampling process can be parallelized for multiple chains using the cores' argument (except
     # when using GPU).
 
     draws = 100
@@ -398,7 +399,7 @@ if __name__ == "__main__":
     # from high-probability areas of the posterior, and confirming that the model represents the data well.
     # For high-dimensional models with many variables, it becomes cumbersome to inspect numerous at traces. When using
     # NUTS, the energy plot helps to assess problems of convergence. It summarizes how efficiently the random process
-    # explores the posterior. The plot shows the energy and the energy transition matrix that should be well matched
+    # explores the posterior. The plot shows the energy and the energy transition matrix that should be well-matched
     # as in the below example (see references for conceptual detail).
 
     ### Energy Plot
@@ -531,16 +532,12 @@ if __name__ == "__main__":
         )
         return lines
 
-    # In[90]:
-
     with logistic_model:
         nuts_trace = pm.sample(draws=samples, tune=burnin, init="adapt_diag", chains=1)
         trace_df = pm.trace_to_dataframe(nuts_trace)
     trace_df.to_csv("trace.csv", index=False)
     trace_df = pd.read_csv("trace.csv")
     print(trace_df.info())
-
-    # In[98]:
 
     fig = plt.figure(figsize=(8, 8))
     ax1 = fig.add_subplot(221, xlim=var1_range, ylim=(0, samples))
