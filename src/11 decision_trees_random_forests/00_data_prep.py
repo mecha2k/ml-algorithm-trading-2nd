@@ -24,7 +24,7 @@ import warnings
 idx = pd.IndexSlice
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 16
+plt.rcParams["font.size"] = 14
 warnings.filterwarnings("ignore")
 pd.options.display.float_format = "{:,.2f}".format
 
@@ -43,94 +43,94 @@ if __name__ == "__main__":
     START = 1995
     END = 2017
 
-    with pd.HDFStore(DATA_STORE) as store:
-        prices = (
-            store["quandl/wiki/prices"]
-            .loc[idx[str(START) : str(END), :], :]
-            .filter(like="adj_")
-            .dropna()
-            .swaplevel()
-            .rename(columns=lambda x: x.replace("adj_", ""))
-            .join(store["us_equities/stocks"].loc[:, ["sector"]])
-            .dropna()
-        )
-    prices.info(show_counts=True)
-    print(len(prices.index.unique("ticker")))
-
-    ## Remove stocks with less than ten years of data
-    min_obs = 10 * 252
-    nobs = prices.groupby(level="ticker").size()
-    to_drop = nobs[nobs < min_obs].index
-    prices = prices.drop(to_drop, level="ticker")
-    prices.info(show_counts=True)
-    print(len(prices.index.unique("ticker")))
-
-    ## Add some Basic Factors
-    ### Compute the Relative Strength Index
-    prices["rsi"] = prices.groupby(level="ticker").close.apply(RSI)
-
-    sns.distplot(prices.rsi)
-    plt.savefig("images/01-01.png")
-
-    ### Compute Bollinger Bands
-    def compute_bb(close):
-        high, mid, low = BBANDS(np.log1p(close), timeperiod=20)
-        return pd.DataFrame({"bb_high": high, "bb_mid": mid, "bb_low": low}, index=close.index)
-
-    prices = prices.join(prices.groupby(level="ticker").close.apply(compute_bb))
-    prices.info(show_counts=True)
-    prices.filter(like="bb_").describe()
-
-    fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
-    for i, col in enumerate(["bb_low", "bb_mid", "bb_low"]):
-        sns.distplot(prices[col], ax=axes[i])
-        axes[i].set_title(col)
-    fig.tight_layout()
-    plt.savefig("images/01-02.png", bboxinches="tight")
-
-    prices["bb_up"] = prices.bb_high.sub(np.log1p(prices.close))
-    prices["bb_down"] = np.log1p(prices.close).sub(prices.bb_low)
-
-    fig, axes = plt.subplots(ncols=2, figsize=(10, 4))
-    for i, col in enumerate(["bb_down", "bb_up"]):
-        sns.boxenplot(prices[col], ax=axes[i])
-        axes[i].set_title(col)
-    fig.tight_layout()
-    plt.savefig("images/01-03.png", bboxinches="tight")
-
-    ### Compute Average True Range
-    # Helper for indicators with multiple inputs:
-    by_ticker = prices.groupby("ticker", group_keys=False)
-
-    def compute_atr(stock_data):
-        atr = ATR(stock_data.high, stock_data.low, stock_data.close, timeperiod=14)
-        return atr.sub(atr.mean()).div(atr.std())
-
-    prices["atr"] = by_ticker.apply(compute_atr)
-    fig = plt.figure(figsize=(10, 6))
-    sns.distplot(prices.atr)
-    plt.savefig("images/01-04.png", bboxinches="tight")
-
-    prices["natr"] = by_ticker.apply(lambda x: NATR(high=x.high, low=x.low, close=x.close))
-    fig = plt.figure(figsize=(10, 6))
-    sns.distplot(prices.natr[prices.natr < 10])
-    plt.savefig("images/01-05.png", bboxinches="tight")
-
-    ### Compute Moving Average Convergence/Divergence
-    def compute_macd(close):
-        macd = MACD(close)[0]
-        return macd.sub(macd.mean()).div(macd.std())
-
-    prices["macd"] = prices.groupby(level="ticker").close.apply(compute_macd)
-    fig = plt.figure(figsize=(10, 6))
-    sns.distplot(prices.macd)
-    plt.savefig("images/01-06.png", bboxinches="tight")
-
-    ## Compute dollar volume to determine universe
-    prices["dollar_volume"] = prices.loc[:, "close"].mul(prices.loc[:, "volume"], axis=0)
-    prices.dollar_volume /= 1e6
-
-    prices.to_hdf("../data/11_data.h5", "us/equities/prices")
+    # with pd.HDFStore(DATA_STORE) as store:
+    #     prices = (
+    #         store["quandl/wiki/prices"]
+    #         .loc[idx[str(START) : str(END), :], :]
+    #         .filter(like="adj_")
+    #         .dropna()
+    #         .swaplevel()
+    #         .rename(columns=lambda x: x.replace("adj_", ""))
+    #         .join(store["us_equities/stocks"].loc[:, ["sector"]])
+    #         .dropna()
+    #     )
+    # prices.info(show_counts=True)
+    # print(len(prices.index.unique("ticker")))
+    #
+    # ## Remove stocks with less than ten years of data
+    # min_obs = 10 * 252
+    # nobs = prices.groupby(level="ticker").size()
+    # to_drop = nobs[nobs < min_obs].index
+    # prices = prices.drop(to_drop, level="ticker")
+    # prices.info(show_counts=True)
+    # print(len(prices.index.unique("ticker")))
+    #
+    # ## Add some Basic Factors
+    # ### Compute the Relative Strength Index
+    # prices["rsi"] = prices.groupby(level="ticker").close.apply(RSI)
+    #
+    # sns.distplot(prices.rsi)
+    # plt.savefig("images/01-01.png")
+    #
+    # ### Compute Bollinger Bands
+    # def compute_bb(close):
+    #     high, mid, low = BBANDS(np.log1p(close), timeperiod=20)
+    #     return pd.DataFrame({"bb_high": high, "bb_mid": mid, "bb_low": low}, index=close.index)
+    #
+    # prices = prices.join(prices.groupby(level="ticker").close.apply(compute_bb))
+    # prices.info(show_counts=True)
+    # prices.filter(like="bb_").describe()
+    #
+    # fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
+    # for i, col in enumerate(["bb_low", "bb_mid", "bb_low"]):
+    #     sns.distplot(prices[col], ax=axes[i])
+    #     axes[i].set_title(col)
+    # fig.tight_layout()
+    # plt.savefig("images/01-02.png", bboxinches="tight")
+    #
+    # prices["bb_up"] = prices.bb_high.sub(np.log1p(prices.close))
+    # prices["bb_down"] = np.log1p(prices.close).sub(prices.bb_low)
+    #
+    # fig, axes = plt.subplots(ncols=2, figsize=(10, 4))
+    # for i, col in enumerate(["bb_down", "bb_up"]):
+    #     sns.boxenplot(prices[col], ax=axes[i])
+    #     axes[i].set_title(col)
+    # fig.tight_layout()
+    # plt.savefig("images/01-03.png", bboxinches="tight")
+    #
+    # ### Compute Average True Range
+    # # Helper for indicators with multiple inputs:
+    # by_ticker = prices.groupby("ticker", group_keys=False)
+    #
+    # def compute_atr(stock_data):
+    #     atr = ATR(stock_data.high, stock_data.low, stock_data.close, timeperiod=14)
+    #     return atr.sub(atr.mean()).div(atr.std())
+    #
+    # prices["atr"] = by_ticker.apply(compute_atr)
+    # fig = plt.figure(figsize=(10, 6))
+    # sns.distplot(prices.atr)
+    # plt.savefig("images/01-04.png", bboxinches="tight")
+    #
+    # prices["natr"] = by_ticker.apply(lambda x: NATR(high=x.high, low=x.low, close=x.close))
+    # fig = plt.figure(figsize=(10, 6))
+    # sns.distplot(prices.natr[prices.natr < 10])
+    # plt.savefig("images/01-05.png", bboxinches="tight")
+    #
+    # ### Compute Moving Average Convergence/Divergence
+    # def compute_macd(close):
+    #     macd = MACD(close)[0]
+    #     return macd.sub(macd.mean()).div(macd.std())
+    #
+    # prices["macd"] = prices.groupby(level="ticker").close.apply(compute_macd)
+    # fig = plt.figure(figsize=(10, 6))
+    # sns.distplot(prices.macd)
+    # plt.savefig("images/01-06.png", bboxinches="tight")
+    #
+    # ## Compute dollar volume to determine universe
+    # prices["dollar_volume"] = prices.loc[:, "close"].mul(prices.loc[:, "volume"], axis=0)
+    # prices.dollar_volume /= 1e6
+    #
+    # prices.to_hdf("../data/11_data.h5", "us/equities/prices")
 
     prices = pd.read_hdf("../data/11_data.h5", "us/equities/prices")
     prices.info(show_counts=True)
@@ -264,6 +264,7 @@ if __name__ == "__main__":
     print(betas.describe().join(betas.sum(1).describe().to_frame("total")))
 
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
+    fig = plt.figure(figsize=(10, 6))
     sns.clustermap(betas.corr(), annot=True, cmap=cmap, center=0)
     plt.savefig("images/01-08.png", bboxinches="tight")
 
@@ -291,6 +292,7 @@ if __name__ == "__main__":
     data.sort_index().info(show_counts=True)
 
     ## Sector Breakdown
+    fig = plt.figure(figsize=(10, 6))
     ax = (
         data.reset_index()
         .groupby("sector")
@@ -300,7 +302,6 @@ if __name__ == "__main__":
     )
     ax.set_ylabel("")
     ax.set_xlabel("# Tickers")
-    sns.despine()
     plt.tight_layout()
     plt.savefig("images/01-09.png", bboxinches="tight")
 
