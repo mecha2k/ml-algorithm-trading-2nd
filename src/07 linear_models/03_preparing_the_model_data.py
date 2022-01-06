@@ -2,99 +2,126 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import warnings
 
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, spearmanr
 from talib import RSI, BBANDS, MACD, ATR
 from icecream import ic
 
-
-def compute_bb(close):
-    high, mid, low = BBANDS(close, timeperiod=20)
-    return pd.DataFrame({"bb_high": high, "bb_low": low}, index=close.index)
-
-
-def compute_atr(stock_data):
-    df = ATR(stock_data.high, stock_data.low, stock_data.close, timeperiod=14)
-    return df.sub(df.mean()).div(df.std())
+idx = pd.IndexSlice
+sns.set_style("whitegrid")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
+warnings.filterwarnings("ignore")
+pd.options.display.float_format = "{:,.2f}".format
 
 
-def compute_macd(close):
-    macd = MACD(close)[0]
-    return (macd - np.mean(macd)) / np.std(macd)
-
-
+# Preparing Alpha Factors and Features to predict Stock Returns
 if __name__ == "__main__":
-    sns.set_style("whitegrid")
-    plt.tight_layout()
-
     MONTH = 21
     YEAR = 12 * MONTH
 
-    DATA_STORE = "../data/assets.h5"
-    ohlcv = ["adj_open", "adj_close", "adj_low", "adj_high", "adj_volume"]
-    with pd.HDFStore(DATA_STORE) as store:
-        prices = (
-            store["quandl/wiki/prices"]
-            .loc[pd.IndexSlice["2013":"2017", :], ohlcv]
-            .rename(columns=lambda x: x.replace("adj_", ""))
-        )
-        prices = prices.swaplevel().sort_index()
-        prices.volume /= 1e3
-        stocks = store["us_equities/stocks"].loc[:, ["marketcap", "ipoyear", "sector"]]
-        prices.to_csv("../data/prepare_model_prices.csv")
-        stocks.to_csv("../data/prepare_model_stocks.csv")
-    print(prices.head())
-    print(stocks.head())
+    START = "2013-01-01"
+    END = "2017-12-31"
 
-    min_obs = int(0.2 * YEAR)
-    nobs = prices.groupby(level="ticker").size()
-    keep = nobs[nobs > min_obs].index
-    prices = prices.loc[pd.IndexSlice[keep, :], :]
+    # ## Loading Quandl Wiki Stock Prices & Meta Data
+    # ohlcv = ["adj_open", "adj_close", "adj_low", "adj_high", "adj_volume"]
+    # DATA_STORE = "../data/assets.h5"
+    # with pd.HDFStore(DATA_STORE) as store:
+    #     prices = (
+    #         store["quandl/wiki/prices"]
+    #         .loc[idx[START:END, :], ohlcv]
+    #         .rename(columns=lambda x: x.replace("adj_", ""))
+    #         .assign(volume=lambda x: x.volume.div(1000))
+    #         .swaplevel()
+    #         .sort_index()
+    #     )
+    #     stocks = store["us_equities/stocks"].loc[:, ["marketcap", "ipoyear", "sector"]]
+    #
+    # ## Remove stocks with few observations
+    # # want at least 2 years of data
+    # min_obs = 2 * YEAR
+    #
+    # # have this much per ticker
+    # nobs = prices.groupby(level="ticker").size()
+    #
+    # # keep those that exceed the limit
+    # keep = nobs[nobs > min_obs].index
+    # prices = prices.loc[idx[keep, :], :]
+    #
+    # ### Align price and meta data
+    # stocks = stocks[~stocks.index.duplicated() & stocks.sector.notnull()]
+    # stocks.sector = stocks.sector.str.lower().str.replace(" ", "_")
+    # stocks.index.name = "ticker"
+    #
+    # shared = prices.index.get_level_values("ticker").unique().intersection(stocks.index)
+    # stocks = stocks.loc[shared, :]
+    # prices = prices.loc[idx[shared, :], :]
+    # prices.info(show_counts=True)
+    # stocks.info(show_counts=True)
+    # print(stocks.sector.value_counts())
+    #
+    # # Optional: persist intermediate results:
+    # with pd.HDFStore("../data/lin_models.h5") as store:
+    #     store.put("prices", prices)
+    #     store.put("stocks", stocks)
 
-    stocks = stocks[~stocks.index.duplicated() & stocks.sector.notnull()]
-    stocks.sector = stocks.sector.str.lower().str.replace(" ", "_")
-    stocks.index.name = "ticker"
+    with pd.HDFStore("../data/lin_models.h5") as store:
+        prices = store["prices"]
+        stocks = store["stocks"]
+    ic(prices.head())
 
-    shared = prices.index.get_level_values("ticker").unique()
-    shared = shared.intersection(stocks.index)
-    stocks = stocks.loc[shared, :]
-    prices = prices.loc[pd.IndexSlice[shared, :], :]
-
-    prices.info()
-    stocks.info()
-    print(stocks.sector.value_counts())
-
+    ## Compute Rolling Average Dollar Volume
     # compute dollar volume to determine universe
-    prices["dollar_vol"] = prices.loc[:, "close"].mul(prices.loc[:, "volume"], axis=0)
-    prices["dollar_vol"] = (
-        prices.groupby("ticker", group_keys=False, as_index=True)
-        .dollar_vol.rolling(window=21)
-        .mean()
-        .fillna(0)
-        .reset_index(level=0, drop=True)
-    )
-    prices.dollar_vol /= 1e3
-    prices["dollar_vol_rank"] = prices.groupby("date").dollar_vol.rank(ascending=False)
+    prices["dollar_vol"] = prices[["close", "volume"]].prod(axis=1)
+    prices["dollar_vol_1m"] = (prices.dollar_vol.groupby("ticker").rolling(window=21).mean()).values
+    prices.info(show_counts=True)
+
+    prices["dollar_vol_rank"] = prices.groupby("date").dollar_vol_1m.rank(ascending=False)
+    prices.info(show_counts=True)
+
+    ## Add some Basic Factors
+    ### Compute the Relative Strength Index
     prices["rsi"] = prices.groupby(level="ticker").close.apply(RSI)
 
-    ax = sns.histplot(prices.rsi.dropna())
+    ax = sns.distplot(prices.rsi.dropna())
     ax.axvline(30, ls="--", lw=1, c="k")
     ax.axvline(70, ls="--", lw=1, c="k")
     ax.set_title("RSI Distribution with Signal Threshold")
-    plt.savefig("../images/ch07_im04.png", dpi=300, bboxinches="tight")
+    plt.tight_layout()
+    plt.savefig("images/03-01.png", bboxinches="tight")
+
+    ### Compute Bollinger Bands
+    def compute_bb(close):
+        high, mid, low = BBANDS(close, timeperiod=20)
+        return pd.DataFrame({"bb_high": high, "bb_low": low}, index=close.index)
 
     prices = prices.join(prices.groupby(level="ticker").close.apply(compute_bb))
     prices["bb_high"] = prices.bb_high.sub(prices.close).div(prices.bb_high).apply(np.log1p)
     prices["bb_low"] = prices.close.sub(prices.bb_low).div(prices.close).apply(np.log1p)
 
     fig, axes = plt.subplots(ncols=2, figsize=(15, 5))
-    sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
-    sns.histplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
-    plt.savefig("../images/ch07_im05.png", dpi=300, bboxinches="tight")
+    sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
+    sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
+    plt.tight_layout()
+    plt.savefig("images/03-02.png", bboxinches="tight")
+
+    ### Compute Average True Range
+    def compute_atr(stock_data):
+        df = ATR(stock_data.high, stock_data.low, stock_data.close, timeperiod=14)
+        return df.sub(df.mean()).div(df.std())
 
     prices["atr"] = prices.groupby("ticker", group_keys=False).apply(compute_atr)
-    sns.histplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
-    plt.savefig("../images/ch07_im06.png", dpi=300, bboxinches="tight")
+
+    fig = plt.figure(figsize=(10, 6))
+    sns.distplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
+    plt.tight_layout()
+    plt.savefig("images/03-03.png", bboxinches="tight")
+
+    ### Compute Moving Average Convergence/Divergence
+    def compute_macd(close):
+        macd = MACD(close)[0]
+        return (macd - np.mean(macd)) / np.std(macd)
 
     prices["macd"] = prices.groupby("ticker", group_keys=False).close.apply(compute_macd)
     print(
@@ -102,9 +129,13 @@ if __name__ == "__main__":
             percentiles=[0.001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.95, 0.96, 0.97, 0.98, 0.99, 0.999]
         ).apply(lambda x: f"{x:,.1f}")
     )
-    sns.histplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
-    plt.savefig("../images/ch07_im07.png", dpi=300, bboxinches="tight")
 
+    fig = plt.figure(figsize=(10, 6))
+    sns.distplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
+    plt.tight_layout()
+    plt.savefig("images/03-04.png", bboxinches="tight")
+
+    ## Compute Lagged Returns
     lags = [1, 5, 10, 21, 42, 63]
     returns = prices.groupby(level="ticker").close.pct_change()
     percentiles = [0.0001, 0.001, 0.01]
@@ -117,6 +148,8 @@ if __name__ == "__main__":
     )
 
     q = 0.0001
+
+    ### Winsorize outliers
     for lag in lags:
         prices[f"return_{lag}d"] = (
             prices.groupby(level="ticker")
@@ -127,22 +160,28 @@ if __name__ == "__main__":
             .sub(1)
         )
 
+    ### Shift lagged returns
     for t in [1, 2, 3, 4, 5]:
         for lag in [1, 5, 10, 21]:
             prices[f"return_{lag}d_lag{t}"] = prices.groupby(level="ticker")[
                 f"return_{lag}d"
             ].shift(t * lag)
 
+    ## Compute Forward Returns
     for t in [1, 5, 10, 21]:
         prices[f"target_{t}d"] = prices.groupby(level="ticker")[f"return_{t}d"].shift(-t)
 
+    ## Combine Price and Meta Data
     prices = prices.join(stocks[["sector"]])
+
+    ## Create time and sector dummy variables
     prices["year"] = prices.index.get_level_values("date").year
     prices["month"] = prices.index.get_level_values("date").month
-    prices.info(show_counts=True)
+    prices.info(null_counts=True)
     prices.assign(sector=pd.factorize(prices.sector, sort=True)[0]).to_hdf(
         "../data/data.h5", "model_data/no_dummies"
     )
+
     prices = pd.get_dummies(
         prices,
         columns=["year", "month", "sector"],
@@ -150,23 +189,59 @@ if __name__ == "__main__":
         prefix_sep=["_", "_", ""],
         drop_first=True,
     )
-    prices.info(show_counts=True)
+    prices.info(null_counts=True)
+
+    ## Store Model Data
     prices.to_hdf("../data/data.h5", "model_data")
 
+    ## Explore Data
+    ### Plot Factors
     target = "target_5d"
     top100 = prices[prices.dollar_vol_rank < 100].copy()
-    top100.loc[:, "rsi_signal"] = pd.cut(top100.rsi, bins=[0, 30, 70, 100])
-    ic(top100.groupby("rsi_signal")[target].describe().T)
 
-    j = sns.jointplot(x="bb_low", y=target, data=top100)
-    x = top100.bb_low
-    y = top100.target_5d
-    finite = np.isfinite(x) & np.isfinite(y)
-    corr, pval = pearsonr(x[finite], y[finite])
-    plt.savefig("../images/ch07_im08.png", dpi=300, bboxinches="tight")
-    j = sns.jointplot(x="bb_high", y=target, data=top100)
-    plt.savefig("../images/ch07_im09.png", dpi=300, bboxinches="tight")
-    j = sns.jointplot(x="atr", y=target, data=top100)
-    plt.savefig("../images/ch07_im10.png", dpi=300, bboxinches="tight")
-    j = sns.jointplot(x="macd", y=target, data=top100)
-    plt.savefig("../images/ch07_im11.png", dpi=300, bboxinches="tight")
+    ### RSI
+    top100.loc[:, "rsi_signal"] = pd.cut(top100.rsi, bins=[0, 30, 70, 100])
+    print(top100.groupby("rsi_signal")["target_5d"].describe())
+
+    ### Bollinger Bands
+    metric = "bb_low"
+    fig = plt.figure(figsize=(10, 6))
+    j = sns.jointplot(x=metric, y=target, data=top100)
+    plt.tight_layout()
+    plt.savefig("images/03-05.png", bboxinches="tight")
+
+    df = top100[[metric, target]].dropna()
+    r, p = spearmanr(df[metric], df[target])
+    print(f"{r:,.2%} ({p:.2%})")
+
+    metric = "bb_high"
+    fig = plt.figure(figsize=(10, 6))
+    j = sns.jointplot(x=metric, y=target, data=top100)
+    plt.tight_layout()
+    plt.savefig("images/03-06.png", bboxinches="tight")
+
+    df = top100[[metric, target]].dropna()
+    r, p = spearmanr(df[metric], df[target])
+    print(f"{r:,.2%} ({p:.2%})")
+
+    ### ATR
+    metric = "atr"
+    fig = plt.figure(figsize=(10, 6))
+    j = sns.jointplot(x=metric, y=target, data=top100)
+    plt.tight_layout()
+    plt.savefig("images/03-07.png", bboxinches="tight")
+
+    df = top100[[metric, target]].dropna()
+    r, p = spearmanr(df[metric], df[target])
+    print(f"{r:,.2%} ({p:.2%})")
+
+    ### MACD
+    metric = "macd"
+    fig = plt.figure(figsize=(10, 6))
+    j = sns.jointplot(x=metric, y=target, data=top100)
+    plt.tight_layout()
+    plt.savefig("images/03-08.png", bboxinches="tight")
+
+    df = top100[[metric, target]].dropna()
+    r, p = spearmanr(df[metric], df[target])
+    print(f"{r:,.2%} ({p:.2%})")

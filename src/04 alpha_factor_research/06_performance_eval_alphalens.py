@@ -1,9 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # # Separating signal and noise – how to use alphalens
-
-# Quantopian has open sourced the Python library, alphalens, for the performance analysis of predictive stock factors that integrates well with the backtesting library zipline and the portfolio performance and risk analysis library pyfolio that we will explore in the next chapter.
+# Quantopian has open sourced the Python library, alphalens, for the performance analysis of predictive stock factors
+# that integrates well with the backtesting library zipline and the portfolio performance and risk analysis library
+# pyfolio that we will explore in the next chapter.
 # alphalens facilitates the analysis of the predictive power of alpha factors concerning the:
 # - Correlation of the signals with subsequent returns
 # - Profitability of an equal or factor-weighted portfolio based on a (subset of) the signals
@@ -12,13 +10,8 @@
 # - Breakdowns of the preceding by sector
 #
 # The analysis can be conducted using tearsheets or individual computations and plots.
-
-# > This notebook requires the `conda` environment `backtest`. Please see the [installation instructions](../installation/README_quantopian.md) for running the latest Docker image or alternative ways to set up your environment.
-
-# ## Imports & Settings
-
-# In[1]:
-
+# > This notebook requires the `conda` environment `backtest`. Please see the [installation instructions]
+# (../installation/README_quantopian.md) for running the latest Docker image or alternative ways to set up your environment.
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -30,9 +23,11 @@ from alphalens.plotting import *
 from alphalens.tears import *
 
 
-warnings.filterwarnings("ignore")
 sns.set_style("whitegrid")
-
+sns.set_palette("pastel")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
+warnings.filterwarnings("ignore")
 
 ## Creating forward returns and factor quantiles
 # To utilize `alpahalens`, we need to provide signals for a universe of assets like those returned by the ranks
@@ -41,49 +36,46 @@ sns.set_style("whitegrid")
 # `single_factor_zipline.ipynb` in this directory.
 # We will recover the prices from the `single_factor.pickle` file as follows (`factor_data` accordingly):
 
-performance = pd.read_pickle("../data/single_factor.pickle")
+performance = pd.read_pickle("../data/single_factor.pkl")
 performance.info()
 
 prices = pd.concat([df.to_frame(d) for d, df in performance.prices.dropna().items()], axis=1).T
-prices.columns = [re.findall(r"\[(.+)\]", str(col))[0] for col in prices.columns]
+prices.columns = [re.findall(r"\[(.+)]", str(col))[0] for col in prices.columns]
 prices.index = prices.index.normalize()
 prices.info()
 
 factor_data = pd.concat(
     [df.to_frame(d) for d, df in performance.factor_data.dropna().items()], axis=1
 ).T
-factor_data.columns = [re.findall(r"\[(.+)\]", str(col))[0] for col in factor_data.columns]
+factor_data.columns = [re.findall(r"\[(.+)]", str(col))[0] for col in factor_data.columns]
 factor_data.index = factor_data.index.normalize()
 factor_data = factor_data.stack()
 factor_data.index.names = ["date", "asset"]
-factor_data.head()
+print(factor_data.head())
 
 with pd.HDFStore("../data/assets.h5") as store:
     sp500 = store["sp500/stooq"].close
 sp500 = sp500.resample("D").ffill().tz_localize("utc").filter(prices.index.get_level_values(0))
-sp500.head()
+print(sp500.head())
 
 # We can create the alphalens input data in the required format using the `get_clean_factor_and_forward_returns`
 # utility function that also returns the signal quartiles and the forward returns for the given holding periods:
-
 HOLDING_PERIODS = (5, 10, 21, 42)
 QUANTILES = 5
 alphalens_data = get_clean_factor_and_forward_returns(
     factor=factor_data, prices=prices, periods=HOLDING_PERIODS, quantiles=QUANTILES
 )
-alphalens_data.head()
-
+print(alphalens_data.head())
 
 # The `alphalens_data` `DataFrame` contains the returns on an investment in the given asset on a given date for
 # the indicated holding period, as well as the factor value, that is, the asset's `MeanReversion` ranking on
 # that date, and the corresponding quantile value:
-alphalens_data.reset_index().head().to_csv("factor_data.csv", index=False)
+alphalens_data.reset_index().head().to_csv("../data/factor_data.csv", index=False)
 
 # The forward returns and the signal quantiles are the basis for evaluating the predictive power of the signal.
 # Typically, a factor should deliver markedly different returns for distinct quantiles, such as negative returns
 # for the bottom quintile of the factor values and positive returns for the top quantile.
 create_summary_tear_sheet(alphalens_data)
-
 
 ## Predictive performance by factor quantiles -  Returns Analysis
 # As a first step, we would like to visualize the average period return by factor quantile. We can use the built-in
@@ -97,8 +89,7 @@ mean_return_by_q_norm = mean_return_by_q.apply(lambda x: x.add(1).pow(1 / int(x.
 # more negative results than the top quintiles, except for the longest holding period:
 plot_quantile_returns_bar(mean_return_by_q)
 plt.tight_layout()
-sns.despine()
-
+plt.savefig("images/06-01.png", bboxinches="tight")
 
 # The 10D holding period provides slightly better results for the first and fourth quartiles. We would also
 # like to see the performance over time of investments driven by each of the signal quintiles.
@@ -107,15 +98,13 @@ sns.despine()
 # (for details, see docs):
 mean_return_by_q_daily, std_err = mean_return_by_quantile(alphalens_data, by_date=True)
 
-
 ## Cumulative 5D Return
 # The resulting line plot shows that, for most of this three-year period, the top two quintiles significantly
 # outperformed the bottom two quintiles. However, as suggested by the previous plot, signals by the fourth quintile
 # produced a better performance than those by the top quintile
 plot_cumulative_returns_by_quantile(mean_return_by_q_daily["5D"], period="5D", freq=None)
 plt.tight_layout()
-sns.despine()
-
+plt.savefig("images/06-02.png", bboxinches="tight")
 
 ## Return Distribution by Holding Period and Quintile
 # This distributional plot highlights that the range of daily returns is fairly wide and, despite different means,
@@ -124,10 +113,9 @@ sns.despine()
 
 plot_quantile_returns_violin(mean_return_by_q_daily)
 plt.tight_layout()
-sns.despine()
+plt.savefig("images/06-03.png", bboxinches="tight")
 
-
-# ## Information Coefficient
+## Information Coefficient
 # Most of this book is about the design of alpha factors using ML models. ML is about optimizing some predictive
 # objective, and in this section, we will introduce the key metrics used to measure the performance of an alpha
 # factor. We will define alpha as the average return in excess of a benchmark.
@@ -150,9 +138,7 @@ sns.despine()
 ic = factor_information_coefficient(alphalens_data)
 plot_ic_ts(ic[["5D"]])
 plt.tight_layout()
-sns.despine()
-plt.show()
-
+plt.savefig("images/06-04.png", bboxinches="tight")
 
 ### Information Coefficient by Holding Period
 # This time series plot shows extended periods with significantly positive moving-average IC. An IC of 0.05 or
@@ -164,7 +150,7 @@ ic_by_year = ic.resample("A").mean()
 ic_by_year.index = ic_by_year.index.year
 ic_by_year.plot.bar(figsize=(14, 6))
 plt.tight_layout()
-
+plt.savefig("images/06-05.png", bboxinches="tight")
 
 ## Turnover Tear Sheet
 # Factor turnover measures how frequently the assets associated with a given quantile change, that is, how many

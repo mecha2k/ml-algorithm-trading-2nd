@@ -5,8 +5,11 @@ import pandas_datareader.data as web
 from pyfinance.ols import PandasRollingOLS
 from datetime import datetime
 
-sns.set_style("whitegrid")
 idx = pd.IndexSlice
+sns.set_style("whitegrid")
+sns.set_palette("pastel")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
 
 if __name__ == "__main__":
     asset_file = "../data/assets.h5"
@@ -64,7 +67,7 @@ if __name__ == "__main__":
     print(data.describe())
     # cmap = sns.diverging_palette(10, 220, as_cmap=True)
     sns.clustermap(data.corr("spearman"), annot=True, center=0, cmap="Blues")
-    plt.show()
+    plt.savefig("images/01-01.png", bboxinches="tight")
 
     data.index.get_level_values("ticker").nunique()
     factors = ["Mkt-RF", "SMB", "HML", "RMW", "CMA"]
@@ -85,12 +88,11 @@ if __name__ == "__main__":
             window=min(T, x.shape[0] - 1), y=x.return_1m, x=x.drop("return_1m", axis=1)
         ).beta
     )
-
-    betas.describe().join(betas.sum(1).describe().to_frame("total"))
+    print(betas.describe().join(betas.sum(1).describe().to_frame("total")))
 
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
     sns.clustermap(betas.corr(), annot=True, cmap=cmap, center=0)
-    plt.show()
+    plt.savefig("images/01-02.png", bboxinches="tight")
 
     data = data.join(betas.groupby(level="ticker").shift())
     data.info()

@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
+from numpy.random import randint, choice, normal, shuffle
 from scipy.special import factorial
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
-from numpy.random import randint, choice, normal, shuffle
 from collections import defaultdict
+
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def f(x, max_degree=9):
@@ -15,19 +15,23 @@ def f(x, max_degree=9):
     return np.sum(taylor, axis=0)
 
 
-if __name__ == "__main__":
-    sns.set_style("whitegrid")
+sns.set_style("whitegrid")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 16
 
+
+if __name__ == "__main__":
     max_degree = 5
     fig, ax = plt.subplots(figsize=(14, 5))
     x = np.linspace(-5, 5, 1000)
-
     data = pd.DataFrame({"y": f(x, max_degree), "x": x})
     data.plot(x="x", y="y", legend=False, ax=ax)
     pd.Series(np.sin(x), index=x).plot(ax=ax, ls="--", lw=2, label="sine")
     plt.legend()
-    plt.show()
+    plt.tight_layout()
+    plt.savefig("images/03-01.png", bboxinches="tight")
 
+    ## Underfitting vs overfitting: a visual example
     fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
     x = np.linspace(-0.5 * np.pi, 2.5 * np.pi, 1000)
     true_function = pd.Series(np.sin(x), index=x)
@@ -49,12 +53,13 @@ if __name__ == "__main__":
         axes[i].legend()
         axes[i].grid(False)
         axes[i].axis(False)
-    sns.despine()
     fig.tight_layout()
-    plt.show()
+    plt.savefig("images/03-01.png", bboxinches="tight")
 
+    ## Bias-Variance Tradeoff
     datasets = ["Train", "Test"]
     X = {"Train": np.linspace(-1, 1, 1000), "Test": np.linspace(1, 2, 500)}
+
     models = {"Underfit": 1, "Right Fit": 5, "Overfit": 9}
 
     sample, noise = 25, 0.01
@@ -93,7 +98,6 @@ if __name__ == "__main__":
     axes[0].set_title("In- vs Out-of-Sample Errors")
     axes[0].axhline(0, ls="--", lw=1, color="k")
     axes[0].set_ylabel("Symmetric Log Scale")
-    plt.show()
 
     for model in colors.keys():
         (
@@ -101,8 +105,8 @@ if __name__ == "__main__":
                 x="x", y="y", ax=axes[1], s=2, color=colors[model], alpha=0.5, label=model
             )
         )
-    plt.show()
 
+    # pd.Series(y['Train'], index=X['Train']).sort_index().plot(ax=axes[1], title='Out-of-sample Predictions')
     pd.DataFrame(dict(x=X["Train"], y=y["Train_noise"])).plot.scatter(
         x="x", y="y", ax=axes[1], c="k", s=1
     )
@@ -115,11 +119,12 @@ if __name__ == "__main__":
     axes[1].legend()
     axes[0].grid(False)
     axes[1].grid(False)
-    sns.despine()
     fig.tight_layout()
     fig.suptitle("Bias - Variance Tradeoff: Under vs. Overfitting", fontsize=16)
     fig.subplots_adjust(top=0.9)
+    plt.savefig("images/03-02.png", bboxinches="tight")
 
+    ## Learning Curves
     def folds(train, test, nfolds):
         shuffle(train)
         shuffle(test)
@@ -185,6 +190,5 @@ if __name__ == "__main__":
 
     fig.suptitle("Learning Curves", fontsize=16)
     fig.tight_layout()
-    sns.despine()
     fig.subplots_adjust(top=0.92)
-    plt.show()
+    plt.savefig("images/03-03.png", bboxinches="tight")

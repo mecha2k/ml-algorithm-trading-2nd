@@ -229,7 +229,7 @@ if __name__ == "__main__":
         .str.replace(" ", "_")
     )
     # message_labels.to_csv('message_labels.csv', index=False)
-    message_labels.head()
+    print(message_labels.head())
 
     ### Finalize specification details
     # Each message consists of several fields that are defined by offset, length and type of value. The `struct` module
@@ -326,7 +326,6 @@ if __name__ == "__main__":
     start = time()
     with file_name.open("rb") as data:
         while True:
-
             # determine message size in bytes
             message_size = int.from_bytes(data.read(2), byteorder="big", signed=False)
 

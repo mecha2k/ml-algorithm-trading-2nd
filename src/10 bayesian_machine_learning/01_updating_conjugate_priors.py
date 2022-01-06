@@ -11,7 +11,7 @@ from matplotlib.ticker import FuncFormatter
 np.random.seed(42)
 sns.set_style("dark")
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 16
+plt.rcParams["font.size"] = 14
 warnings.filterwarnings("ignore")
 # mpl.rcParams["text.usetex"] = True
 # mpl.rcParams["text.latex.preamble"] = [r"\usepackage{amsmath}"]
