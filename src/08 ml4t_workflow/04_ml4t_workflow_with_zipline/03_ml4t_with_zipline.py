@@ -417,7 +417,7 @@ if __name__ == "__main__":
     plt.suptitle("Model Performance", fontsize=14)
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
-    plt.savefig("images/04-02.png", bboxinches="tight")
+    plt.savefig("../images/04-02.png", bboxinches="tight")
 
     ### Get PyFolio Input
     returns, positions, transactions = pf.utils.extract_rets_pos_txn_from_zipline(results)
