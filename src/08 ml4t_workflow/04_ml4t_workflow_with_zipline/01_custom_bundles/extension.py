@@ -1,7 +1,8 @@
 import sys
 from pathlib import Path
 
-sys.path.append(Path('~', '.zipline').expanduser().as_posix())
+sys.path.append(Path("~", ".zipline").expanduser().as_posix())
+
 from zipline.data.bundles import register
 from algoseek_1min_trades import algoseek_to_bundle
 from datetime import time
@@ -35,24 +36,11 @@ class AlgoSeekCalendar(XNYSExchangeCalendar):
     def tz(self):
         return timezone("US/Eastern")
 
-    open_times = (
-        (None, time(4, 1)),
-    )
+    open_times = ((None, time(4, 1)),)
 
-    close_times = (
-        (None, time(19, 59)),
-    )
+    close_times = ((None, time(19, 59)),)
 
 
-register_calendar(
-        'AlgoSeek',
-        AlgoSeekCalendar()
-)
+register_calendar("AlgoSeek", AlgoSeekCalendar())
 
-register('algoseek',
-         algoseek_to_bundle(),
-         calendar_name='AlgoSeek',
-         minutes_per_day=960
-         )
-
-
+register("algoseek", algoseek_to_bundle(), calendar_name="AlgoSeek", minutes_per_day=960)
