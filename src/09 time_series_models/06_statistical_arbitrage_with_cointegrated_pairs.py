@@ -1,6 +1,5 @@
 # Pairs Selection using Cointegration Tests & Kalman Filter
 from collections import Counter
-
 from time import time
 from pathlib import Path
 
@@ -38,17 +37,13 @@ critical_values = {
 trace0_cv = critical_values[0][0.95]  # critical value for 0 cointegration relationships
 trace1_cv = critical_values[1][0.95]  # critical value for 1 cointegration relationship
 
-
 DATA_PATH = Path("..", "data")
 STORE = DATA_PATH / "assets.h5"
 
-
 ### Get backtest prices
 # Combine OHLCV prices for relevant stock and ETF tickers.
-
-
 def get_backtest_prices():
-    with pd.HDFStore("data.h5") as store:
+    with pd.HDFStore("../data/data09.h5") as store:
         tickers = store["tickers"]
 
     with pd.HDFStore(STORE) as store:
@@ -65,53 +60,25 @@ def get_backtest_prices():
             .loc[idx[tickers.index, "2016":"2019"], :]
         )
     print(prices.info(null_counts=True))
-    prices.to_hdf("backtest.h5", "prices")
-    tickers.to_hdf("backtest.h5", "tickers")
-
-
-# In[58]:
+    prices.to_hdf("../data/09_backtest.h5", "prices")
+    tickers.to_hdf("../data/09_backtest.h5", "tickers")
 
 
 get_backtest_prices()
 
-
-# ### Load Stock Prices
-
-# In[11]:
-
-
-stocks = pd.read_hdf("data.h5", "stocks/close").loc["2015":]
+### Load Stock Prices
+stocks = pd.read_hdf("../data/data09.h5", "stocks/close").loc["2015":]
 stocks.info()
 
-
-# ### Load ETF Data
-
-# In[12]:
-
-
-etfs = pd.read_hdf("data.h5", "etfs/close").loc["2015":]
+### Load ETF Data
+etfs = pd.read_hdf("../data/data09.h5", "etfs/close").loc["2015":]
 etfs.info()
 
+### Load Ticker Dictionary
+names = pd.read_hdf("../data/data09.h5", "tickers").to_dict()
+print(pd.Series(names).count())
 
-# ### Load Ticker Dictionary
-
-# In[13]:
-
-
-names = pd.read_hdf("data.h5", "tickers").to_dict()
-
-
-# In[14]:
-
-
-pd.Series(names).count()
-
-
-# ## Precompute Cointegration
-
-# In[15]:
-
-
+## Precompute Cointegration
 def test_cointegration(etfs, stocks, test_end, lookback=2):
     start = time()
     results = []
@@ -143,20 +110,11 @@ def test_cointegration(etfs, stocks, test_end, lookback=2):
     return results
 
 
-# ### Define Test Periods
-
-# In[16]:
-
-
+### Define Test Periods
 dates = stocks.loc["2016-12":"2019-6"].resample("Q").last().index
-dates
+print(dates)
 
-
-# ### Run Tests
-
-# In[17]:
-
-
+### Run Tests
 test_results = []
 columns = ["test_end", "s1", "s2", "eg1", "eg2", "trace0", "trace1", "eig0", "eig1", "w1", "w2"]
 
@@ -165,80 +123,37 @@ for test_end in dates:
     result = test_cointegration(etfs, stocks, test_end=test_end)
     test_results.append(pd.DataFrame(result, columns=columns))
 
-pd.concat(test_results).to_hdf("backtest.h5", "cointegration_test")
+pd.concat(test_results).to_hdf("../data/09_backtest.h5", "cointegration_test")
 
-
-# #### Reload  Test Results
-
-# In[18]:
-
-
-test_results = pd.read_hdf("backtest.h5", "cointegration_test")
+#### Reload  Test Results
+test_results = pd.read_hdf("../data/09_backtest.h5", "cointegration_test")
 test_results.info()
 
-
-# ## Identify Cointegrated Pairs
-
-# ### Significant Johansen Trace Statistic
-
-# In[19]:
-
-
+## Identify Cointegrated Pairs
+### Significant Johansen Trace Statistic
 test_results["joh_sig"] = (test_results.trace0 > trace0_cv) & (test_results.trace1 > trace1_cv)
+print(test_results.joh_sig.value_counts(normalize=True))
 
-
-# In[20]:
-
-
-test_results.joh_sig.value_counts(normalize=True)
-
-
-# ### Significant Engle Granger Test
-
-# In[21]:
-
-
+### Significant Engle Granger Test
 test_results["eg"] = test_results[["eg1", "eg2"]].min(axis=1)
 test_results["s1_dep"] = test_results.eg1 < test_results.eg2
 test_results["eg_sig"] = test_results.eg < 0.05
+print(test_results.eg_sig.value_counts(normalize=True))
 
-
-# In[22]:
-
-
-test_results.eg_sig.value_counts(normalize=True)
-
-
-# ### Comparison Engle-Granger vs Johansen
-
-# In[23]:
-
-
+### Comparison Engle-Granger vs Johansen
 test_results["coint"] = test_results.eg_sig & test_results.joh_sig
-test_results.coint.value_counts(normalize=True)
-
-
-# In[24]:
-
+print(test_results.coint.value_counts(normalize=True))
 
 test_results = test_results.drop(["eg1", "eg2", "trace0", "trace1", "eig0", "eig1"], axis=1)
 test_results.info()
 
-
-# ### Comparison
-
-# In[25]:
-
-
+### Comparison
 ax = test_results.groupby("test_end").coint.mean().to_frame("# Pairs").plot()
 ax.axhline(0.05, lw=1, ls="--", c="k")
+plt.tight_layout()
+plt.savefig("images/06-01.png", bboxinches="tight")
 
-
-# ### Select Candidate Pairs
-
-# In[26]:
-
-
+### Select Candidate Pairs
 def select_candidate_pairs(data):
     candidates = data[data.joh_sig | data.eg_sig]
     candidates["y"] = candidates.apply(lambda x: x.s1 if x.s1_dep else x.s2, axis=1)
@@ -246,52 +161,25 @@ def select_candidate_pairs(data):
     return candidates.drop(["s1_dep", "s1", "s2"], axis=1)
 
 
-# In[27]:
-
-
 candidates = select_candidate_pairs(test_results)
+candidates.to_hdf("../data/09_backtest.h5", "candidates")
 
-
-# In[28]:
-
-
-candidates.to_hdf("backtest.h5", "candidates")
-
-
-# In[29]:
-
-
-candidates = pd.read_hdf("backtest.h5", "candidates")
+candidates = pd.read_hdf("../data/09_backtest.h5", "candidates")
 candidates.info()
 
+#### Candidates over Time
+fig = plt.figure(figsize=(8, 5))
+candidates.groupby("test_end").size().plot()
+plt.tight_layout()
+plt.savefig("images/06-02.png", bboxinches="tight")
 
-# #### # Candidates over Time
-
-# In[30]:
-
-
-candidates.groupby("test_end").size().plot(figsize=(8, 5))
-
-
-# #### Most Common Pairs
-
-# In[31]:
-
-
-with pd.HDFStore("data.h5") as store:
+#### Most Common Pairs
+with pd.HDFStore("../data/data09.h5") as store:
     print(store.info())
     tickers = store["tickers"]
 
-
-# In[32]:
-
-
-with pd.HDFStore("backtest.h5") as store:
+with pd.HDFStore("../data/09_backtest.h5") as store:
     print(store.info())
-
-
-# In[33]:
-
 
 counter = Counter()
 for s1, s2 in zip(
@@ -303,25 +191,13 @@ for s1, s2 in zip(
     else:
         counter[(s1, s2)] += 1
 
-
-# In[34]:
-
-
 most_common_pairs = pd.DataFrame(counter.most_common(10))
 most_common_pairs = pd.DataFrame(most_common_pairs[0].values.tolist(), columns=["s1", "s2"])
-most_common_pairs
+print(most_common_pairs)
 
-
-# In[59]:
-
-
-with pd.HDFStore("backtest.h5") as store:
+with pd.HDFStore("../data/09_backtest.h5") as store:
     prices = store["prices"].close.unstack("ticker").ffill(limit=5)
     tickers = store["tickers"].to_dict()
-
-
-# In[60]:
-
 
 cnt = pd.Series(counter).reset_index()
 cnt.columns = ["s1", "s2", "n"]
@@ -329,31 +205,19 @@ cnt["name1"] = cnt.s1.map(tickers)
 cnt["name2"] = cnt.s2.map(tickers)
 cnt.nlargest(10, columns="n")
 
-
-# In[63]:
-
-
 fig, axes = plt.subplots(ncols=2, figsize=(14, 5))
 for i in [0, 1]:
     s1, s2 = most_common_pairs.at[i, "s1"], most_common_pairs.at[i, "s2"]
     prices.loc[:, [s1, s2]].rename(columns=tickers).plot(secondary_y=tickers[s2], ax=axes[i], rot=0)
     axes[i].grid(False)
     axes[i].set_xlabel("")
-
-sns.despine()
 fig.tight_layout()
+plt.savefig("images/06-03.png", bboxinches="tight")
 
-
-# ## Get Entry and Exit Dates
-
-# ### Smooth prices using Kalman filter
-
-# In[64]:
-
-
+## Get Entry and Exit Dates
+### Smooth prices using Kalman filter
 def KFSmoother(prices):
     """Estimate rolling mean"""
-
     kf = KalmanFilter(
         transition_matrices=np.eye(1),
         observation_matrices=np.eye(1),
@@ -367,24 +231,13 @@ def KFSmoother(prices):
     return pd.Series(state_means.flatten(), index=prices.index)
 
 
-# In[65]:
-
-
 smoothed_prices = prices.apply(KFSmoother)
 smoothed_prices.to_hdf("tmp.h5", "smoothed")
-
-
-# In[66]:
-
 
 smoothed_prices = pd.read_hdf("tmp.h5", "smoothed")
 
 
-# ### Compute rolling hedge ratio using Kalman Filter
-
-# In[67]:
-
-
+### Compute rolling hedge ratio using Kalman Filter
 def KFHedgeRatio(x, y):
     """Estimate Hedge Ratio"""
     delta = 1e-3
@@ -406,11 +259,7 @@ def KFHedgeRatio(x, y):
     return -state_means
 
 
-# ### Estimate mean reversion half life
-
-# In[68]:
-
-
+### Estimate mean reversion half life
 def estimate_half_life(spread):
     X = spread.shift().iloc[1:].to_frame().assign(const=1)
     y = spread.diff().iloc[1:]
@@ -419,11 +268,7 @@ def estimate_half_life(spread):
     return max(halflife, 1)
 
 
-# ### Compute Spread & Bollinger Bands
-
-# In[69]:
-
-
+### Compute Spread & Bollinger Bands
 def get_spread(candidates, prices):
     pairs = []
     half_lives = []
@@ -460,68 +305,26 @@ def get_spread(candidates, prices):
     return pairs, half_lives
 
 
-# In[70]:
-
-
-candidates = pd.read_hdf("backtest.h5", "candidates")
+candidates = pd.read_hdf("../data/09_backtest.h5", "candidates")
 candidates.info()
-
-
-# In[71]:
-
 
 pairs, half_lives = get_spread(candidates, smoothed_prices)
 
-
-# ### Collect Results
-
-# #### Half Lives
-
-# In[72]:
-
-
+### Collect Results
+#### Half Lives
 hl = pd.DataFrame(half_lives, columns=["test_end", "s1", "s2", "half_life"])
 hl.info()
+print(hl.half_life.describe())
+hl.to_hdf("../data/09_backtest.h5", "half_lives")
 
-
-# In[73]:
-
-
-hl.half_life.describe()
-
-
-# In[74]:
-
-
-hl.to_hdf("backtest.h5", "half_lives")
-
-
-# #### Pair Data
-
-# In[75]:
-
-
+#### Pair Data
 pair_data = pd.concat(pairs)
-pair_data.info(null_counts=True)
+pair_data.info(show_counts=True)
+pair_data.to_hdf("../data/09_backtest.h5", "pair_data")
 
+pair_data = pd.read_hdf("../data/09_backtest.h5", "pair_data")
 
-# In[76]:
-
-
-pair_data.to_hdf("backtest.h5", "pair_data")
-
-
-# In[77]:
-
-
-pair_data = pd.read_hdf("backtest.h5", "pair_data")
-
-
-# ### Identify Long & Short Entry and Exit Dates
-
-# In[78]:
-
-
+### Identify Long & Short Entry and Exit Dates
 def get_trades(data):
     pair_trades = []
     for i, ((period, s1, s2), pair) in enumerate(data.groupby(["period", "s1", "s2"]), 1):
@@ -534,13 +337,13 @@ def get_trades(data):
         entry = pair.z_score.abs() > 2
         entry = (entry.shift() != entry).mul(np.sign(pair.z_score)).fillna(0).astype(int).sub(2)
 
-        exit = (
+        exit_t = (
             np.sign(pair.z_score.shift().fillna(method="bfill")) != np.sign(pair.z_score)
         ).astype(int) - 1
 
         trades = (
             entry[entry != -2]
-            .append(exit[exit == 0])
+            .append(exit_t[exit_t == 0])
             .to_frame("side")
             .sort_values(["date", "side"])
             .squeeze()
@@ -580,36 +383,16 @@ def get_trades(data):
     return pair_trades
 
 
-# In[79]:
-
-
 pair_trades = get_trades(pair_data)
-
-
-# In[80]:
-
-
 pair_trade_data = pd.concat(pair_trades)
 pair_trade_data.info()
-
-
-# In[81]:
-
-
-pair_trade_data.head()
-
-
-# In[84]:
-
+print(pair_trade_data.head())
 
 trades = pair_trade_data["side"].copy()
 trades.loc[trades != 0] = 1
 trades.loc[trades == 0] = -1
-trades.sort_index().cumsum().plot(figsize=(14, 4))
-sns.despine()
+fig = plt.figure(figsize=(14, 4))
+trades.sort_index().cumsum().plot()
+plt.savefig("images/06-03.png", bboxinches="tight")
 
-
-# In[83]:
-
-
-pair_trade_data.to_hdf("backtest.h5", "pair_trades")
+pair_trade_data.to_hdf("../data/09_backtest.h5", "pair_trades")
