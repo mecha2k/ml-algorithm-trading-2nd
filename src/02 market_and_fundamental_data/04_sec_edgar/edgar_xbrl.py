@@ -213,7 +213,7 @@ eps = eps.rolling(4, min_periods=4).sum().dropna()
 eps.plot(lw=2, figsize=(14, 6), title="Diluted Earnings per Share")
 plt.xlabel("")
 plt.tight_layout()
-plt.savefig("../images/04-diluted eps", dps=300)
+plt.savefig("images/04-diluted eps", dps=300)
 
 api_key = os.getenv("quandl")
 symbol = "AAPL.US"
@@ -230,7 +230,7 @@ pe = pe.fillna(method="ffill").dropna()
 pe["P/E Ratio"] = pe.price.div(pe.eps)
 pe["P/E Ratio"].plot(lw=2, figsize=(14, 6), title="TTM P/E Ratio")
 plt.tight_layout()
-plt.savefig("../images/04-01", dps=300)
+plt.savefig("images/04-01", dps=300)
 pe.info()
 
 axes = pe.plot(subplots=True, figsize=(16, 8), legend=False, lw=2)
@@ -238,7 +238,7 @@ axes[0].set_title("Adj. Close Price")
 axes[1].set_title("Diluted Earnings per Share")
 axes[2].set_title("Trailing P/E Ratio")
 plt.tight_layout()
-plt.savefig("../images/04-02", dps=300)
+plt.savefig("images/04-02", dps=300)
 
 
 ## Explore Additional Fields
@@ -275,7 +275,7 @@ df = dividends.div(shares).dropna()
 ax = df.plot.bar(figsize=(14, 5), title="Dividends per Share", legend=False)
 ax.xaxis.set_major_formatter(mticker.FixedFormatter(df.index.strftime("%Y-%m")))
 plt.tight_layout()
-plt.savefig("../images/04-03", dps=300)
+plt.savefig("images/04-03", dps=300)
 
 
 ## Bonus: Textual Information
