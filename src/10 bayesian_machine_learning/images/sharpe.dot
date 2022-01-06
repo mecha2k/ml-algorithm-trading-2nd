@@ -1,0 +1,26 @@
+digraph {
+	std [label="std
+~
+Uniform"]
+	nu_minus_two [label="nu_minus_two
+~
+Exponential"]
+	sharpe [label="sharpe
+~
+Deterministic" shape=box]
+	mean [label="mean
+~
+Normal"]
+	subgraph "cluster1,590" {
+		returns [label="returns
+~
+StudentT" style=filled]
+		label="1,590" labeljust=r labelloc=b style=rounded
+	}
+	std -> returns
+	nu_minus_two -> returns
+	mean -> returns
+	std -> sharpe
+	nu_minus_two -> sharpe
+	mean -> sharpe
+}

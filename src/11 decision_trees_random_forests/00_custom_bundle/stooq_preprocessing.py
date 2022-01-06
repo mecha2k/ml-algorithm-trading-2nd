@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-__author__ = "Stefan Jansen"
-
 from pathlib import Path
 import warnings
 import pandas as pd

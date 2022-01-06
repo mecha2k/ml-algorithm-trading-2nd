@@ -7,6 +7,8 @@
 # return relative to its out-of-sample return (see the notebook bayesian_sharpe_ratio for details). The Bayesian Sharpe
 # ratio is also part of pyfolio’s Bayesian tearsheet.
 
+import theano
+
 import numpy as np
 import pandas as pd
 import pandas_datareader.data as web
@@ -52,51 +54,52 @@ if __name__ == "__main__":
         pm.Deterministic("sharpe", sharpe)
     print(sharpe_model.model)
 
-    # ### Visualize Model
-    # pm.model_to_graphviz(model=sharpe_model)
-    #
-    # # optionally: persist graph
-    # graph = pm.model_to_graphviz(model=sharpe_model)
-    # graph.save("images/sharpe.dot")
-    #
-    # ### Approximate Inference: Hamiltonian Monte Carlo with the No U-Turn Sampler
-    # tune = 2000
-    # draws = 200
-    # with sharpe_model:
-    #     trace = pm.sample(tune=tune, draws=draws, chains=4, cores=1)
-    #
-    # ### Inspect Trace
-    # trace_df = pm.trace_to_dataframe(trace).assign(chain=lambda x: x.index // draws)
-    # trace_df.info()
-    # traceplot(data=trace)
+    ### Visualize Model
+    pm.model_to_graphviz(model=sharpe_model)
 
-    # ### Continue Sampling
-    # draws = 25000
-    # with sharpe_model:
-    #     trace = pm.sample(draws=draws, trace=trace, chains=4, cores=1)
-    # print(pm.trace_to_dataframe(trace).shape)
-    #
-    # df = (
-    #     pm.trace_to_dataframe(trace)
-    #     .iloc[400:]
-    #     .reset_index(drop=True)
-    #     .assign(chain=lambda x: x.index // draws)
-    # )
-    # trace_df = pd.concat([trace_df.assign(run=1), df.assign(run=2)])
-    # trace_df.info()
-    #
-    # trace_df_long = pd.melt(trace_df, id_vars=["run", "chain"])
-    # trace_df_long.info()
-    #
-    # g = sns.FacetGrid(
-    #     trace_df_long, col="variable", row="run", hue="chain", sharex="col", sharey=False
-    # )
-    # g = g.map(sns.distplot, "value", hist=False, rug=False)
-    #
-    # traceplot(data=trace)
-    # plot_posterior(data=trace)
-    # forestplot(data=trace)
-    #
+    # optionally: persist graph
+    graph = pm.model_to_graphviz(model=sharpe_model)
+    graph.save("images/sharpe.dot")
+
+    ### Approximate Inference: Hamiltonian Monte Carlo with the No U-Turn Sampler
+    tune = 2000
+    draws = 200
+    with sharpe_model:
+        trace = pm.sample(tune=tune, draws=draws, chains=4, cores=1)
+
+    ### Inspect Trace
+    trace_df = pm.trace_to_dataframe(trace).assign(chain=lambda x: x.index // draws)
+    trace_df.info()
+    traceplot(data=trace)
+    plt.savefig("images/03_01.png", bboxinches="tight")
+
+    ### Continue Sampling
+    draws = 25000
+    with sharpe_model:
+        trace = pm.sample(draws=draws, trace=trace, chains=4, cores=1)
+    print(pm.trace_to_dataframe(trace).shape)
+
+    df = (
+        pm.trace_to_dataframe(trace)
+        .iloc[400:]
+        .reset_index(drop=True)
+        .assign(chain=lambda x: x.index // draws)
+    )
+    trace_df = pd.concat([trace_df.assign(run=1), df.assign(run=2)])
+    trace_df.info()
+
+    trace_df_long = pd.melt(trace_df, id_vars=["run", "chain"])
+    trace_df_long.info()
+
+    g = sns.FacetGrid(
+        trace_df_long, col="variable", row="run", hue="chain", sharex="col", sharey=False
+    )
+    g = g.map(sns.distplot, "value", hist=False, rug=False)
+
+    traceplot(data=trace)
+    plot_posterior(data=trace)
+    forestplot(data=trace)
+
     # ## Comparing Group Means: Bayesian Estimation Supersedes the T-Test (BEST)
     # # This model runs a Bayesian hypothesis test to compare two return distributions. The returns could be for two
     # # different assets, or the in-sampls and out-of-sample returns for a target strategy. Returns are assumed to be
