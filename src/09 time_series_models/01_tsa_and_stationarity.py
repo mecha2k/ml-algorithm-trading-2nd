@@ -200,7 +200,7 @@ if __name__ == "__main__":
     # A correlogram is simply a plot of the ACF or PACF for sequential lags, k=0,1,...,n. It allows us to inspect the
     # correlation structure across lags at one glance. The main usage of correlograms is to detect any autocorrelation
     # after the removal of the effects of deterministic trend or seasonality. Both the ACF and the PACF are key
-    # diagnostic tools for the design of linear time series models and we will review examples of ACF and PACF plots
+    # diagnostic tools for the design of linear time series models, and we will review examples of ACF and PACF plots
     # in the following section on time series transformations.
 
     ### NASDAQ (log, diff)
