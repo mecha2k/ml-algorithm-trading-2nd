@@ -317,9 +317,8 @@ if __name__ == "__main__":
     print(mi_reg.nlargest(10))
 
     mi = mutual_info_classif(X=X, y=(data.target > 0).astype(int))
-
     mi_class = pd.Series(mi, index=X.columns)
-    mi_class.nlargest(10)
+    print(mi_reg.nlargest(10))
 
     mi = mi_reg.to_frame("Regression").join(mi_class.to_frame("Classification"))
     mi.index = [" ".join(c.upper().split("_")) for c in mi.index]
