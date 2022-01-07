@@ -31,7 +31,7 @@ pd.options.display.float_format = "{:,.2f}".format
 
 if __name__ == "__main__":
     ## Load US equity OHLCV data
-    # The `assets.h5` store can be generated using the the notebook [create_datasets](../../data/create_datasets.ipynb)
+    # The `assets.h5` store can be generated using the notebook [create_datasets](../../data/create_datasets.ipynb)
     # in the [data](../../data) directory in the root directory of this repo for instruction to download the following
     # dataset. We load the Quandl stock price datasets covering the US equity markets 2000-18 using `pd.IndexSlice` to
     # perform a slice operation on the `pd.MultiIndex`, select the adjusted close price and unpivot the column to

@@ -41,7 +41,7 @@ np.random.seed(42)
 idx = pd.IndexSlice
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 16
+plt.rcParams["font.size"] = 14
 warnings.filterwarnings("ignore")
 pd.options.display.float_format = "{:,.2f}".format
 

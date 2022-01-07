@@ -89,39 +89,33 @@ with pd.HDFStore(test_store) as store:
     df = store.get("file")
 test_store.unlink()
 
-# results["HDF Select"] = {
-#     "read": np.mean(read.all_runs),
-#     "write": np.mean(write.all_runs),
-#     "size": size,
-# }
-#
-# test_csv = Path("../../data/storage/test.csv")
-#
-# df.to_csv(test_csv)
-# print(test_csv.stat().st_size)
+test_csv = Path("../../data/storage/test.csv")
 
-# results["CSV"] = {"read": np.mean(read.all_runs), "write": np.mean(write.all_runs), "size": size}
-# pd.DataFrame(results).assign(Data=data_type).to_csv(f"{data_type}.csv")
+df.to_csv(test_csv)
+print(test_csv.stat().st_size)
 
-# ## Display Results
-# # Please run the notebook twice as described above under `Usage` to create the two `csv` files with results for
-# # different test data.
-# df = (
-#     pd.read_csv("Numeric.csv", index_col=0)
-#     .append(pd.read_csv("Mixed.csv", index_col=0))
-#     .rename(columns=str.capitalize)
-# )
-# df.index.name = "Storage"
-# df = df.set_index("Data", append=True).unstack()
-# df.Size /= 1e9
-#
-# fig, axes = plt.subplots(ncols=3, figsize=(16, 4))
-# for i, op in enumerate(["Read", "Write", "Size"]):
-#     flag = op in ["Read", "Write"]
-#     df.loc[:, op].plot.barh(title=op, ax=axes[i], logx=flag)
-#     if flag:
-#         axes[i].set_xlabel("seconds (log scale)")
-#     else:
-#         axes[i].set_xlabel("GB")
-# fig.tight_layout()
-# fig.savefig("images/storage.png", bboxinches="tight")
+results["CSV"] = {"read": np.mean(read.all_runs), "write": np.mean(write.all_runs), "size": size}
+pd.DataFrame(results).assign(Data=data_type).to_csv(f"{data_type}.csv")
+
+## Display Results
+# Please run the notebook twice as described above under `Usage` to create the two `csv` files with results for
+# different test data.
+df = (
+    pd.read_csv("Numeric.csv", index_col=0)
+    .append(pd.read_csv("Mixed.csv", index_col=0))
+    .rename(columns=str.capitalize)
+)
+df.index.name = "Storage"
+df = df.set_index("Data", append=True).unstack()
+df.Size /= 1e9
+
+fig, axes = plt.subplots(ncols=3, figsize=(16, 4))
+for i, op in enumerate(["Read", "Write", "Size"]):
+    flag = op in ["Read", "Write"]
+    df.loc[:, op].plot.barh(title=op, ax=axes[i], logx=flag)
+    if flag:
+        axes[i].set_xlabel("seconds (log scale)")
+    else:
+        axes[i].set_xlabel("GB")
+fig.tight_layout()
+fig.savefig("images/storage.png", bboxinches="tight")

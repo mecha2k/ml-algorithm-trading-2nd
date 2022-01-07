@@ -240,7 +240,7 @@ def extract_and_combine_data():
     data.to_hdf(nasdaq_path / "algoseek.h5", "min_taq")
 
 
-extract_and_combine_data()
+# extract_and_combine_data()
 
 df = pd.read_hdf(nasdaq_path / "algoseek.h5", "min_taq")
 df.info(show_counts=True)
