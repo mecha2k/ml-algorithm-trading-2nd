@@ -305,7 +305,7 @@ if __name__ == "__main__":
 
     ### Categorical Variables
     # To leverage LightGBM's ability to handle categorical variables, we need to define them; we'll also `factorize`
-    # them so they are both integer-encoded and start at zero (optional, but otherwise throws a warning) as expected
+    # them, so they are both integer-encoded and start at zero (optional, but otherwise throws a warning) as expected
     # by LightGBM:
     categoricals = ["year", "weekday", "month"]
     for feature in categoricals:
@@ -327,7 +327,8 @@ if __name__ == "__main__":
     # - we iterate over the prediction horizons and train/test period length,
     # - set up the `MultipleTimeSeriesCV` accordingly
     # - create the binary LightGBM dataset with the appropriate target, and
-    # - iterate over the model hyperparamters to train and validate the model while capturing the relevant performance metrics:
+    # - iterate over the model hyperparamters to train and validate the model while capturing the relevant performance
+    #   metrics:
 
     for lookahead in lookaheads:
         for train_length, test_length in test_params_:
@@ -438,14 +439,10 @@ if __name__ == "__main__":
             pd.concat(feature_importance).to_hdf(cv_store, "fi/" + key)
             pd.concat(predictions).to_hdf(cv_store, "predictions/" + key)
 
-    # ## Analyse Cross-Validation Results
-
-    # ### Collect Data
-
-    # We'll now combine the CV results that we stored separately for each fold (to avoid loosing results in case something goes wrong along the way):
-
-    # In[45]:
-
+    ## Analyse Cross-Validation Results
+    ### Collect Data
+    # We'll now combine the CV results that we stored separately for each fold (to avoid loosing results in case
+    # something goes wrong along the way
     id_vars = [
         "train_length",
         "test_length",
@@ -457,9 +454,6 @@ if __name__ == "__main__":
     ]
 
     # We'll look at the financial performance in the notebook `alphalens_signal_quality`.
-
-    # In[46]:
-
     daily_ic, ic = [], []
     for t in lookaheads:
         print(t)
@@ -490,12 +484,11 @@ if __name__ == "__main__":
     ic = pd.concat(ic, ignore_index=True)
     daily_ic = pd.concat(daily_ic, ignore_index=True)
 
-    # ### Predictive Performance: CV Information Coefficient by Day
-
-    # We first look at the daily IC, the metric we ultimately care about for a daily trading strategy. The best results for all prediction horizons are typically achieved with three years of training; the shorter horizons work better with 21 day testing period length. More regularization often improves the result but the impact of the bagging and feature fraction parameters are a little less clear cut and likely depend on other parameters.
-
-    # In[47]:
-
+    ### Predictive Performance: CV Information Coefficient by Day
+    # We first look at the daily IC, the metric we ultimately care about for a daily trading strategy. The best results
+    # for all prediction horizons are typically achieved with three years of training; the shorter horizons work better
+    # with 21 day testing period length. More regularization often improves the result but the impact of the bagging
+    # and feature fraction parameters are a little less clear-cut and likely depend on other parameters.
     group_cols = [
         "t",
         "train_length",
@@ -508,21 +501,18 @@ if __name__ == "__main__":
         daily_ic.groupby(group_cols + ["rounds"]).daily_ic.mean().to_frame("ic").reset_index()
     )
     daily_ic_avg.groupby("t", group_keys=False).apply(lambda x: x.nlargest(3, "ic"))
-
-    # In[48]:
-
     daily_ic_avg.info(show_counts=True)
 
-    # For a 1-day forecast horizon, over 75% of the predictions yield a positive daily IC; the same is true for 21 days which, unsurprisingly, also shows a wider range.
-
-    # In[49]:
-
+    # For a 1-day forecast horizon, over 75% of the predictions yield a positive daily IC; the same is true for 21 days
+    # which, unsurprisingly, also shows a wider range.
+    fig = plt.figure(figsize=(10, 6))
     ax = sns.boxenplot(x="t", y="ic", data=daily_ic_avg)
     ax.axhline(0, ls="--", lw=1, c="k")
+    plt.tight_layout()
+    plt.savefig("images/05-03.png")
 
-    # In[50]:
-
-    g = sns.catplot(
+    fig = plt.figure(figsize=(10, 6))
+    sns.catplot(
         x="t",
         y="ic",
         col="train_length",
@@ -530,14 +520,12 @@ if __name__ == "__main__":
         data=daily_ic_avg[(daily_ic_avg.test_length == 21)],
         kind="boxen",
     )
-    g.savefig(results_path / "daily_ic_test_21", dpi=300)
+    plt.tight_layout()
+    plt.savefig("images/05-04.png")
 
-    # ### HyperParameter Impact: Linear Regression
-
-    # To get a better idea of how the various CV parameters impact the forecast quality, we can run a linear regression with the daily IC as outcome and the one-hot encoded hyperparameters as inputs:
-
-    # In[51]:
-
+    ### HyperParameter Impact: Linear Regression
+    # To get a better idea of how the various CV parameters impact the forecast quality, we can run a linear regression
+    # with the daily IC as outcome and the one-hot encoded hyperparameters as inputs:
     lin_reg = {}
     for t in [1, 5]:
         df_ = daily_ic_avg[(daily_ic_avg.t == t) & (daily_ic_avg.rounds <= 250)].dropna()
@@ -549,8 +537,6 @@ if __name__ == "__main__":
         coefs = pd.read_csv(StringIO(s.tables[1].as_csv())).rename(columns=lambda x: x.strip())
         coefs.columns = ["variable", "coef", "std_err", "t", "p_value", "ci_low", "ci_high"]
         coefs.to_csv(results_path / f"lr_result_{t:02}.csv", index=False)
-
-    # In[52]:
 
     def visualize_lr_result(model, ax):
         ci = model.conf_int()
@@ -660,12 +646,12 @@ if __name__ == "__main__":
             arrowprops=dict(arrowstyle="-[, widthB=11.2, lengthB=1.0", lw=1.0, color="black"),
         )
 
-    # The below plot shows the regression coefficient values and their confidence intervals. The intercept (not shown) has a small positive value and is statistically signifant; it captures the impact of the dropped categories (the smallest value for each parameter).
-    #
-    # For 1-day forecasts, some but not all results are insightful: 21-day testing is better, and so is `min_samples_leaf` of 500 or 1,000. 100-200 trees seem to work best, but both shorter and longer training periods are better than intermediate values.
-
-    # In[53]:
-
+    # The below plot shows the regression coefficient values and their confidence intervals. The intercept (not shown)
+    # has a small positive value and is statistically signifant; it captures the impact of the dropped categories
+    # (the smallest value for each parameter).
+    # For 1-day forecasts, some but not all results are insightful: 21-day testing is better, and so is
+    # `min_samples_leaf` of 500 or 1,000. 100-200 trees seem to work best, but both shorter and longer training periods
+    # are better than intermediate values.
     with sns.axes_style("white"):
         fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(20, 6))
         axes = axes.flatten()
@@ -675,27 +661,18 @@ if __name__ == "__main__":
         fig.suptitle("OLS Coefficients & Confidence Intervals", fontsize=20)
         fig.tight_layout()
         fig.subplots_adjust(top=0.92)
+        plt.savefig("images/05-04.png")
 
-    # ### Information Coefficient: Overall
-
-    # We'll also take a look at the overall IC value, which is often reported but does not necessarily match the goal of a daily trading strategy that uses the model return predictions as well as the daily IC.
-
-    # In[54]:
-
+    ### Information Coefficient: Overall
+    # We'll also take a look at the overall IC value, which is often reported but does not necessarily match the goal
+    # of a daily trading strategy that uses the model return predictions as well as the daily IC.
     ic.info()
 
-    # #### Best Parameters
+    #### Best Parameters
+    # Directionally, and for shorter periods, similar hyperparameter settings work best (while the IC values are higher
+    print(ic.groupby("t").apply(lambda x: x.nlargest(3, "ic")))
 
-    # Directionally, and for shorter periods, similar hyperparameter settings work best (while the IC values are higher):
-
-    # In[55]:
-
-    ic.groupby("t").apply(lambda x: x.nlargest(3, "ic"))
-
-    # #### Visualiztion
-
-    # In[56]:
-
+    #### Visualiztion
     g = sns.catplot(
         x="t",
         y="ic",
@@ -704,8 +681,8 @@ if __name__ == "__main__":
         data=ic[(ic.test_length == 21) & (ic.t < 21)],
         kind="box",
     )
-
-    # In[57]:
+    plt.tight_layout()
+    plt.savefig("images/05-06.png")
 
     t = 1
     train_length = 756
@@ -719,24 +696,17 @@ if __name__ == "__main__":
         data=ic[(ic.t == t) & (ic.train_length == train_length) & (ic.test_length == test_length)],
         kind="swarm",
     )
+    plt.tight_layout()
+    plt.savefig("images/05-07.png")
 
-    # ### Random Forest vs Linear Regression
-
+    ### Random Forest vs Linear Regression
     # Let's compare the best-performing (in-sample) random forest models to our linear regression baseline:
-
-    # In[59]:
-
     lr_metrics = pd.read_csv(results_path / "lin_reg_performance.csv")
     lr_metrics.info()
-
-    # In[60]:
-
     daily_ic_avg.info()
 
-    # The results are mixed: for the shortest and longest horizons, the random forest outperforms (slightly for 1 day), while linear regression is competitive for the intermediate horizons:
-
-    # In[61]:
-
+    # The results are mixed: for the shortest and longest horizons, the random forest outperforms (slightly for 1 day),
+    # while linear regression is competitive for the intermediate horizons:
     with sns.axes_style("white"):
         ax = (
             ic.groupby("t")
@@ -747,15 +717,12 @@ if __name__ == "__main__":
         )
         ax.set_ylabel("Lookahead")
         ax.set_xlabel("Information Coefficient")
-        sns.despine()
         plt.tight_layout()
+        plt.savefig("images/05-08.png")
 
-    # ## Generate predictions
-
-    # To build and evaluate a trading strategy, we create predictions for the 2018-19 period using the 10 best models that we then ensemble:
-
-    # In[62]:
-
+    ## Generate predictions
+    # To build and evaluate a trading strategy, we create predictions for the 2018-19 period using the 10 best models
+    # that we then ensemble:
     param_cols = [
         "train_length",
         "test_length",
@@ -765,8 +732,6 @@ if __name__ == "__main__":
         "rounds",
     ]
 
-    # In[63]:
-
     def get_params(data, t=5, best=0):
         df = data[data.t == t].sort_values("ic", ascending=False).iloc[best]
         df = df.loc[param_cols]
@@ -774,13 +739,9 @@ if __name__ == "__main__":
         params = pd.to_numeric(df.drop("rounds"))
         return params, rounds
 
-    # In[64]:
-
     base_params = dict(boosting_type="rf", objective="regression", bagging_freq=1, verbose=-1)
 
     store = Path(results_path / "predictions.h5")
-
-    # In[81]:
 
     for lookahead in [1, 5, 10, 21]:
         if lookahead > 1:
@@ -803,6 +764,8 @@ if __name__ == "__main__":
             free_raw_data=False,
         )
 
+        test_predictions = []
+        ic_by_day = []
         for position in range(10):
             params, num_boost_round = get_params(daily_ic_avg, t=lookahead, best=position)
             params = params.to_dict()
@@ -853,5 +816,3 @@ if __name__ == "__main__":
                 ic_by_day[position] = by_day.apply(lambda x: spearmanr(x.y_test, x[position])[0])
 
         test_predictions.to_hdf(store, f"test/{lookahead:02}")
-
-    # In[ ]:
