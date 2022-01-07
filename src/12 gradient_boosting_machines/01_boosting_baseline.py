@@ -29,8 +29,6 @@ from sklearn.model_selection import cross_validate
 from sklearn.dummy import DummyClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-# needed for HistGradientBoostingClassifier
-from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import (
     RandomForestClassifier,
     AdaBoostClassifier,
@@ -176,15 +174,15 @@ if __name__ == "__main__":
     }
 
     # Helper function that runs cross-validation for the various algorithms.
-    def run_cv(clf, X=X_dummies, y=y, metrics=None, cv=cv, fit_params=None, n_jobs=-1):
-        if metrics is None:
-            metrics = metrics
+    def run_cv(clf, X=X_dummies, y=y, mets=None, cv=cv, fit_params=None, n_jobs=-1):
+        if mets is None:
+            mets = metrics
         start = time()
         scores = cross_validate(
             estimator=clf,
             X=X,
             y=y,
-            scoring=list(metrics.keys()),
+            scoring=list(mets.keys()),
             cv=cv,
             return_train_score=True,
             n_jobs=n_jobs,
@@ -273,7 +271,6 @@ if __name__ == "__main__":
         max_features="auto",
         max_leaf_nodes=None,
         min_impurity_decrease=0.0,
-        min_impurity_split=None,
         bootstrap=True,
         oob_score=True,
         n_jobs=-1,
