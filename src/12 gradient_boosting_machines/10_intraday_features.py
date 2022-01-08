@@ -139,7 +139,6 @@ idx = pd.IndexSlice
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
-warnings.filterwarnings("ignore")
 pd.options.display.float_format = "{:,.2f}".format
 
 if __name__ == "__main__":
@@ -268,145 +267,82 @@ if __name__ == "__main__":
     df["date"] = pd.to_datetime(df.index.get_level_values("date_time").date)
 
     # We persist the reduced dataset:
-    df.to_hdf("data/algoseek.h5", "data")
+    df.to_hdf(nasdaq_path / "algoseek.h5", "data")
 
-    # In[18]:
+    df = pd.read_hdf(nasdaq_path / "algoseek.h5", "data")
+    df.info(show_counts=True)
 
-    df = pd.read_hdf("data/algoseek.h5", "data")
-
-    # In[19]:
-
-    df.info(null_counts=True)
-
-    # ## Feature Engineering
-
+    ## Feature Engineering
     # All the features above were normalized in a standard fashion
     # by subtracting their means, dividing by their standard deviations, and time-averaging over a recent
     # interval. In order to obtain a finite state space, features were discretized into bins in multiples of
     # standard deviation units
-
     # We will compute feature per ticker or ticker and date:
-
-    # In[20]:
 
     by_ticker = df.sort_index().groupby("ticker", group_keys=False)
     by_ticker_date = df.sort_index().groupby(["ticker", "date"])
 
     # Create empty `DataFrame` with original ticker/timestamp index to hold our features:
-
-    # In[21]:
-
     data = pd.DataFrame(index=df.index)
-
-    # In[22]:
-
     data["date"] = pd.factorize(df["date"], sort=True)[0]
-
-    # In[23]:
-
     data["minute"] = pd.to_timedelta(data.index.get_level_values("date_time").time.astype(str))
     data.minute = data.minute.dt.seconds.sub(data.minute.dt.seconds.min()).div(60).astype(int)
 
-    # ### Lagged Returns
-
+    ### Lagged Returns
     # We create lagged returns with respect to first and last price per bar for each the past 10 minutes:
-
-    # In[24]:
-
     data[f"ret1min"] = df["last"].div(df["first"]).sub(1)
 
     # 1-min returns have rather heavy tails:
-
-    # In[25]:
-
     sns.kdeplot(data.ret1min.sample(n=100000))
+    plt.savefig("images/10-01.png")
 
-    # In[26]:
-
-    data.ret1min.describe(percentiles=np.arange(0.1, 1, 0.1)).iloc[1:].apply(lambda x: f"{x:.3%}")
-
-    # In[27]:
-
+    print(
+        data.ret1min.describe(percentiles=np.arange(0.1, 1, 0.1))
+        .iloc[1:]
+        .apply(lambda x: f"{x:.3%}")
+    )
     print(f"Skew: {data.ret1min.skew():.2f} | Kurtosis: {data.ret1min.kurtosis():.2f}")
 
     # Intra-bar price moves with the highest returns:
-
-    # In[28]:
-
     data.join(df[["first", "last"]]).nlargest(10, columns=["ret1min"])
 
     # We compute similarly for the remaining periods:
-
-    # In[29]:
-
     for t in tqdm(range(2, 11)):
         data[f"ret{t}min"] = df["last"].div(by_ticker_date["first"].shift(t - 1)).sub(1)
 
-    # ### Forward Returns
-
-    # We obtain our 1-min forward return target by shifting the one-period return by one minute into the past (which implies the assumption that we always enter and exit a position at those prices, also ignoring trading cost and potential market impact):
-
-    # In[30]:
-
+    ### Forward Returns
+    # We obtain our 1-min forward return target by shifting the one-period return by one minute into the past
+    # (which implies the assumption that we always enter and exit a position at those prices, also ignoring trading
+    # cost and potential market impact):
     data["fwd1min"] = data.sort_index().groupby(["ticker", "date"]).ret1min.shift(-1)
-
-    # In[31]:
-
     data = data.dropna(subset=["fwd1min"])
+    data.info(show_counts=True)
 
-    # In[32]:
-
-    data.info(null_counts=True)
-
-    # ### Normalized up/downtick volume
-
-    # In[33]:
-
+    ### Normalized up/downtick volume
     for f in ["up", "down", "rup", "rdown"]:
         data[f] = df.loc[:, f].div(df.volume).replace(np.inf, np.nan)
+    print(data.loc[:, ["rup", "up", "rdown", "down"]].describe(deciles))
 
-    # In[34]:
-
-    data.loc[:, ["rup", "up", "rdown", "down"]].describe(deciles)
-
-    # ### Balance of Power
-
-    # In[35]:
-
+    ### Balance of Power
     data["BOP"] = by_ticker.apply(lambda x: talib.BOP(x["first"], x.high, x.low, x["last"]))
 
-    # ###  Commodity Channel Index
-
-    # In[36]:
-
+    ###  Commodity Channel Index
     data["CCI"] = by_ticker.apply(lambda x: talib.CCI(x.high, x.low, x["last"], timeperiod=14))
 
-    # ### Money Flow Index
-
-    # In[37]:
-
+    ### Money Flow Index
     data["MFI"] = by_ticker.apply(
         lambda x: talib.MFI(x.high, x.low, x["last"], x.volume, timeperiod=14)
     )
-
-    # In[38]:
-
     data[["BOP", "CCI", "MFI"]].describe(deciles)
 
-    # ### Stochastic RSI
-
-    # In[39]:
-
+    ### Stochastic RSI
     data["STOCHRSI"] = by_ticker.apply(
         lambda x: talib.STOCHRSI(
             x["last"].ffill(), timeperiod=14, fastk_period=14, fastd_period=3, fastd_matype=0
         )[0]
     )
 
-    # ### Stochastic Oscillator
-
-    # In[40]:
-
+    ### Stochastic Oscillator
     def compute_stoch(
         x, fastk_period=14, slowk_period=3, slowk_matype=0, slowd_period=3, slowd_matype=0
     ):
@@ -422,38 +358,22 @@ if __name__ == "__main__":
         )
         return pd.DataFrame({"slowd": slowd, "slowk": slowk}, index=x.index)
 
-    # In[41]:
-
     data = data.join(by_ticker.apply(compute_stoch))
 
-    # ### Average True Range
-
-    # In[42]:
-
+    ### Average True Range
     data["NATR"] = by_ticker.apply(
         lambda x: talib.NATR(x.high.ffill(), x.low.ffill(), x["last"].ffill())
     )
 
-    # ### Transaction Volume by price point
-
-    # In[43]:
-
+    ### Transaction Volume by price point
     data["trades_bid_ask"] = (
         df.atask.sub(df.atbid).div(df.volume).replace((np.inf, -np.inf), np.nan)
     )
-
-    # In[44]:
-
     del df
-
-    # In[45]:
 
     data.info(show_counts=True)
 
-    # ### Evaluate features
-
-    # In[65]:
-
+    ### Evaluate features
     features = [
         "ret1min",
         "ret2min",
@@ -478,32 +398,24 @@ if __name__ == "__main__":
         "trades_bid_ask",
     ]
 
-    # In[ ]:
-
     sample = data.sample(n=100000)
-
-    # In[69]:
 
     fig, axes = plt.subplots(nrows=3, ncols=7, figsize=(30, 12))
     axes = axes.flatten()
-
     for i, feature in enumerate(features):
         sns.distplot(sample[feature], ax=axes[i])
         axes[i].set_title(feature.upper())
-
-    sns.despine()
     fig.tight_layout()
+    plt.savefig("images/10-02.png")
 
-    # In[47]:
-
+    fig = plt.figure(figsize=(10, 6))
     sns.pairplot(sample, y_vars=["fwd1min"], x_vars=features)
+    plt.savefig("images/10-03.png")
 
-    # In[63]:
-
+    fig = plt.figure(figsize=(10, 6))
     corr = sample.loc[:, features].corr()
     sns.clustermap(corr, cmap=sns.diverging_palette(20, 230, as_cmap=True), center=0, vmin=-0.25)
-
-    # In[48]:
+    plt.savefig("images/10-04.png")
 
     ic = {}
     for feature in tqdm(features):
@@ -513,27 +425,17 @@ if __name__ == "__main__":
         )  # calc per min is very time-consuming
         ic[feature] = by_day.apply(lambda x: spearmanr(x.fwd1min, x[feature])[0]).mean()
     ic = pd.Series(ic)
-
-    # In[49]:
-
-    ic.sort_values()
-
-    # In[50]:
+    print(ic.sort_values())
 
     title = "Information Coeficient for Intraday Features (1-min forward returns)"
     ic.index = ic.index.map(str.upper)
-    ax = ic.sort_values(ascending=False).plot.bar(figsize=(14, 4), title=title, rot=35)
+    fig = plt.figure(figsize=(14, 4))
+    ax = ic.sort_values(ascending=False).plot.bar(title=title, rot=35)
     ax.set_ylabel("Information Coefficient")
     ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.1%}".format(y)))
-    sns.despine()
     plt.tight_layout()
+    plt.savefig("images/10-05.png")
 
-    # ### Store results
-
-    # In[51]:
-
-    data.info(null_counts=True)
-
-    # In[52]:
-
-    data.drop(["date", "up", "down"], axis=1).to_hdf("data/algoseek.h5", "model_data")
+    ### Store results
+    data.info(show_counts=True)
+    data.drop(["date", "up", "down"], axis=1).to_hdf(nasdaq_path / "algoseek.h5", "model_data")

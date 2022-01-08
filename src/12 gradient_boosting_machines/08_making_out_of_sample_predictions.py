@@ -15,13 +15,11 @@ import seaborn as sns
 
 
 YEAR = 252
-np.random.seed(42)
 
 idx = pd.IndexSlice
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
-warnings.filterwarnings("ignore")
 pd.options.display.float_format = "{:,.2f}".format
 
 store = Path("../data/ch12/predictions.h5")
