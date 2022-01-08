@@ -23,7 +23,6 @@ from alphalens.tears import create_summary_tear_sheet, create_full_tear_sheet
 
 
 YEAR = 252
-np.random.seed(42)
 
 idx = pd.IndexSlice
 sns.set_style("whitegrid")

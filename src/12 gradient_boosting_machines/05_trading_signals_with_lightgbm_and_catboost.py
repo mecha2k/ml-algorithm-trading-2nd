@@ -410,7 +410,10 @@ if __name__ == "__main__":
             )
             msg = f'\t{p:3.0f} | {format_time(T)} ({t:3.0f}) | {params["learning_rate"]:5.2f} | '
             msg += f'{params["num_leaves"]:3.0f} | {params["feature_fraction"]:3.0%} | {params["min_data_in_leaf"]:4.0f} | '
-            msg += f" {max(ic):6.2%} | {ic_by_day.mean().max(): 6.2%} | {daily_ic_mean_n: 4.0f} | {ic_by_day.median().max(): 6.2%} | {daily_ic_median_n: 4.0f}"
+            msg += (
+                f" {max(ic):6.2%} | {ic_by_day.mean().max(): 6.2%} | {daily_ic_mean_n: 4.0f} |"
+                f" {ic_by_day.median().max(): 6.2%} | {daily_ic_median_n: 4.0f}"
+            )
             print(msg)
 
             # persist results for given CV run and hyperparameter combination
@@ -550,7 +553,10 @@ if __name__ == "__main__":
                 index=metric_cols,
             )
             msg = f'{p:3.0f} | {format_time(T)} ({t:3.0f}) | {params["max_depth"]:3.0f} | {params["min_child_samples"]:4.0f} | '
-            msg += f" {max(ic):6.2%} | {ic_by_day.mean().max(): 6.2%} | {daily_ic_mean_n: 4.0f} | {ic_by_day.median().max(): 6.2%} | {daily_ic_median_n: 4.0f}"
+            msg += (
+                f" {max(ic):6.2%} | {ic_by_day.mean().max(): 6.2%} | {daily_ic_mean_n: 4.0f} | "
+                f"{ic_by_day.median().max(): 6.2%} | {daily_ic_median_n: 4.0f}"
+            )
             print(msg)
             metrics.to_hdf(cb_store, "metrics/" + key)
             ic_by_day.assign(**params).to_hdf(cb_store, "daily_ic/" + key)
