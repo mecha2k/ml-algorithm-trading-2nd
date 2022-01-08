@@ -9,7 +9,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Convolution2D
 
 np.random.seed(seed=42)
-sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
 
