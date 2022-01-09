@@ -103,13 +103,14 @@ tf.random.set_seed(seed=42)
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
-pd.options.display.float_format = "{:,.2f}".format
+# pd.options.display.float_format = "{:,.2f}".format
 
 
 results_path = Path("../data/ch18", "time_series")
 mnist_path = results_path / "mnist"
 if not mnist_path.exists():
     mnist_path.mkdir(parents=True)
+
 
 if __name__ == "__main__":
     ## Prepare Data
@@ -145,37 +146,34 @@ if __name__ == "__main__":
             .transpose()
             .assign(date=date)
             .set_index("date", append=True)
-            .sort_index(1, ascending=True)
+            .sort_index(axis=1, ascending=True)
         )
     cnn_data = pd.concat(cnn_data).rename(columns={0: "label"}).sort_index()
     cnn_data.info(show_counts=True)
 
-    ## Evaluate features
-    ### Mutual Information
-    # mi = mutual_info_regression(X=cnn_data.drop('label', axis=1), y=cnn_data.label)
-    # mi = pd.Series(mi, index=cnn_data.drop('label', axis=1).columns)
-
-    ### Information Coefficient
+    # ## Evaluate features
+    # ### Mutual Information
+    # mi = mutual_info_regression(X=cnn_data.drop("label", axis=1), y=cnn_data.label)
+    # mi = pd.Series(mi, index=cnn_data.drop("label", axis=1).columns)
+    #
+    # ### Information Coefficient
     # ic = {}
     # for lag in lags:
     #     ic[lag] = spearmanr(cnn_data.label, cnn_data[lag])
-    # ic = pd.DataFrame(ic, index=['IC', 'p-value']).T
-
-    # ax = ic.plot.bar(rot=0, figsize=(14, 4),
-    #                  ylim=(-0.05, .05),
-    #                  title='Feature Evaluation')
-    # ax.set_xlabel('Lag')
-    # sns.despine()
+    # ic = pd.DataFrame(ic, index=["IC", "p-value"]).T
+    #
+    # ax = ic.plot.bar(rot=0, figsize=(14, 4), ylim=(-0.05, 0.05), title="Feature Evaluation")
+    # ax.set_xlabel("Lag")
     # plt.tight_layout()
-    # plt.savefig(results_path / 'cnn_ts1d_feature_ic', dpi=300)
-
-    ### Plot Metrics
-    # metrics = pd.concat([mi.to_frame('Mutual Information'),
-    #                      ic.IC.to_frame('Information Coefficient')], axis=1)
-
+    # plt.savefig("images/04_cnn_ts1d_feature_ic.png", dpi=300)
+    #
+    # ### Plot Metrics
+    # metrics = pd.concat(
+    #     [mi.to_frame("Mutual Information"), ic.IC.to_frame("Information Coefficient")], axis=1
+    # )
+    #
     # ax = metrics.plot.bar(figsize=(12, 4), rot=0)
-    # ax.set_xlabel('Lag')
-    # sns.despine()
+    # ax.set_xlabel("Lag")
     # plt.tight_layout()
     # plt.savefig("images/04_ts1d_metrics.png", dpi=300)
 
@@ -217,7 +215,7 @@ if __name__ == "__main__":
         m = X.shape[1]
         return x_train.values.reshape(-1, m, 1), y_train, x_val.values.reshape(-1, m, 1), y_val
 
-    batch_size = 64
+    batch_size = 128
     epochs = 100
 
     filters = 32
@@ -241,7 +239,7 @@ if __name__ == "__main__":
 
         best_ic = -np.inf
         epoch, p_val, stop = 0, 0, 0
-        for epoch in range(50):
+        for epoch in range(20):
             training = model.fit(
                 X_train,
                 y_train,
