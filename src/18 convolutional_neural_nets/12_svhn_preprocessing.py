@@ -7,14 +7,14 @@ import os
 import sys
 import tarfile
 import tensorflow as tf
-from IPython.display import display, Image
+
 from scipy import ndimage
 import h5py
 from PIL import Image
 import PIL.Image as Image
 
 
-DATA_PATH = Path("images", "svhn")
+DATA_PATH = Path("..", "data", "svhn")
 
 results_path = Path("../data/ch18", "svhn")
 if not results_path.exists():

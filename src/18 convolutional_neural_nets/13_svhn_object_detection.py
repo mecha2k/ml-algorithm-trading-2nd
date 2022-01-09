@@ -1,6 +1,6 @@
 # Object Detection with Street View House Numbers
-# This notebook illustrates how to build a deep CNN using Keras’ functional API to generate multiple outputs: one to
-# predict how many digits are present, and five for the value of each in the order they appear.
+# This notebook illustrates how to build a deep CNN using Keras’ functional API to generate multiple outputs:
+# one to predict how many digits are present, and five for the value of each in the order they appear.
 from pathlib import Path
 import pandas as pd
 import numpy as np

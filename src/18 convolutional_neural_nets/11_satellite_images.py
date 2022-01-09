@@ -24,7 +24,6 @@ else:
     print("Using CPU")
 
 idx = pd.IndexSlice
-np.random.seed(seed=42)
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
@@ -42,10 +41,7 @@ if __name__ == "__main__":
     ## Load EuroSat Dataset
     (raw_train, raw_validation), metadata = tfds.load(
         "eurosat",
-        split=[
-            tfds.Split.TRAIN.subsplit(tfds.percent[:90]),
-            tfds.Split.TRAIN.subsplit(tfds.percent[90:]),
-        ],
+        split=["train[:90%]", "train[90%:]"],
         with_info=True,
         shuffle_files=False,
         as_supervised=True,

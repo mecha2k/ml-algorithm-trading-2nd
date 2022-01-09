@@ -8,9 +8,6 @@ import warnings
 
 idx = pd.IndexSlice
 np.random.seed(seed=42)
-sns.set_style("whitegrid")
-plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 14
 pd.options.display.float_format = "{:,.2f}".format
 warnings.filterwarnings("ignore")
 

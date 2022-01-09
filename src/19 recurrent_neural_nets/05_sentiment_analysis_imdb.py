@@ -62,7 +62,7 @@ if __name__ == "__main__":
         seed=42, skip_top=0, maxlen=None, oov_char=2, index_from=3, num_words=vocab_size
     )
 
-    ax = sns.hisplot(data=[len(review) for review in X_train])
+    ax = sns.displot([len(review) for review in X_train])
     ax.set(xscale="log")
     plt.savefig("images/05-01.png")
 
