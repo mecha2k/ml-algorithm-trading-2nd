@@ -62,12 +62,8 @@ if __name__ == "__main__":
 
     path = Path("..", "data", "aclImdb")
 
-    # In[6]:
-
     files = path.glob("**/*.txt")
     len(list(files))
-
-    # In[7]:
 
     files = path.glob("*/**/*.txt")
     outcomes = set()
@@ -75,83 +71,53 @@ if __name__ == "__main__":
     for f in files:
         if f.stem.startswith(("urls_", "imdbEr")):
             continue
-        _, _, data_set, outcome = f.parent.as_posix().split("/")
+        aa = f.parent.as_posix().split("/")
+        _, _, _, data_set, outcome = f.parent.as_posix().split("/")
         if outcome == "unsup":
             continue
         data.append([data_set, int(outcome == "pos"), f.read_text(encoding="latin1")])
-
-    # In[8]:
-
     data = pd.DataFrame(data, columns=["dataset", "label", "review"])
-
-    # In[9]:
-
     data.info()
-
-    # In[10]:
 
     train_data = data.loc[data.dataset == "train", ["label", "review"]]
     test_data = data.loc[data.dataset == "test", ["label", "review"]]
 
-    # In[11]:
+    print(train_data.label.value_counts())
+    print(test_data.label.value_counts())
 
-    train_data.label.value_counts()
-
-    # In[12]:
-
-    test_data.label.value_counts()
-
-    # ## Prepare Data
-
-    # ### Tokenizer
-
+    ## Prepare Data
+    ### Tokenizer
     # Keras provides a tokenizer that we use to convert the text documents to integer-encoded sequences, as shown here:
-
-    # In[13]:
-
     num_words = 10000
     t = Tokenizer(num_words=num_words, lower=True, oov_token=2)
     t.fit_on_texts(train_data.review)
 
-    # In[14]:
-
     vocab_size = len(t.word_index) + 1
-    vocab_size
-
-    # In[15]:
+    print(vocab_size)
 
     train_data_encoded = t.texts_to_sequences(train_data.review)
     test_data_encoded = t.texts_to_sequences(test_data.review)
 
-    # In[16]:
-
     max_length = 100
 
-    # ### Pad Sequences
-
-    # We also use the pad_sequences function to convert the list of lists (of unequal length) to stacked sets of padded and truncated arrays for both the train and test datasets:
-
-    # In[17]:
-
+    ### Pad Sequences
+    # We also use the pad_sequences function to convert the list of lists (of unequal length) to stacked sets of padded
+    # and truncated arrays for both the train and test datasets:
     X_train_padded = pad_sequences(
         train_data_encoded, maxlen=max_length, padding="post", truncating="post"
     )
     y_train = train_data["label"]
-    X_train_padded.shape
-
-    # In[18]:
+    print(X_train_padded.shape)
 
     X_test_padded = pad_sequences(
         test_data_encoded, maxlen=max_length, padding="post", truncating="post"
     )
     y_test = test_data["label"]
-    X_test_padded.shape
+    print(X_test_padded.shape)
 
-    # ## Load Embeddings
-
-    # Assuming we have downloaded and unzipped the GloVe data to the location indicated in the code, we now create a dictionary that maps GloVe tokens to 100-dimensional real-valued vectors, as follows:
-
-    # In[19]:
+    ## Load Embeddings
+    # Assuming we have downloaded and unzipped the GloVe data to the location indicated in the code, we now create a
+    # dictionary that maps GloVe tokens to 100-dimensional real-valued vectors, as follows:
 
     # load the whole embedding into memory
     glove_path = Path("..", "data", "glove", "glove.6B.100d.txt")
@@ -165,34 +131,21 @@ if __name__ == "__main__":
         except:
             continue
         embeddings_index[word] = coefs
-
-    # In[20]:
-
     print("Loaded {:,d} word vectors.".format(len(embeddings_index)))
 
-    # There are around 340,000 word vectors that we use to create an embedding matrix that matches the vocabulary so that the RNN model can access embeddings by the token index:
-
-    # In[21]:
-
+    # There are around 340,000 word vectors that we use to create an embedding matrix that matches the vocabulary so
+    # that the RNN model can access embeddings by the token index:
     embedding_matrix = np.zeros((vocab_size, 100))
     for word, i in t.word_index.items():
         embedding_vector = embeddings_index.get(word)
         if embedding_vector is not None:
             embedding_matrix[i] = embedding_vector
+    print(embedding_matrix.shape)
 
-    # In[22]:
-
-    embedding_matrix.shape
-
-    # ## Define Model Architecture
-
-    # The difference between this and the RNN setup in the previous example is that we are going to pass the embedding matrix to the embedding layer and set it to non-trainable, so that the weights remain fixed during training:
-
-    # In[23]:
-
+    ## Define Model Architecture
+    # The difference between this and the RNN setup in the previous example is that we are going to pass the embedding
+    # matrix to the embedding layer and set it to non-trainable, so that the weights remain fixed during training:
     embedding_size = 100
-
-    # In[24]:
 
     rnn = Sequential(
         [
@@ -209,29 +162,20 @@ if __name__ == "__main__":
     )
     rnn.summary()
 
-    # In[25]:
-
     rnn.compile(
         loss="binary_crossentropy",
         optimizer="RMSProp",
         metrics=["accuracy", tf.keras.metrics.AUC(name="AUC")],
     )
 
-    # In[26]:
-
     rnn_path = (results_path / "lstm.pretrained.h5").as_posix()
-
     checkpointer = ModelCheckpoint(
         filepath=rnn_path, verbose=1, monitor="val_AUC", mode="max", save_best_only=True
     )
 
-    # In[27]:
-
     early_stopping = EarlyStopping(
         monitor="val_AUC", patience=5, mode="max", restore_best_weights=True
     )
-
-    # In[28]:
 
     training = rnn.fit(
         X_train_padded,
@@ -243,12 +187,8 @@ if __name__ == "__main__":
         verbose=1,
     )
 
-    # In[29]:
-
     y_score = rnn.predict(X_test_padded)
-    roc_auc_score(y_score=y_score.squeeze(), y_true=y_test)
-
-    # In[30]:
+    print(roc_auc_score(y_score=y_score.squeeze(), y_true=y_test))
 
     df = pd.DataFrame(training.history)
     best_auc = df.val_AUC.max()
@@ -283,4 +223,4 @@ if __name__ == "__main__":
     sns.despine()
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    fig.savefig(results_path / "imdb_pretrained", dpi=300)
+    fig.savefig("images/06_imdb_pretrained.png", dpi=300)
