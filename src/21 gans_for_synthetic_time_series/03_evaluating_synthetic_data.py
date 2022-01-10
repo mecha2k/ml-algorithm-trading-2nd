@@ -60,7 +60,7 @@ if __name__ == "__main__":
     n = len(real_data)
     print(np.asarray(real_data).shape)
 
-    synthetic_data = np.load(path / f"experiment_{experiment:02d}" / "generated_data.npy")
+    synthetic_data = np.load(results_path / f"experiment_{experiment:02d}" / "generated_data.npy")
     print(synthetic_data.shape)
     real_data = real_data[: synthetic_data.shape[0]]
 

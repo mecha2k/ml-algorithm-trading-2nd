@@ -38,9 +38,9 @@ if __name__ == "__main__":
     num_actions = len(actions)
     probs = [0.1, 0.8, 0.1, 0]
 
-    # We will frequently need to convert between one-dimensional and two-dimensional representations, so we will define
-    # two helper functions for this purpose; states are one-dimensional and cells are the corresponding two-dimensional
-    # coordinates:
+    # We will frequently need to convert between one-dimensional and two-dimensional representations, so we will
+    # define two helper functions for this purpose; states are one-dimensional and cells are the corresponding
+    # two-dimensional coordinates:
     to_1d = lambda x: np.ravel_multi_index(x, grid_size)
     to_2d = lambda x: np.unravel_index(x, grid_size)
 
@@ -66,8 +66,8 @@ if __name__ == "__main__":
         probs_ = dict(zip([actions[j % 4] for j in range(i, num_actions + i)], probs))
         action_outcomes[actions[(i + 1) % 4]] = probs_
 
-    # To account for the probabilistic environment, we also need to compute the probability distribution over the actual
-    # move for a given action:
+    # To account for the probabilistic environment, we also need to compute the probability distribution over
+    # the actual move for a given action:
     print(action_outcomes)
 
     # Now, we are ready to compute the transition matrix, which is the key input to the MDP.

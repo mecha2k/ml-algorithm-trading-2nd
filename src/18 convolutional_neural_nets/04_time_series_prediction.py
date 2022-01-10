@@ -151,31 +151,31 @@ if __name__ == "__main__":
     cnn_data = pd.concat(cnn_data).rename(columns={0: "label"}).sort_index()
     cnn_data.info(show_counts=True)
 
-    # ## Evaluate features
-    # ### Mutual Information
-    # mi = mutual_info_regression(X=cnn_data.drop("label", axis=1), y=cnn_data.label)
-    # mi = pd.Series(mi, index=cnn_data.drop("label", axis=1).columns)
-    #
-    # ### Information Coefficient
-    # ic = {}
-    # for lag in lags:
-    #     ic[lag] = spearmanr(cnn_data.label, cnn_data[lag])
-    # ic = pd.DataFrame(ic, index=["IC", "p-value"]).T
-    #
-    # ax = ic.plot.bar(rot=0, figsize=(14, 4), ylim=(-0.05, 0.05), title="Feature Evaluation")
-    # ax.set_xlabel("Lag")
-    # plt.tight_layout()
-    # plt.savefig("images/04_cnn_ts1d_feature_ic.png", dpi=300)
-    #
-    # ### Plot Metrics
-    # metrics = pd.concat(
-    #     [mi.to_frame("Mutual Information"), ic.IC.to_frame("Information Coefficient")], axis=1
-    # )
-    #
-    # ax = metrics.plot.bar(figsize=(12, 4), rot=0)
-    # ax.set_xlabel("Lag")
-    # plt.tight_layout()
-    # plt.savefig("images/04_ts1d_metrics.png", dpi=300)
+    ## Evaluate features
+    ### Mutual Information
+    mi = mutual_info_regression(X=cnn_data.drop("label", axis=1), y=cnn_data.label)
+    mi = pd.Series(mi, index=cnn_data.drop("label", axis=1).columns)
+
+    ### Information Coefficient
+    ic = {}
+    for lag in lags:
+        ic[lag] = spearmanr(cnn_data.label, cnn_data[lag])
+    ic = pd.DataFrame(ic, index=["IC", "p-value"]).T
+
+    ax = ic.plot.bar(rot=0, figsize=(14, 4), ylim=(-0.05, 0.05), title="Feature Evaluation")
+    ax.set_xlabel("Lag")
+    plt.tight_layout()
+    plt.savefig("images/04_cnn_ts1d_feature_ic.png", dpi=300)
+
+    ### Plot Metrics
+    metrics = pd.concat(
+        [mi.to_frame("Mutual Information"), ic.IC.to_frame("Information Coefficient")], axis=1
+    )
+
+    ax = metrics.plot.bar(figsize=(12, 4), rot=0)
+    ax.set_xlabel("Lag")
+    plt.tight_layout()
+    plt.savefig("images/04_ts1d_metrics.png", dpi=300)
 
     ## CNN: Model Architecture
     # We design a simple one-layer CNN that uses one-dimensional convolutions combined with max pooling to learn

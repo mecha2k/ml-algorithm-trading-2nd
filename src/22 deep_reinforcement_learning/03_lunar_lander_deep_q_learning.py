@@ -19,7 +19,7 @@
 # on its current path), fire its main engine (to reduce downward motion), or steer to the left or right using the
 # respective orientation engines. There are no fuel limitations.
 #
-# The goal is to land the agent between two flags on a landing pad at coordinates (0, 0), but landing outside of the
+# The goal is to land the agent between two flags on a landing pad at coordinates (0, 0), but landing outside the
 # pad is possible. The agent accumulates rewards in the range of 100-140 for moving toward the pad, depending on the
 # exact landing spot. However, moving away from the target negates the reward the agent would have gained by moving
 # toward the pad. Ground contact by each leg adds ten points, and using the main engine costs -0.3 points.
@@ -55,7 +55,7 @@
 #     ε-greedy action. It increases sample efficiency, reduces the autocorrelation of samples, and limits the feedback
 #     due to the current weights producing training samples that can lead to local minima or divergence.
 # - **Slowly-changing target network** weakens the feedback loop from the current network parameters on the neural
-#     network weight updates. Also invented by by Deep Mind in [Human-level control through deep reinforcement learning]
+#     network weight updates. Also invented by Deep Mind in [Human-level control through deep reinforcement learning]
 #     (https://web.stanford.edu/class/psych209/Readings/MnihEtAlHassibis15NatureControlDeepRL.pdf) (2015), it use a
 #     slowly-changing target network that has the same architecture as the Q-network, but its weights are only updated
 #     periodically. The target network generates the predictions of the next state value used to update the Q-Networks
@@ -68,7 +68,7 @@
 #     given the next state, and the weights of another network to provide the corresponding action value estimate.
 #
 # > See the notebook `04_q_learning_for_trading.ipynb` for instructions on upgrading TensorFlow to version 2.2,
-# required by the code below..
+# required by the code below.
 
 import numpy as np
 import pandas as pd
@@ -428,7 +428,7 @@ if __name__ == "__main__":
     max_episodes = 2500
     test_episodes = 0
 
-    # Besides the episode number an elapsed time, we log the moving averages for the last 100 and last 10 rewards and
+    # Besides, the episode number an elapsed time, we log the moving averages for the last 100 and last 10 rewards and
     # episode lengths, as well as their respective maximum values over the last 10 iterations. We also track the decay
     # of epsilon.
     while agent.episodes < max_episodes:
@@ -456,6 +456,7 @@ if __name__ == "__main__":
     axes[0].set_xlabel("Episodes")
     axes[0].axhline(200, c="k", ls="--", lw=1)
     results[["Steps", "Epsilon"]].plot(secondary_y="Epsilon", ax=axes[1])
+
     axes[1].set_xlabel("Episodes")
     fig.suptitle("Double Deep Q-Network Agent | Lunar Lander", fontsize=16)
     fig.tight_layout()
