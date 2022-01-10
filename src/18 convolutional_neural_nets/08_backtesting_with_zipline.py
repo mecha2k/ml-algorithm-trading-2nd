@@ -58,7 +58,6 @@ import warnings
 
 idx = pd.IndexSlice
 np.random.seed(seed=42)
-tf.random.set_seed(seed=42)
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
@@ -162,7 +161,7 @@ if __name__ == "__main__":
     ## Pipeline Setup
     ### Custom ML Factor
     class MLSignal(CustomFactor):
-        """Converting signals to Factor
+        """Converting signals to Factor,
         so we can rank and filter in Pipeline"""
 
         inputs = [SignalData.predictions]
