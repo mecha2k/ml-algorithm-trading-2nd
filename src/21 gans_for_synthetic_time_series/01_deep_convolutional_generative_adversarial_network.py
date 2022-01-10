@@ -249,7 +249,7 @@ if __name__ == "__main__":
                 train_step(img_batch)
 
             # produce images for the GIF as we go
-            display.clear_output(wait=True)
+            # display.clear_output(wait=True)
             generate_and_save_images(generator, epoch + 1, seed)
 
             # Save the model every 10 EPOCHS
@@ -258,7 +258,7 @@ if __name__ == "__main__":
                 print(f"time elapsed : {time()-start}")
 
             # Generator after final epoch
-        display.clear_output(wait=True)
+        # display.clear_output(wait=True)
         generate_and_save_images(generator, epochs, seed)
 
     train(train_set, EPOCHS)
@@ -283,4 +283,4 @@ if __name__ == "__main__":
         image = imageio.imread(filename)
         writer.append_data(image)
 
-    display.Image(filename=out_file)
+    # display.Image(filename=out_file)

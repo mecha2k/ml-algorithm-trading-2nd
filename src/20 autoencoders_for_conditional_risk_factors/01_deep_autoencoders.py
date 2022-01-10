@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     #### Persist result
     # store results given computational intensity (different location to avoid overwriting the pre-computed results)
-    # pd.DataFrame(train_embed).to_hdf('tsne.h5', 'autoencoder_deep')
+    pd.DataFrame(train_embed).to_hdf(results_path / "tsne.h5", "autoencoder_deep")
 
     #### Load pre-computed embeddings
     # Load the pre-computed results here:

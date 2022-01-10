@@ -68,7 +68,7 @@ if __name__ == "__main__":
     ### Network Parameters
     input_shape = (original_dim,)
     intermediate_dim = 512
-    batch_size = 128
+    batch_size = 512
     latent_dim = 2
     epochs = 50
 
@@ -133,9 +133,9 @@ if __name__ == "__main__":
         """
         encoder, decoder = models
         x_test, y_test = data
-        os.makedirs(model_name, exist_ok=True)
+        # os.makedirs(model_name, exist_ok=True)
 
-        filename = results_path / "vae_mean"
+        filename = "images/03_vae_mean.png"
         # display a 2D plot of the digit classes in the latent space
         z_mean, _, _ = encoder.predict(x_test, batch_size=batch_size)
         plt.figure(figsize=(12, 10))
@@ -145,7 +145,7 @@ if __name__ == "__main__":
         plt.ylabel("z[1]")
         plt.savefig(filename, dpi=300)
 
-        filename = results_path / "digits_over_latent"
+        filename = "images/03_digits_over_latent.png"
         # display a 30x30 2D manifold of digits
         n = 30
         digit_size = 28
@@ -177,4 +177,4 @@ if __name__ == "__main__":
         plt.imshow(figure, cmap="Greys_r")
         plt.savefig(filename, dpi=300)
 
-    plot_results(models, data, batch_size=batch_size, model_name="vae_mlp")
+    plot_results(models, data, batch_size=batch_size)

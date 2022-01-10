@@ -56,7 +56,7 @@ if __name__ == "__main__":
     ## Parameters
     seq_len = 24
     n_seq = 6
-    batch_size = 128
+    batch_size = 512
     tickers = ["BA", "CAT", "DIS", "GE", "IBM", "KO"]
 
     def select_data():
