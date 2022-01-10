@@ -16,7 +16,6 @@ from tensorflow.keras.datasets import fashion_mnist
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 import warnings
 
 idx = pd.IndexSlice
