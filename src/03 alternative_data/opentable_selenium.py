@@ -37,7 +37,7 @@ def parse_html(html):
 if __name__ == "__main__":
     url = "https://www.opentable.com/new-york-restaurant-listings"
 
-    driver = webdriver.Chrome(executable_path="./chromedriver.exe")
+    driver = webdriver.Chrome(executable_path="02_earnings_calls/chromedriver.exe")
     driver.implicitly_wait(10)
     driver.get(url)
     page = collected = 0

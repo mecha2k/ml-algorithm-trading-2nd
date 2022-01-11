@@ -80,7 +80,7 @@ def parse_html(html):
 
 if __name__ == "__main__":
     sa_url = "https://seekingalpha.com/"
-    driver = webdriver.Chrome(executable_path="./chromedriver.exe")
+    driver = webdriver.Chrome(executable_path="02_earnings_calls/chromedriver.exe")
 
     page = 1
     while True:

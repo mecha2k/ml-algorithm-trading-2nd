@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from furl import furl
 from selenium import webdriver
 
-transcript_path = Path("transcripts")
+transcript_path = Path("../data/ch03/transcripts")
 
 
 def store_result(meta, participants, content):
@@ -84,10 +84,12 @@ def parse_html(html):
 
 SA_URL = "https://seekingalpha.com/"
 TRANSCRIPT = re.compile("Earnings Call Transcript")
-
+driver_path = "/usr/local/Caskroom/chromedriver/97.0.4692.71/chromedriver"
 next_page = True
 page = 1
-driver = webdriver.Firefox()
+
+# driver = webdriver.Firefox()
+driver = webdriver.Chrome(executable_path=driver_path)
 while next_page:
     print(f"Page: {page}")
     url = f"{SA_URL}/earnings/earnings-call-transcripts/{page}"
@@ -113,4 +115,3 @@ while next_page:
                 sleep(8 + (random() - 0.5) * 2)
 
 driver.close()
-# pd.Series(articles).to_csv('articles.csv')

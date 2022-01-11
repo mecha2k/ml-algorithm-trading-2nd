@@ -345,7 +345,7 @@ if __name__ == "__main__":
     # The script [run_experiments.py](run_experiments.py) lets you train many topic models with different
     # hyperparameters to explore how they impact the results.
     # The script [collect_experiments.py](collect_experiments.py) combines the results into a `results.h5` HDF store.
-    # These results are not included in the repository due to their size, but the results are displayed and you can
+    # These results are not included in the repository due to their size, but the results are displayed, and you can
     # rerun these experiments with earnings call transcripts or other text documents of your choice.
 
     with pd.HDFStore(results_path / "results.h5") as store:
