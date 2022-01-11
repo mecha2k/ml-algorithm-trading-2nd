@@ -20,13 +20,13 @@ from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.model_selection import train_test_split
 import joblib
 
-sns.set_style("whitegrid")
+sns.set_style("white")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
 plt.rcParams["figure.figsize"] = (14, 8)
 pd.options.display.float_format = "{:,.2f}".format
 
-pyLDAvis.enable_notebook()
+# pyLDAvis.enable_notebook()
 
 # change to your data path if necessary
 DATA_DIR = Path("../data")
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     vectorizer = TfidfVectorizer(max_df=0.11, min_df=0.026, stop_words="english")
 
     train_dtm = vectorizer.fit_transform(train_docs.article)
-    words = vectorizer.get_feature_names()
+    words = vectorizer.get_feature_names_out()
     print(train_dtm)
 
     test_dtm = vectorizer.transform(test_docs.article)
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     fig, axes = plt.subplots(nrows=5, sharey=True, sharex=True, figsize=(10, 15))
     for i, (topic, prob) in enumerate(topics.items()):
-        sns.distplot(prob, ax=axes[i], bins=100, kde=False, norm_hist=False)
+        sns.histplot(data=prob, ax=axes[i], bins=100, kde=False)
         axes[i].set_yscale("log")
         axes[i].xaxis.set_major_formatter(FuncFormatter(lambda x, _: "{:.1%}".format(x)))
     fig.suptitle("Topic Distributions")
@@ -267,16 +267,16 @@ if __name__ == "__main__":
     # - **$\lambda$ = 0**: how probable is a word to appear in a topic - words are ranked on lift
     # P(word | topic) / P(word)
     # - **$\lambda$ = 1**: how exclusive is a word to a topic -  words are purely ranked on P(word | topic)
-    #
     # The ranking formula is $\lambda * P(\text{word} \vert \text{topic}) + (1 - \lambda) * \text{lift}$
-    #
     # User studies suggest $\lambda = 0.6$ works for most people.
 
     prepare(lda_all, dtm, vectorizer)
 
     ## Topics as WordClouds
     topics_prob = lda_all.components_ / lda_all.components_.sum(axis=1).reshape(-1, 1)
-    topics = pd.DataFrame(topics_prob.T, index=vectorizer.get_feature_names(), columns=topic_labels)
+    topics = pd.DataFrame(
+        topics_prob.T, index=vectorizer.get_feature_names_out(), columns=topic_labels
+    )
 
     w = WordCloud()
     fig, axes = plt.subplots(nrows=5, figsize=(15, 30))
