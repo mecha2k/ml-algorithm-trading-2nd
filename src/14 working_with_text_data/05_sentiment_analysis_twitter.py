@@ -71,14 +71,14 @@ if __name__ == "__main__":
             return pd.read_parquet(parquet_file)
 
     train = load_train_data()
-    train.info(null_counts=True)
+    train.info(show_counts=True)
 
     def load_test_data():
         parquet_file = data_path / "test.parquet"
         if not parquet_file.exists():
             df = (
                 pd.read_csv(
-                    "data/sentiment140/test.csv",
+                    "../data/sentiment140/test.csv",
                     low_memory=False,
                     encoding="latin1",
                     header=None,
@@ -95,7 +95,7 @@ if __name__ == "__main__":
             return pd.read_parquet(parquet_file)
 
     test = load_test_data()
-    test.info(null_counts=True)
+    test.info(show_counts=True)
 
     ### Explore data
     print(train.head())
@@ -106,11 +106,11 @@ if __name__ == "__main__":
     test.polarity = (test.polarity > 0).astype(int)
     print(test.polarity.value_counts())
 
-    sns.distplot(train.text.str.len(), kde=False)
+    sns.histplot(data=train.text.str.len(), kde=False)
     sns.despine()
     plt.savefig("images/05-01.png")
 
-    print(train.date.describe())
+    print(train.date.describe(datetime_is_numeric=True))
     print(train.user.nunique())
     print(train.user.value_counts().head(10))
 
