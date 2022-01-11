@@ -71,14 +71,14 @@ if __name__ == "__main__":
 
     ### Get token count
     train_token_count = train_dtm.sum(0).A.squeeze()
-    tokens = vectorizer.get_feature_names()
+    tokens = vectorizer.get_feature_names_out()
     word_count = pd.Series(train_token_count, index=tokens).sort_values(ascending=False)
     print(word_count.head(10))
 
     ## Latent Semantic Analysis
-    # We use sklearn’s TruncatedSVD class that only computes the k largest singular values to reduce the dimensionality
-    # of the document-term matrix. The deterministic arpack algorithm delivers an exact solution but the default
-    # ‘randomized’ implementation is more efficient for large matrices.
+    # We use sklearn’s TruncatedSVD class that only computes the k the largest singular values to reduce the
+    # dimensionality of the document-term matrix. The deterministic arpack algorithm delivers an exact solution but
+    # the default ‘randomized’ implementation is more efficient for large matrices.
     # We compute five topics to match the five categories, which explain only 5.4% of the total DTM variance so higher
     # values would be reasonable.
     n_components = 5
