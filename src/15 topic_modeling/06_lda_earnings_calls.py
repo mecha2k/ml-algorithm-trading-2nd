@@ -28,10 +28,9 @@ pd.options.display.float_format = "{:,.2f}".format
 
 # pyLDAvis.enable_notebook()
 
-PROJECT_DIR = Path().cwd().parent
-data_path = Path("../data/ch15/results", "earnings_calls")
-if not data_path.exists():
-    data_path.mkdir(exist_ok=True, parents=True)
+results_path = Path("results", "earnings_calls")
+if not results_path.exists():
+    results_path.mkdir()
 
 if __name__ == "__main__":
     stop_words = set(
@@ -50,6 +49,11 @@ if __name__ == "__main__":
     # with analysts. We will treat each of these statements as separate documents, ignoring operator statements,
     # to obtain 22,766 items with mean and median word counts of 144 and 64, respectively (or as many as you were able
     # to scrape):
+
+    PROJECT_DIR = Path().cwd().parent
+    data_path = Path("../data/ch15/results", "earnings_calls")
+    if not data_path.exists():
+        data_path.mkdir(exist_ok=True, parents=True)
 
     documents = []
     for i, transcript in enumerate(data_path.iterdir()):
@@ -113,33 +117,16 @@ if __name__ == "__main__":
             print(f"{i/len(documents):.2%}", end=" ", flush=True)
         clean_docs.append(clean_doc(document))
 
-    # In[16]:
-
-    results_path = Path("results", "earnings_calls")
-    if not results_path.exists():
-        results_path.mkdir()
-
-    # In[17]:
-
     clean_text = results_path / "clean_text.txt"
-
-    # In[18]:
-
     clean_text.write_text("\n".join(clean_docs))
 
-    # ## Vectorize data
-
-    # In[19]:
-
+    ## Vectorize data
     docs = []
     for line in clean_text.read_text().split("\n"):
         line = [t for t in line.split() if t not in stop_words]
         if len(line) > 10:
             docs.append(" ".join(line))
-
-    len(docs)
-
-    # In[20]:
+    print(len(docs))
 
     token_count = Counter()
     for i, doc in enumerate(docs, 1):
@@ -147,8 +134,6 @@ if __name__ == "__main__":
             print(i, end=" ", flush=True)
         token_count.update(doc.split())
     token_count = pd.DataFrame(token_count.most_common(), columns=["token", "count"])
-
-    # In[21]:
 
     ax = (
         token_count.set_index("token")
@@ -161,21 +146,17 @@ if __name__ == "__main__":
     ax.set_xlabel("Token")
     sns.despine()
     plt.gcf().tight_layout()
-
-    # In[22]:
+    plt.savefig("images/06-03.png")
 
     frequent_words = token_count.head(50).token.tolist()
     binary_vectorizer = CountVectorizer(
         max_df=1.0, min_df=1, stop_words=frequent_words, max_features=None, binary=True
     )
-
     binary_dtm = binary_vectorizer.fit_transform(docs)
 
     n_docs, n_tokens = binary_dtm.shape
     doc_freq = pd.Series(np.array(binary_dtm.sum(axis=0)).squeeze()).div(binary_dtm.shape[0])
     max_unique_tokens = np.array(binary_dtm.sum(axis=1)).squeeze().max()
-
-    # In[23]:
 
     df_range = FloatRangeSlider(
         value=[0.0, 1.0],
@@ -221,11 +202,9 @@ if __name__ == "__main__":
         sns.despine()
         fig.tight_layout()
         fig.subplots_adjust(top=0.9)
+        fig.savefig("images/06-interact.png")
 
-    # ## Train & Evaluate LDA Model
-
-    # In[25]:
-
+    ## Train & Evaluate LDA Model
     def show_word_list(model, corpus, top=10, save=False):
         top_topics = model.top_topics(corpus=corpus, coherence="u_mass", topn=20)
         words, probs = [], []
@@ -245,9 +224,7 @@ if __name__ == "__main__":
         sns.despine()
         fig.tight_layout()
         if save:
-            fig.savefig(results_path / "earnings_call_wordlist", dpi=300)
-
-    # In[26]:
+            fig.savefig("images/06_earnings_call_wordlist.png", dpi=300)
 
     def show_coherence(model, corpus, tokens, top=10, cutoff=0.01):
         top_topics = model.top_topics(corpus=corpus, coherence="u_mass", topn=20)
@@ -270,8 +247,6 @@ if __name__ == "__main__":
         sns.despine()
         fig.tight_layout()
 
-    # In[27]:
-
     def show_top_docs(model, corpus, docs):
         doc_topics = model.get_document_topics(corpus)
         df = pd.concat(
@@ -285,18 +260,13 @@ if __name__ == "__main__":
             print(topicid, docs[int(data.sort_values("weight", ascending=False).iloc[0].doc)])
             print(pd.DataFrame(lda.show_topic(topicid=topicid)))
 
-    # ### Vocab Settings
-
-    # For illustration, we create a document-term matrix containing terms appearing in between 0.5% and 50% of documents for around 1,560 features.
-
-    # In[28]:
-
+    ### Vocab Settings
+    # For illustration, we create a document-term matrix containing terms appearing in between 0.5% and 50% of
+    # documents for around 1,560 features.
     min_df = 0.005
     max_df = 0.25
     ngram_range = (1, 1)
     binary = False
-
-    # In[29]:
 
     vectorizer = CountVectorizer(
         stop_words=frequent_words,
@@ -306,22 +276,15 @@ if __name__ == "__main__":
         binary=binary,
     )
 
-    # In[30]:
-
     dtm = vectorizer.fit_transform(docs)
     tokens = vectorizer.get_feature_names()
-    dtm.shape
-
-    # In[31]:
+    print(dtm.shape)
 
     corpus = Sparse2Corpus(dtm, documents_columns=False)
     id2word = pd.Series(tokens).to_dict()
     dictionary = Dictionary.from_corpus(corpus, id2word)
 
-    # ### Model Settings
-
-    # In[32]:
-
+    ### Model Settings
     num_topics = 15
     chunksize = 50000
     passes = 25
@@ -338,10 +301,8 @@ if __name__ == "__main__":
     per_word_topics = False
 
     # Training a 15 topic model using 25 passes over the corpus takes a bit over two minutes on a 4-core i7.
-    # The top 10 words per topic identify several distinct themes that range from obvious financial information to clinical trials (topic 4) and supply chain issues (12).
-
-    # In[33]:
-
+    # The top 10 words per topic identify several distinct themes that range from obvious financial information
+    # to clinical trials (topic 4) and supply chain issues (12).
     lda = LdaModel(
         corpus=corpus,
         id2word=id2word,
@@ -361,79 +322,53 @@ if __name__ == "__main__":
         random_state=42,
     )
 
-    # In[34]:
-
     show_word_list(model=lda, corpus=corpus, save=True)
 
-    # ### Topic Coherence
-
-    # In[35]:
-
+    ### Topic Coherence
     show_coherence(model=lda, corpus=corpus, tokens=tokens)
+    plt.savefig("images/06-04.png")
 
-    # ### pyLDAVis
-
-    # In[36]:
-
+    ### pyLDAVis
     vis = prepare(lda, corpus, dictionary, mds="tsne")
-    pyLDAvis.display(vis)
-
-    # In[40]:
-
+    # pyLDAvis.display(vis)
     pyLDAvis.save_html(vis, (results_path / f"lda_15.html").as_posix())
 
-    # ### Show documents most represenative of each topic
-
-    # In[41]:
-
+    ### Show documents most represenative of each topic
     show_top_docs(model=lda, corpus=corpus, docs=docs)
 
-    # ## Review Experiment Results
+    ## Review Experiment Results
+    # To illustrate the impact of different parameter settings, we run a few hundred experiments for different DTM
+    # constraints and model parameters. More specifically, we let the min_df and max_df parameters range from 50-500
+    # words and 10% to 100% of documents, respectively using alternatively binary and absolute counts. We then train
+    # LDA models with 3 to 50 topics, using 1 and 25 passes over the corpus.
 
-    # To illustrate the impact of different parameter settings, we run a few hundred experiments for different DTM constraints and model parameters. More specifically, we let the min_df and max_df parameters range from 50-500 words and 10% to 100% of documents, respectively using alternatively binary and absolute counts. We then train LDA models with 3 to 50 topics, using 1 and 25 passes over the corpus.
-
-    # The script [run_experiments.py](run_experiments.py) lets you train many topic models with different hyperparameters to explore how they impact the results. The script [collect_experiments.py](collect_experiments.py) combines the results into a `results.h5` HDF store.
-    #
-    # These results are not included in the repository due to their size, but the results are displayed and you can rerun these experiments with earnings call transcripts or other text documents of your choice.
-
-    # In[43]:
+    # The script [run_experiments.py](run_experiments.py) lets you train many topic models with different
+    # hyperparameters to explore how they impact the results.
+    # The script [collect_experiments.py](collect_experiments.py) combines the results into a `results.h5` HDF store.
+    # These results are not included in the repository due to their size, but the results are displayed and you can
+    # rerun these experiments with earnings call transcripts or other text documents of your choice.
 
     with pd.HDFStore(results_path / "results.h5") as store:
         perplexity = store.get("perplexity")
         coherence = store.get("coherence")
-
-    # In[44]:
-
     perplexity.info()
-
-    # In[45]:
-
     coherence.info()
 
-    # ### Parameter Settings: Impact on Perplexity
-
-    # In[46]:
-
+    ### Parameter Settings: Impact on Perplexity
     X = perplexity[["min_df", "max_df", "binary", "num_topics", "passes"]]
     X = pd.get_dummies(X, columns=X.columns, drop_first=True)
     ols = sm.OLS(endog=perplexity.perplexity, exog=sm.add_constant(X))
     model = ols.fit(cov_type="HC0")
     print(model.summary())
 
-    # ### Parameter Settings: Impact on Coherence
-
-    # In[47]:
-
+    ### Parameter Settings: Impact on Coherence
     X = coherence.drop("coherence", axis=1)
     X = pd.get_dummies(X, columns=X.columns, drop_first=True)
     ols = sm.OLS(endog=coherence.coherence, exog=sm.add_constant(X))
     model = ols.fit(cov_type="HC0")
     print(model.summary())
 
-    # ### Hyperparameter Impact on Perplexity
-
-    # In[48]:
-
+    ### Hyperparameter Impact on Perplexity
     sns.catplot(
         x="num_topics",
         y="perplexity",
@@ -443,18 +378,14 @@ if __name__ == "__main__":
         row="passes",
         kind="strip",
     )
-
-    # In[49]:
+    plt.savefig("images/06-05.png")
 
     coherence.num_topics = coherence.num_topics.apply(lambda x: f"model_{int(x):0>2}")
     perplexity.min_df = perplexity.min_df.apply(lambda x: f"min_df_{int(x):0>3}")
 
-    # ### Hyperparameter Impact on Topic Coherence
-
-    # The following chart illustrate the results in terms of topic coherence (higher is better) ,and perplexity (lower is better). Coherence drops after 25-30 topics, and perplexity similarly increases.
-
-    # In[50]:
-
+    ### Hyperparameter Impact on Topic Coherence
+    # The following chart illustrate the results in terms of topic coherence (higher is better) ,and perplexity
+    # (lower is better). Coherence drops after 25-30 topics, and perplexity similarly increases.
     fig, axes = plt.subplots(ncols=2, figsize=(16, 5))
     data = coherence.sort_values("num_topics")
     sns.lineplot(x="topic", y="coherence", hue="num_topics", data=data, lw=2, ax=axes[0])
@@ -465,5 +396,4 @@ if __name__ == "__main__":
     axes[1].set_title("Perplexity")
     sns.despine()
     fig.tight_layout()
-
-    # In[ ]:
+    plt.savefig("images/06-06.png")
