@@ -12,5 +12,4 @@ words = 0
 for file in files:
     words += pd.read_csv(file).content.str.split().str.len().sum()
 print(words)
-
-# print(len(list(files)))
+print(len(list(files)))
