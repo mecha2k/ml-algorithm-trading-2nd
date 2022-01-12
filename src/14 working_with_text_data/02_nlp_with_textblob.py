@@ -38,12 +38,13 @@ if __name__ == "__main__":
         doc_list.append([topic, heading, body])
     docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
     docs.info()
+    print(docs.shape)
 
     ## Introduction to TextBlob
     # You should already have downloaded TextBlob, a Python library used to explore common NLP tasks.
 
     ### Select random article
-    article = docs.sample(1).squeeze()
+    article = docs.sample(n=1).squeeze()
     print(f"Topic:\t{article.topic.capitalize()}\n\n{article.heading}\n")
     print(article.body.strip())
     parsed_body = TextBlob(article.body)
