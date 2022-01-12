@@ -3,6 +3,7 @@ from time import sleep
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import platform
 
 
 def parse_html(html):
@@ -35,10 +36,17 @@ def parse_html(html):
 if __name__ == "__main__":
     # Start selenium and click through pages until reach end
     # store results by iteratively appending to csv file
-    driver_path = "/usr/local/Caskroom/chromedriver/97.0.4692.71/chromedriver"
+    os_name = platform.system()
+    if os_name == "Windows":
+        driver_path = "."
+    elif os_name == "Darwin":
+        driver_path = "/usr/local/Caskroom/chromedriver/97.0.4692.71/chromedriver"
+    else:
+        driver_path = ""
     driver = webdriver.Chrome(executable_path=driver_path)
 
     url = "https://www.opentable.com/new-york-restaurant-listings"
+    driver.implicitly_wait(10)
     driver.get(url)
     page = collected = 0
     while True:
@@ -47,14 +55,19 @@ if __name__ == "__main__":
         if new_data.empty:
             break
         if page == 0:
-            new_data.to_csv("results.csv", index=False)
+            new_data.to_csv("../../data/ch03_results.csv", index=False)
         elif page > 0:
-            new_data.to_csv("results.csv", index=False, header=None, mode="a")
+            new_data.to_csv("../../data/ch03_results.csv", index=False, header=None, mode="a")
         page += 1
         collected += len(new_data)
         print(f"Page: {page} | Downloaded: {collected}")
-        driver.find_element_by_link_text("Next").click()
+
+        try:
+            driver.find_element_by_link_text("Next").click()
+        except Exception as e:
+            print(e)
+            break
 
     driver.close()
-    restaurants = pd.read_csv("results.csv")
+    restaurants = pd.read_csv("../../data/ch03_results.csv")
     print(restaurants)
