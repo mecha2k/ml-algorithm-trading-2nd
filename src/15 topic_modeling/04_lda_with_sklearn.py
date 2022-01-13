@@ -138,6 +138,7 @@ if __name__ == "__main__":
     train_eval.groupby(level="topic").mean().plot.bar(title="Avg. Topic Probabilities")
 
     df = train_eval.groupby(level="topic").idxmax(axis=1).reset_index(-1, drop=True)
+    fig = plt.figure(figsize=(10, 6))
     sns.heatmap(
         df.groupby(level="topic").value_counts(normalize=True).unstack(-1),
         annot=True,
@@ -153,6 +154,7 @@ if __name__ == "__main__":
     test_eval = pd.DataFrame(test_preds, columns=topic_labels, index=test_docs.topic)
     print(test_eval.head())
 
+    fig = plt.figure(figsize=(10, 6))
     test_eval.groupby(level="topic").mean().plot.bar(
         title="Avg. Topic Probabilities", figsize=(12, 4), rot=0
     )
@@ -161,6 +163,7 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig("images/04-04.png")
 
+    fig = plt.figure(figsize=(10, 6))
     df = test_eval.groupby(level="topic").idxmax(axis=1).reset_index(-1, drop=True)
     sns.heatmap(
         df.groupby(level="topic").value_counts(normalize=True).unstack(-1),
@@ -259,8 +262,8 @@ if __name__ == "__main__":
         verbose=1,
     )
     lda_all.fit(dtm)
-
     joblib.dump(lda_all, model_path / "lda_all.pkl")
+
     lda_all = joblib.load(model_path / "lda_all.pkl")
 
     #### Lambda

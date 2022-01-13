@@ -4,6 +4,7 @@
 from collections import Counter
 from pathlib import Path
 import logging
+import json
 
 import numpy as np
 import pandas as pd
@@ -118,7 +119,7 @@ if __name__ == "__main__":
         articles = []
         counter = Counter()
         for f in data_path.glob("*/**/*.json"):
-            article = json.load(f.open())
+            article = json.load(f.open(mode="r", encoding="UTF-8"))
             if article["thread"]["section_title"] in set(section_titles):
                 text = article["text"].lower().split()
                 counter.update(text)
@@ -131,7 +132,7 @@ if __name__ == "__main__":
     most_common = pd.DataFrame(counter.most_common(), columns=["token", "count"]).pipe(
         lambda x: x[~x.token.str.lower().isin(stop_words)]
     )
-    most_common.head(10)
+    print(most_common.head(10))
 
     ## Preprocessing with SpaCy
     def clean_doc(d):

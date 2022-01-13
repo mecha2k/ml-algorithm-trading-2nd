@@ -74,10 +74,10 @@ if __name__ == "__main__":
     max_features = 2000
 
     # used by sklearn: https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/feature_extraction/stop_words.py
-    # stop_words = pd.read_csv(
-    #     "http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words", header=None, squeeze=True
-    # )
-    # stop_words.to_csv(results_path / "stop_words.csv")
+    stop_words = pd.read_csv(
+        "http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words", header=None, squeeze=True
+    )
+    stop_words.to_csv(results_path / "stop_words.csv")
     stop_words = pd.read_csv(results_path / "stop_words.csv").values
 
     vectorizer = CountVectorizer(
