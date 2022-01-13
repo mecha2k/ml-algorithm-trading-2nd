@@ -8,8 +8,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from furl import furl
 from selenium import webdriver
+import platform
 
-transcript_path = Path("../data/ch03/transcripts")
+transcript_path = Path("../../data/ch03/transcripts")
 
 
 def store_result(meta, participants, content):
@@ -84,12 +85,17 @@ def parse_html(html):
 
 SA_URL = "https://seekingalpha.com/"
 TRANSCRIPT = re.compile("Earnings Call Transcript")
-driver_path = "/usr/local/Caskroom/chromedriver/97.0.4692.71/chromedriver"
-next_page = True
-page = 1
-
-# driver = webdriver.Firefox()
+os_name = platform.system()
+if os_name == "Windows":
+    driver_path = "."
+elif os_name == "Darwin":
+    driver_path = "/usr/local/Caskroom/chromedriver/97.0.4692.71/chromedriver"
+else:
+    driver_path = ""
 driver = webdriver.Chrome(executable_path=driver_path)
+
+page = 1
+next_page = True
 while next_page:
     print(f"Page: {page}")
     url = f"{SA_URL}/earnings/earnings-call-transcripts/{page}"
