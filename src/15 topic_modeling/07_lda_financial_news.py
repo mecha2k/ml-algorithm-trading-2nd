@@ -167,10 +167,10 @@ if __name__ == "__main__":
 
     clean_articles = preprocess(articles)
     clean_path = results_path / "clean_text"
-    clean_path.write_text("\n".join(clean_articles))
+    clean_path.write_text("\n".join(clean_articles), encoding="UTF-8")
 
     ## Vectorize data
-    docs = clean_path.read_text().split("\n")
+    docs = clean_path.read_text(encoding="UTF-8").split("\n")
     print(len(docs))
 
     ### Explore cleaned data
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     axes[1].set_title("Article Length Distribution")
     sns.despine()
     fig.tight_layout()
-    fig.savefig("images/15_fn_explore", dpi=300)
+    fig.savefig("images/07_fn_explore", dpi=300)
 
     print(pd.Series(article_length).describe(percentiles=np.arange(0.1, 1.0, 0.1)))
 
@@ -215,7 +215,7 @@ if __name__ == "__main__":
         stop_words="english", min_df=min_df, max_df=max_df, ngram_range=ngram_range, binary=binary
     )
     dtm = vectorizer.fit_transform(docs)
-    tokens = vectorizer.get_feature_names()
+    tokens = vectorizer.get_feature_names_out()
     print(dtm.shape)
 
     corpus = Sparse2Corpus(dtm, documents_columns=False)
@@ -273,7 +273,7 @@ if __name__ == "__main__":
     ### Perplexity
     pd.Series(perplexity).plot.bar()
     sns.despine()
-    plt.savefig("images/15-01.png")
+    plt.savefig("images/07-01.png")
 
     ### PyLDAVis for 15 Topics
     vis = prepare(lda_models[15], corpus, dictionary, mds="tsne")
@@ -288,4 +288,4 @@ if __name__ == "__main__":
     )
     sns.despine()
     plt.tight_layout()
-    plt.savefig("images/15-02.png")
+    plt.savefig("images/07-02.png")
