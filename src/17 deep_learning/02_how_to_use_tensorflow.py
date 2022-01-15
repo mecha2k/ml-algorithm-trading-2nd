@@ -2,7 +2,7 @@
 # Keras was designed as a high-level or meta API to accelerate the iterative workflow when designing and training deep
 # neural networks with computational backends like TensorFlow, Theano, or CNTK. It has been integrated into TensorFlow
 # in 2017 and is set to become the principal TensorFlow interface with the 2.0 release. You can also combine code from
-# both libraries to leverage Keras’ high-level abstractions as well as customized TensorFlow graph operations.
+# both libraries to leverage Keras’ high-level abstractions and customized TensorFlow graph operations.
 
 # Please follow the installations instructions in `Installation Guide.md` in the root folder.
 
@@ -140,18 +140,21 @@ if __name__ == "__main__":
     cmap = ListedColormap([sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]])
 
     # Plot the classification plane with decision boundary and input samples
+    fig = plt.figure(figsize=(10, 6))
     plt.contourf(xx, yy, y_hat.reshape(n_vals, -1), cmap=cmap, alpha=0.25)
+    plt.savefig("images/02-03.png")
 
     # Plot both classes on the x1, x2 plane
     data = pd.DataFrame(X, columns=["$x_1$", "$x_2$"]).assign(
         Class=pd.Series(y).map({0: "negative", 1: "positive"})
     )
+    fig = plt.figure(figsize=(10, 6))
     sns.scatterplot(
         x="$x_1$", y="$x_2$", hue="Class", data=data, style=y, markers=["_", "+"], legend=False
     )
     sns.despine()
     plt.title("Decision Boundary")
-    plt.savefig("images/02-03.png")
+    plt.savefig("images/02-04.png")
 
     # get_ipython().run_line_magic("load_ext", "tensorboard")
     # get_ipython().run_line_magic("tensorboard", "--logdir results/tensorboard/")

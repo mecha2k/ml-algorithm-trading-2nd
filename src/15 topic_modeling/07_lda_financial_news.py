@@ -224,7 +224,9 @@ if __name__ == "__main__":
 
     ## Train & Evaluate LDA Model
     logging.basicConfig(
-        filename="gensim.log", format="%(asctime)s:%(levelname)s:%(message)s", level=logging.DEBUG
+        filename=results_path / "gensim.log",
+        format="%(asctime)s:%(levelname)s:%(message)s",
+        level=logging.DEBUG,
     )
     logging.root.level = logging.DEBUG
 
@@ -260,7 +262,7 @@ if __name__ == "__main__":
         show_word_list(model=model, corpus=corpus, top=ntopics, save=True)
         show_coherence(model=model, corpus=corpus, tokens=tokens, top=ntopics)
         vis = prepare(model, corpus, dictionary, mds="tsne")
-        pyLDAvis.save_html(vis, f"lda_{ntopics}.html")
+        pyLDAvis.save_html(vis, f"{results_path}/lda_{ntopics}.html")
         return 2 ** (-model.log_perplexity(corpus))
 
     lda_models = {}

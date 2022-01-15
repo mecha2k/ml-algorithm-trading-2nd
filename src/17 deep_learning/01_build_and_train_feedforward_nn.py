@@ -21,7 +21,7 @@ import seaborn as sns
 sns.set_style("white")
 np.random.seed(seed=42)
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 14
+plt.rcParams["font.size"] = 12
 pd.options.display.float_format = "{:,.2f}".format
 
 results_path = Path("../data/ch17/results")
@@ -38,11 +38,11 @@ if __name__ == "__main__":
     # scikit-learn's make_circles function so that the classes are not linearly separable.
 
     # dataset params
-    N = 50000
+    N = 10000
     factor = 0.1
     noise = 0.1
 
-    n_iterations = 10000
+    n_iterations = 2000
     learning_rate = 0.001
     momentum_factor = 0.5
 
@@ -359,9 +359,8 @@ if __name__ == "__main__":
     # a learning rate of 1e-4.
     # It shows that it takes over 5K iterations for the loss to start to decline but then does so very fast. We have
     # not uses stochastic gradient descent, which would have likely significantly accelerated convergence.
-    ax = pd.Series(train_loss).plot(
-        figsize=(12, 3), title="Loss per Iteration", xlim=(0, n_iterations), logy=True
-    )
+    fig = plt.figure(figsize=(12, 3))
+    ax = pd.Series(train_loss).plot(title="Loss per Iteration", xlim=(0, n_iterations), logy=True)
     ax.set_xlabel("Iteration")
     ax.set_ylabel("$\\log \\xi$", fontsize=12)
     sns.despine()
@@ -390,15 +389,18 @@ if __name__ == "__main__":
             feature_space[i, j] = np.argmax(predict(X_, *trained_params))
 
     # Create a color map to show the classification colors of each grid point
+    fig = plt.figure(figsize=(10, 6))
     cmap = ListedColormap([sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]])
 
     # Plot the classification plane with decision boundary and input samples
     plt.contourf(xx, yy, feature_space, cmap=cmap, alpha=0.25)
+    plt.savefig("images/01-contour.png", dpi=300)
 
     # Plot both classes on the x1, x2 plane
     data = pd.DataFrame(X, columns=["$x_1$", "$x_2$"]).assign(
         Class=pd.Series(y).map({0: "negative", 1: "positive"})
     )
+    fig = plt.figure(figsize=(10, 6))
     sns.scatterplot(
         x="$x_1$", y="$x_2$", hue="Class", data=data, style=y, markers=["_", "+"], legend=False
     )
@@ -414,9 +416,11 @@ if __name__ == "__main__":
     xx, yy = np.meshgrid(x1, x2)  # create the grid
     X_ = np.array([xx.ravel(), yy.ravel()]).T
 
-    fig = plt.figure(figsize=(6, 4))
+    fig = plt.figure(1, figsize=(6, 4))
     with sns.axes_style("whitegrid"):
-        ax = Axes3D(fig)
+        plt.clf()
+        ax = Axes3D(fig, elev=43.5, azim=-110, auto_add_to_figure=False)
+        fig.add_axes(ax)
 
     ax.plot(
         *hidden_layer(X[y == 0], hidden_weights, hidden_bias).T,
@@ -435,10 +439,8 @@ if __name__ == "__main__":
     ax.set_ylabel("$h_2$", fontsize=12)
     ax.set_zlabel("$h_3$", fontsize=12)
     ax.view_init(elev=30, azim=-20)
-    # plt.legend(loc='best')
+    plt.legend(loc="best")
     plt.title("Projection of X onto the hidden layer H")
-    sns.despine()
-    plt.tight_layout()
     plt.savefig("images/01-projection3d.png", dpi=300)
 
     ## Network Output Surface Plot
@@ -447,9 +449,8 @@ if __name__ == "__main__":
     )
     print(zz.shape)
 
-    fig = plt.figure()
     with sns.axes_style("whitegrid"):
-        ax = fig.gca(projection="3d")
+        ax = plt.subplot(projection="3d")
     ax.plot_surface(xx, yy, zz, alpha=0.25)
     ax.set_title("Learned Function")
     ax.set_xlabel("$x_1$", fontsize=12)

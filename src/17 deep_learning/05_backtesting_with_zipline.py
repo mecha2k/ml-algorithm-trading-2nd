@@ -160,7 +160,7 @@ if __name__ == "__main__":
     ## Pipeline Setup
     ### Custom ML Factor
     class MLSignal(CustomFactor):
-        """Converting signals to Factor
+        """Converting signals to Factor,
         so we can rank and filter in Pipeline"""
 
         inputs = [SignalData.predictions]

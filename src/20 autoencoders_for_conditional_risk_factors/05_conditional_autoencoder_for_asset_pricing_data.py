@@ -62,7 +62,7 @@ if __name__ == "__main__":
     returns.info()
 
     dates = returns.index
-    sns.distplot(returns.count(1), kde=False)
+    sns.histplot(data=returns.count(1), kde=False)
     plt.savefig("images/05-01.png")
 
     with pd.HDFStore(results_path / "autoencoder.h5") as store:
