@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     ### Select random article
     article = docs.sample(n=1).squeeze()
-    print(f"Topic:\t{article.topic.capitalize()}\n\n{article.heading}\n")
+    print(f"Topic:\t{article.topic.capitalize()}\n{article.heading}")
     print(article.body.strip())
     parsed_body = TextBlob(article.body)
 

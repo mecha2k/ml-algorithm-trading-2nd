@@ -61,10 +61,10 @@ warnings.filterwarnings("ignore")
 # The central data structures in spaCy are the **Doc** and the **Vocab**. Text annotations are also designed to allow
 # a single source of truth:
 # - The **`Doc`** object owns the sequence of tokens and all their annotations. `Span` and `Token` are views that point
-# into it. It is constructed by the `Tokenizer`, and then modified in place by the components of the pipeline.
+#   into it. It is constructed by the `Tokenizer`, and then modified in place by the components of the pipeline.
 # - The **`Vocab`** object owns a set of look-up tables that make common information available across documents.
 # - The **`Language`** object coordinates these components. It takes raw text and sends it through the pipeline,
-# returning an annotated document. It also orchestrates training and serialization.
+#   returning an annotated document. It also orchestrates training and serialization.
 # ![Architecture](assets/spaCy-architecture.svg)
 
 ## SpaCy in Action
