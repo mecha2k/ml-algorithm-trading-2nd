@@ -22,6 +22,8 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation
 
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+from utils import MultipleTimeSeriesCV, format_time
 
 gpu_devices = tf.config.experimental.list_physical_devices("GPU")
 if gpu_devices:
@@ -29,64 +31,6 @@ if gpu_devices:
     tf.config.experimental.set_memory_growth(gpu_devices[0], True)
 else:
     print("Using CPU")
-
-
-def format_time(t):
-    """Return a formatted time string 'HH:MM:SS
-    based on a numeric time() value"""
-    m, s = divmod(t, 60)
-    h, m = divmod(m, 60)
-    return f"{h:0>2.0f}:{m:0>2.0f}:{s:0>2.0f}"
-
-
-class MultipleTimeSeriesCV:
-    """Generates tuples of train_idx, test_idx pairs
-    Assumes the MultiIndex contains levels 'symbol' and 'date'
-    purges overlapping outcomes"""
-
-    def __init__(
-        self,
-        n_splits=3,
-        train_period_length=126,
-        test_period_length=21,
-        lookahead=None,
-        date_idx="date",
-        shuffle=False,
-    ):
-        self.n_splits = n_splits
-        self.lookahead = lookahead
-        self.test_length = test_period_length
-        self.train_length = train_period_length
-        self.shuffle = shuffle
-        self.date_idx = date_idx
-
-    def split(self, X, y=None, groups=None):
-        unique_dates = X.index.get_level_values(self.date_idx).unique()
-        days = sorted(unique_dates, reverse=True)
-        split_idx = []
-        for i in range(self.n_splits):
-            test_end_idx = i * self.test_length
-            test_start_idx = test_end_idx + self.test_length
-            train_end_idx = test_start_idx + self.lookahead - 1
-            train_start_idx = train_end_idx + self.train_length + self.lookahead - 1
-            split_idx.append([train_start_idx, train_end_idx, test_start_idx, test_end_idx])
-
-        dates = X.reset_index()[[self.date_idx]]
-        for train_start, train_end, test_start, test_end in split_idx:
-
-            train_idx = dates[
-                (dates[self.date_idx] > days[train_start])
-                & (dates[self.date_idx] <= days[train_end])
-            ].index
-            test_idx = dates[
-                (dates[self.date_idx] > days[test_start]) & (dates[self.date_idx] <= days[test_end])
-            ].index
-            if self.shuffle:
-                np.random.shuffle(list(train_idx))
-            yield train_idx.to_numpy(), test_idx.to_numpy()
-
-    def get_n_splits(self, X, y, groups=None):
-        return self.n_splits
 
 
 idx = pd.IndexSlice
@@ -168,8 +112,8 @@ if __name__ == "__main__":
     dropout_opts = [0, 0.1, 0.2]
 
     # reduce mytime
-    dense_layer_opts = [(32, 16), (64, 32)]
-    dropout_opts = [0, 0.2]
+    dense_layer_opts = [(64, 32)]
+    dropout_opts = [0.2]
 
     param_grid = list(product(dense_layer_opts, activation_opts, dropout_opts))
     np.random.shuffle(param_grid)
@@ -186,7 +130,7 @@ if __name__ == "__main__":
     scaler = StandardScaler()
     for params in param_grid:
         dense_layers, activation, dropout = params
-        for batch_size in [64, 256]:
+        for batch_size in [256]:
             print(dense_layers, activation, dropout, batch_size)
             checkpoint_dir = (
                 checkpoint_path / str(dense_layers) / activation / str(dropout) / str(batch_size)
@@ -212,7 +156,7 @@ if __name__ == "__main__":
                 model = make_model(dense_layers, activation, dropout)
 
                 # cross-validate for 20 epochs
-                for epoch in range(20):
+                for epoch in range(2):
                     model.fit(
                         x_train,
                         y_train,
@@ -266,11 +210,13 @@ if __name__ == "__main__":
         kind="line",
     )
     g.map(plt.axhline, y=0, ls="--", c="k", lw=1)
-    g.savefig("images/17_ic_lineplot.png")
+    g.savefig("images/04_ic_lineplot.png")
 
     def run_ols(ic):
         ic.dense_layers = (
-            ic.dense_layers.str.replace(", ", "-").str.replace("(", "").str.replace(")", "")
+            ic.dense_layers.str.replace(", ", "-", regex=False)
+            .str.replace("(", "", regex=False)
+            .str.replace(")", "", regex=False)
         )
         data = pd.melt(ic, id_vars=params, var_name="epoch", value_name="ic")
         data.epoch = data.epoch.astype(int).astype(str).apply(lambda x: f"{int(x):02.0f}")
@@ -309,7 +255,7 @@ if __name__ == "__main__":
     )
     ax.set_ylabel("IC")
     ax.set_xlabel("")
-    ax.scatter(x=pd.np.arange(len(coefs)), marker="_", s=120, y=coefs["coef"], color="black")
+    ax.scatter(x=np.arange(len(coefs)), marker="_", s=120, y=coefs["coef"], color="black")
     ax.axhline(y=0, linestyle="--", color="black", linewidth=1)
     ax.xaxis.set_ticks_position("none")
 
@@ -367,7 +313,7 @@ if __name__ == "__main__":
 
     sns.despine()
     fig.tight_layout()
-    fig.savefig("images/ols_coef.png", dpi=300)
+    fig.savefig("images/04_ols_coef", dpi=300)
 
     ## Make Predictions
     def get_best_params(n=5):
@@ -391,14 +337,10 @@ if __name__ == "__main__":
         )
 
     def generate_predictions(dense_layers, activation, dropout, batch_size, epoch):
-        data = (
-            pd.read_hdf("../12_gradient_boosting_machines/data.h5", "model_data")
-            .dropna()
-            .sort_index()
-        )
+        data = pd.read_hdf("../data/12_data.h5", "model_data").dropna().sort_index()
         outcomes = data.filter(like="fwd").columns.tolist()
         X_cv = data.loc[idx[:, :"2017"], :].drop(outcomes, axis=1)
-        input_dim = X_cv.shape[1]
+        # input_dim = X_cv.shape[1]
         y_cv = data.loc[idx[:, :"2017"], "r01_fwd"]
 
         scaler = StandardScaler()

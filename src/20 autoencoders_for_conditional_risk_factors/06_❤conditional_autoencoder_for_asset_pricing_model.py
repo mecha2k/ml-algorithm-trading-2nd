@@ -25,6 +25,7 @@ import warnings
 sys.path.insert(1, os.path.join(sys.path[0], ".."))
 from utils import MultipleTimeSeriesCV, format_time
 
+idx = pd.IndexSlice
 np.random.seed(seed=42)
 tf.random.set_seed(seed=42)
 sns.set_style("whitegrid")

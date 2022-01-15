@@ -30,8 +30,11 @@ def format_time(t):
 
 if __name__ == "__main__":
     ## Get NASDAQ symbols
-    traded_symbols = get_nasdaq_symbols()
-    traded_symbols.info()
+    # traded_symbols = get_nasdaq_symbols()
+    # traded_symbols.info()
+    # traded_symbols.to_pickle(results_path / "symbols.pkl")
+
+    traded_symbols = pd.read_pickle(results_path / "symbols.pkl")
 
     ## Download metadata from yahoo finance
     ### NASDAQ symbols
@@ -41,20 +44,22 @@ if __name__ == "__main__":
 
     yf_symbols = yf.Tickers(all_symbols)
 
-    meta_data = []
-    start = time()
-    for ticker, yf_object in tqdm(yf_symbols.tickers.items()):
-        try:
-            s = pd.Series(yf_object.get_info())
-            meta_data.append(s.to_frame(ticker))
-        except Exception as e:
-            print(symbol.ticker, e)
-    print(f"Success: {len(meta_data):5,.0f} / {n:5,.0f}")
+    # meta_data = []
+    # for ticker, yf_object in tqdm(yf_symbols.tickers.items()):
+    #     try:
+    #         s = pd.Series(yf_object.get_info())
+    #         meta_data.append(s.to_frame(ticker))
+    #     except Exception as e:
+    #         print(symbol.ticker, e)
+    # print(f"Success: {len(meta_data):5,.0f} / {n:5,.0f}")
+    #
+    # df = pd.concat(meta_data, axis=1).dropna(how="all").T
+    # df = df.apply(pd.to_numeric, errors="ignore")
+    # df.info(show_counts=True)
+    # df.to_hdf(results_path / "data.h5", "stocks/info")
 
-    df = pd.concat(meta_data, axis=1).dropna(how="all").T
-    df = df.apply(pd.to_numeric, errors="ignore")
+    df = pd.read_hdf(results_path / "data.h5", "stocks/info")
     df.info(show_counts=True)
-    df.to_hdf(results_path / "data.h5", "stocks/info")
 
     ## Download adjusted price data using yfinance
     prices_adj = []

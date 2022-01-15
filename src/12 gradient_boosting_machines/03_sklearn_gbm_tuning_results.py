@@ -25,7 +25,7 @@ np.random.seed(42)
 idx = pd.IndexSlice
 sns.set_style("whitegrid")
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 14
+plt.rcParams["font.size"] = 12
 warnings.filterwarnings("ignore")
 pd.options.display.float_format = "{:,.2f}".format
 
@@ -33,7 +33,7 @@ pd.options.display.float_format = "{:,.2f}".format
 if __name__ == "__main__":
     with pd.HDFStore("../data/ch12/tuning_sklearn_gbm.h5") as store:
         test_feature_data = store["holdout/features"]
-        test_features = test_feature_data.columns
+        test_features = test_feature_data.columns[:-1]
         test_target = store["holdout/target"]
 
     ## GBM GridsearchCV with sklearn
@@ -73,8 +73,6 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig("images/03-01.png")
 
-    print(best_model.feature_importances_)
-    print(test_features)
     print(pd.Series(best_model.feature_importances_, index=test_features))
 
     #### Inspect global feature importance
@@ -126,7 +124,7 @@ if __name__ == "__main__":
     fig.suptitle("Mean Test Score Distribution by Hyperparameter", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.94)
-    fig.savefig("images/sklearn_cv_scores_by_param.png")
+    fig.savefig("images/03_sklearn_cv_scores_by_param")
 
     ### Dummy-encode parameters
     data = get_test_scores(results)
@@ -199,6 +197,8 @@ if __name__ == "__main__":
     gbm_fi = gbm_fi[gbm_fi > 0]
     idx = [p.split("_") for p in gbm_fi.index]
     gbm_fi.index = ["_".join(p[:-1]) + "=" + p[-1] for p in idx]
+
+    fig = plt.figure(figsize=(10, 6))
     gbm_fi.sort_values().plot.barh(figsize=(5, 5))
     plt.title("Hyperparameter Importance")
     plt.tight_layout()

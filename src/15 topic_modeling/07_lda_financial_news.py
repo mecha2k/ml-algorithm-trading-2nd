@@ -4,6 +4,7 @@
 from collections import Counter
 from pathlib import Path
 import logging
+import json
 
 import numpy as np
 import pandas as pd
@@ -118,7 +119,7 @@ if __name__ == "__main__":
         articles = []
         counter = Counter()
         for f in data_path.glob("*/**/*.json"):
-            article = json.load(f.open())
+            article = json.load(f.open(mode="r", encoding="UTF-8"))
             if article["thread"]["section_title"] in set(section_titles):
                 text = article["text"].lower().split()
                 counter.update(text)
@@ -131,7 +132,7 @@ if __name__ == "__main__":
     most_common = pd.DataFrame(counter.most_common(), columns=["token", "count"]).pipe(
         lambda x: x[~x.token.str.lower().isin(stop_words)]
     )
-    most_common.head(10)
+    print(most_common.head(10))
 
     ## Preprocessing with SpaCy
     def clean_doc(d):
@@ -166,10 +167,10 @@ if __name__ == "__main__":
 
     clean_articles = preprocess(articles)
     clean_path = results_path / "clean_text"
-    clean_path.write_text("\n".join(clean_articles))
+    clean_path.write_text("\n".join(clean_articles), encoding="UTF-8")
 
     ## Vectorize data
-    docs = clean_path.read_text().split("\n")
+    docs = clean_path.read_text(encoding="UTF-8").split("\n")
     print(len(docs))
 
     ### Explore cleaned data
@@ -197,7 +198,7 @@ if __name__ == "__main__":
     axes[1].set_title("Article Length Distribution")
     sns.despine()
     fig.tight_layout()
-    fig.savefig("images/15_fn_explore", dpi=300)
+    fig.savefig("images/07_fn_explore", dpi=300)
 
     print(pd.Series(article_length).describe(percentiles=np.arange(0.1, 1.0, 0.1)))
 
@@ -214,7 +215,7 @@ if __name__ == "__main__":
         stop_words="english", min_df=min_df, max_df=max_df, ngram_range=ngram_range, binary=binary
     )
     dtm = vectorizer.fit_transform(docs)
-    tokens = vectorizer.get_feature_names()
+    tokens = vectorizer.get_feature_names_out()
     print(dtm.shape)
 
     corpus = Sparse2Corpus(dtm, documents_columns=False)
@@ -223,7 +224,9 @@ if __name__ == "__main__":
 
     ## Train & Evaluate LDA Model
     logging.basicConfig(
-        filename="gensim.log", format="%(asctime)s:%(levelname)s:%(message)s", level=logging.DEBUG
+        filename=results_path / "gensim.log",
+        format="%(asctime)s:%(levelname)s:%(message)s",
+        level=logging.DEBUG,
     )
     logging.root.level = logging.DEBUG
 
@@ -259,7 +262,7 @@ if __name__ == "__main__":
         show_word_list(model=model, corpus=corpus, top=ntopics, save=True)
         show_coherence(model=model, corpus=corpus, tokens=tokens, top=ntopics)
         vis = prepare(model, corpus, dictionary, mds="tsne")
-        pyLDAvis.save_html(vis, f"lda_{ntopics}.html")
+        pyLDAvis.save_html(vis, f"{results_path}/lda_{ntopics}.html")
         return 2 ** (-model.log_perplexity(corpus))
 
     lda_models = {}
@@ -272,7 +275,7 @@ if __name__ == "__main__":
     ### Perplexity
     pd.Series(perplexity).plot.bar()
     sns.despine()
-    plt.savefig("images/15-01.png")
+    plt.savefig("images/07-01.png")
 
     ### PyLDAVis for 15 Topics
     vis = prepare(lda_models[15], corpus, dictionary, mds="tsne")
@@ -287,4 +290,4 @@ if __name__ == "__main__":
     )
     sns.despine()
     plt.tight_layout()
-    plt.savefig("images/15-02.png")
+    plt.savefig("images/07-02.png")

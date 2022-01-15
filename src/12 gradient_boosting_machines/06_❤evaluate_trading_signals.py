@@ -21,6 +21,8 @@ from alphalens import performance as perf
 from alphalens.utils import get_clean_factor_and_forward_returns, rate_of_return, std_conversion
 from alphalens.tears import create_summary_tear_sheet, create_full_tear_sheet
 
+sys.path.insert(1, os.path.join(sys.path[0], ".."))
+from utils import MultipleTimeSeriesCV, format_time
 
 YEAR = 252
 
@@ -34,56 +36,6 @@ pd.options.display.float_format = "{:,.2f}".format
 results_path = Path("../data/ch12", "us_stocks")
 if not results_path.exists():
     results_path.mkdir(parents=True)
-
-
-class MultipleTimeSeriesCV:
-    """Generates tuples of train_idx, test_idx pairs
-    Assumes the MultiIndex contains levels 'symbol' and 'date'
-    purges overlapping outcomes"""
-
-    def __init__(
-        self,
-        n_splits=3,
-        train_period_length=126,
-        test_period_length=21,
-        lookahead=None,
-        date_idx="date",
-        shuffle=False,
-    ):
-        self.n_splits = n_splits
-        self.lookahead = lookahead
-        self.test_length = test_period_length
-        self.train_length = train_period_length
-        self.shuffle = shuffle
-        self.date_idx = date_idx
-
-    def split(self, X, y=None, groups=None):
-        unique_dates = X.index.get_level_values(self.date_idx).unique()
-        days = sorted(unique_dates, reverse=True)
-        split_idx = []
-        for i in range(self.n_splits):
-            test_end_idx = i * self.test_length
-            test_start_idx = test_end_idx + self.test_length
-            train_end_idx = test_start_idx + self.lookahead - 1
-            train_start_idx = train_end_idx + self.train_length + self.lookahead - 1
-            split_idx.append([train_start_idx, train_end_idx, test_start_idx, test_end_idx])
-
-        dates = X.reset_index()[[self.date_idx]]
-        for train_start, train_end, test_start, test_end in split_idx:
-
-            train_idx = dates[
-                (dates[self.date_idx] > days[train_start])
-                & (dates[self.date_idx] <= days[train_end])
-            ].index
-            test_idx = dates[
-                (dates[self.date_idx] > days[test_start]) & (dates[self.date_idx] <= days[test_end])
-            ].index
-            if self.shuffle:
-                np.random.shuffle(list(train_idx))
-            yield train_idx.to_numpy(), test_idx.to_numpy()
-
-    def get_n_splits(self, X, y, groups=None):
-        return self.n_splits
 
 
 if __name__ == "__main__":
@@ -248,7 +200,7 @@ if __name__ == "__main__":
     axes[1].axhline(0, ls="--", lw=1, c="k")
     axes[1].set_title("Daily IC")
     fig.tight_layout()
-    plt.savefig("images/06-01.png")
+    plt.savefig("images/06-01")
 
     ## HyperParameter Impact: Linear Regression
     # Next, we'd like to understand if there's a systematic, statistical relationship between the hyperparameters and
@@ -308,7 +260,7 @@ if __name__ == "__main__":
     fig.suptitle("OLS Coefficients & Confidence Intervals", fontsize=20)
     fig.tight_layout()
     fig.subplots_adjust(top=0.92)
-    plt.savefig("images/06-02.png")
+    plt.savefig("images/06-02")
 
     ## Cross-validation Result: Best Hyperparameters
     ### LightGBM
@@ -345,7 +297,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(10, 6))
     sns.jointplot(x=lgb_metrics.daily_ic_mean, y=lgb_metrics.ic)
-    plt.savefig("images/06-03.png")
+    plt.savefig("images/06-03")
 
     ### Visualization
     #### LightGBM
@@ -353,7 +305,7 @@ if __name__ == "__main__":
     g = sns.catplot(
         x="lookahead", y="ic", col="train_length", row="test_length", data=lgb_metrics, kind="box"
     )
-    plt.savefig("images/06-04.png")
+    plt.savefig("images/06-04")
 
     t = 1
     fig = plt.figure(figsize=(10, 6))
@@ -365,7 +317,7 @@ if __name__ == "__main__":
         data=lgb_daily_ic[lgb_daily_ic.lookahead == t],
         kind="box",
     )
-    plt.savefig("images/06-05.png")
+    plt.savefig("images/06-05")
 
     #### CatBoost
     # Some figures are empty because we did not run those parameter combinations.
@@ -379,7 +331,7 @@ if __name__ == "__main__":
         data=catboost_metrics[catboost_metrics.lookahead == t],
         kind="box",
     )
-    plt.savefig("images/06-06.png")
+    plt.savefig("images/06-06")
 
     t = 1
     train_length = 1134
@@ -397,7 +349,7 @@ if __name__ == "__main__":
         ],
         kind="swarm",
     )
-    plt.savefig("images/06-07.png")
+    plt.savefig("images/06-07")
 
     ## AlphaLens Analysis - Validation Performance
     ### LightGBM
@@ -449,7 +401,7 @@ if __name__ == "__main__":
     fig.suptitle("3-Month Rolling Information Coefficient", fontsize=16)
     fig.tight_layout()
     fig.subplots_adjust(top=0.92)
-    plt.savefig("images/06-08.png")
+    plt.savefig("images/06-08")
 
     #### Get Predictions for Validation Period
     # We retrieve the predictions for the 10 validation runs:
@@ -577,7 +529,7 @@ if __name__ == "__main__":
     fig.suptitle("Alphalens - Validation Set Performance", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.85)
-    plt.savefig("images/06-09.png")
+    plt.savefig("images/06-09")
 
     #### Summary Tearsheet
     create_summary_tear_sheet(factor_data)
@@ -626,7 +578,7 @@ if __name__ == "__main__":
     fig.suptitle("3-Month Rolling Information Coefficient", fontsize=16)
     fig.tight_layout()
     fig.subplots_adjust(top=0.92)
-    plt.savefig("images/06-10.png")
+    plt.savefig("images/06-10")
 
     #### Get Predictions
     lookahead = 1
