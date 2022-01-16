@@ -13,6 +13,7 @@ import pandas as pd
 import spacy
 from spacy import displacy
 from textacy.extract import ngrams, entities
+from pprint import pprint
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -79,7 +80,7 @@ if __name__ == "__main__":
     nlp = spacy.load("en_core_web_sm")
     print(type(nlp))
     print(nlp.lang)
-    spacy.info("en_core_web_sm")
+    pprint(spacy.info("en_core_web_sm"))
 
     def get_attributes(f):
         print([a for a in dir(f) if not a.startswith("_")], end=" ")
@@ -90,6 +91,7 @@ if __name__ == "__main__":
     # Let’s illustrate the pipeline using a simple sentence:
     sample_text = "Apple is looking at buying U.K. startup for $1 billion"
     doc = nlp(sample_text)
+    print(dir(doc))
     get_attributes(doc)
 
     print(doc.is_parsed)

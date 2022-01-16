@@ -89,23 +89,23 @@ if __name__ == "__main__":
 
     ### Download stock price data using Yfinance
     # `yfinance` can be unstable so that connections drop; if you experience this you may want to store intermediate
-    # results so you don't have to start over.
-    yf_data, missing = [], []
-    for i, (symbol, dates) in enumerate(filing_index.groupby("ticker").date_filed, 1):
-        if i % 250 == 0:
-            print(i, len(yf_data), len(set(missing)), flush=True)
-        ticker = yf.Ticker(symbol)
-        for filing, date in dates.to_dict().items():
-            start = date - timedelta(days=93)
-            end = date + timedelta(days=31)
-            df = ticker.history(start=start, end=end)
-            if df.empty:
-                missing.append(symbol)
-            else:
-                yf_data.append(df.assign(ticker=symbol, filing=filing))
-
-    yf_data = pd.concat(yf_data).rename(columns=str.lower)
-    yf_data.to_hdf(results_path / "sec_returns.h5", "data/yfinance")
+    # results, so you don't have to start over.
+    # yf_data, missing = [], []
+    # for i, (symbol, dates) in enumerate(filing_index.groupby("ticker").date_filed, 1):
+    #     if i % 250 == 0:
+    #         print(i, len(yf_data), len(set(missing)), flush=True)
+    #     ticker = yf.Ticker(symbol)
+    #     for filing, date in dates.to_dict().items():
+    #         start = date - timedelta(days=93)
+    #         end = date + timedelta(days=31)
+    #         df = ticker.history(start=start, end=end)
+    #         if df.empty:
+    #             missing.append(symbol)
+    #         else:
+    #             yf_data.append(df.assign(ticker=symbol, filing=filing))
+    #
+    # yf_data = pd.concat(yf_data).rename(columns=str.lower)
+    # yf_data.to_hdf(results_path / "sec_returns.h5", "data/yfinance")
 
     yf_data = pd.read_hdf(results_path / "sec_returns.h5", "data/yfinance")
     print(yf_data.ticker.nunique())
@@ -397,7 +397,7 @@ if __name__ == "__main__":
     ## Train model
     early_stopping = EarlyStopping(monitor="val_MAE", patience=5, restore_best_weights=True)
 
-    # Training stops after eight epochs and we recover the weights for the best models to find a high test AUC of 0.9346:
+    # Training stops after eight epochs, and we recover the weights for the best models to find a high test AUC of 0.9346:
     training = rnn.fit(
         X_train,
         y_train,

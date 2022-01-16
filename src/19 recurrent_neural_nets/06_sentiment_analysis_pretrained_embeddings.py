@@ -62,21 +62,22 @@ if __name__ == "__main__":
 
     path = Path("..", "data", "aclImdb")
 
-    files = path.glob("**/*.txt")
-    len(list(files))
-
     files = path.glob("*/**/*.txt")
-    outcomes = set()
-    data = []
-    for f in files:
-        if f.stem.startswith(("urls_", "imdbEr")):
-            continue
-        aa = f.parent.as_posix().split("/")
-        _, _, _, data_set, outcome = f.parent.as_posix().split("/")
-        if outcome == "unsup":
-            continue
-        data.append([data_set, int(outcome == "pos"), f.read_text(encoding="latin1")])
-    data = pd.DataFrame(data, columns=["dataset", "label", "review"])
+    print("files :", len(list(files)))
+
+    # data = []
+    # for f in files:
+    #     if f.stem.startswith(("urls_", "imdbEr")):
+    #         continue
+    #     aa = f.parent.as_posix().split("/")
+    #     _, _, _, data_set, outcome = f.parent.as_posix().split("/")
+    #     if outcome == "unsup":
+    #         continue
+    #     data.append([data_set, int(outcome == "pos"), f.read_text(encoding="latin1")])
+    # data = pd.DataFrame(data, columns=["dataset", "label", "review"])
+    # data.to_pickle(results_path / "aclimdb_data.pkl")
+
+    data = pd.read_pickle(results_path / "aclimdb_data.pkl")
     data.info()
 
     train_data = data.loc[data.dataset == "train", ["label", "review"]]
@@ -180,7 +181,7 @@ if __name__ == "__main__":
     training = rnn.fit(
         X_train_padded,
         y_train,
-        batch_size=32,
+        batch_size=256,
         epochs=100,
         validation_data=(X_test_padded, y_test),
         callbacks=[early_stopping, checkpointer],

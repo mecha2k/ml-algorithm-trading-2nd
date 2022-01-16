@@ -65,73 +65,73 @@ if __name__ == "__main__":
     ]
 
     # ## Load Data
-    with pd.HDFStore(results_path / "autoencoder.h5") as store:
-        print(store.info())
-
-    ### Weekly returns
-    data = (
-        pd.read_hdf(results_path / "autoencoder.h5", "returns")
-        .stack(dropna=False)
-        .to_frame("returns")
-        .loc[idx["1993":, :], :]
-    )
-
-    with pd.HDFStore(results_path / "autoencoder.h5") as store:
-        keys = [k[1:] for k in store.keys() if k[1:].startswith("factor")]
-        for key in keys:
-            data[key.split("/")[-1]] = store[key].squeeze()
-    characteristics = data.drop("returns", axis=1).columns.tolist()
-    data["returns_fwd"] = data.returns.unstack("ticker").shift(-1).stack()
-    data.info(show_counts=True)
-
-    nobs_by_date = data.groupby(level="date").count().max(1)
-    nobs_by_characteristic = pd.melt(
-        data[characteristics].groupby(level="date").count(),
-        value_name="# Observations",
-        var_name=["Characteristic"],
-    )
-
-    with sns.axes_style("white"):
-        fig, axes = plt.subplots(ncols=2, figsize=(14, 4))
-        sns.distplot(nobs_by_date, kde=False, ax=axes[0])
-        axes[0].set_title("# of Stocks per Week")
-        axes[0].set_xlabel("# of Observations")
-        sns.boxplot(
-            x="Characteristic",
-            y="# Observations",
-            data=nobs_by_characteristic,
-            ax=axes[1],
-            palette="Blues",
-        )
-        axes[1].set_xticklabels(axes[1].get_xticklabels(), rotation=25, ha="right")
-        axes[1].set_title("# of Observation per Stock Characteristic")
-        fig.tight_layout()
-        plt.savefig("images/06-01.png")
-
-    ### Rank-normalize characteristics
-    data.loc[:, characteristics] = (
-        data.loc[:, characteristics]
-        .groupby(level="date")
-        .apply(
-            lambda x: pd.DataFrame(
-                quantile_transform(x, copy=True, n_quantiles=x.shape[0]),
-                columns=characteristics,
-                index=x.index.get_level_values("ticker"),
-            )
-        )
-        .mul(2)
-        .sub(1)
-    )
-    data.info(show_counts=True)
-    print(data.index.names)
-    print(data.describe())
-
-    data = data.loc[idx[:"2019", :], :]
-    data.loc[:, ["returns", "returns_fwd"]] = data.loc[:, ["returns", "returns_fwd"]].clip(
-        lower=-1, upper=1.0
-    )
-    data = data.fillna(-2)
-    data.to_hdf(results_path / "autoencoder.h5", "model_data")
+    # with pd.HDFStore(results_path / "autoencoder.h5") as store:
+    #     print(store.info())
+    #
+    # ### Weekly returns
+    # data = (
+    #     pd.read_hdf(results_path / "autoencoder.h5", "returns")
+    #     .stack(dropna=False)
+    #     .to_frame("returns")
+    #     .loc[idx["1993":, :], :]
+    # )
+    #
+    # with pd.HDFStore(results_path / "autoencoder.h5") as store:
+    #     keys = [k[1:] for k in store.keys() if k[1:].startswith("factor")]
+    #     for key in keys:
+    #         data[key.split("/")[-1]] = store[key].squeeze()
+    # characteristics = data.drop("returns", axis=1).columns.tolist()
+    # data["returns_fwd"] = data.returns.unstack("ticker").shift(-1).stack()
+    # data.info(show_counts=True)
+    #
+    # nobs_by_date = data.groupby(level="date").count().max(1)
+    # nobs_by_characteristic = pd.melt(
+    #     data[characteristics].groupby(level="date").count(),
+    #     value_name="# Observations",
+    #     var_name=["Characteristic"],
+    # )
+    #
+    # with sns.axes_style("white"):
+    #     fig, axes = plt.subplots(ncols=2, figsize=(14, 4))
+    #     sns.distplot(nobs_by_date, kde=False, ax=axes[0])
+    #     axes[0].set_title("# of Stocks per Week")
+    #     axes[0].set_xlabel("# of Observations")
+    #     sns.boxplot(
+    #         x="Characteristic",
+    #         y="# Observations",
+    #         data=nobs_by_characteristic,
+    #         ax=axes[1],
+    #         palette="Blues",
+    #     )
+    #     axes[1].set_xticklabels(axes[1].get_xticklabels(), rotation=25, ha="right")
+    #     axes[1].set_title("# of Observation per Stock Characteristic")
+    #     fig.tight_layout()
+    #     plt.savefig("images/06-01.png")
+    #
+    # ### Rank-normalize characteristics
+    # data.loc[:, characteristics] = (
+    #     data.loc[:, characteristics]
+    #     .groupby(level="date")
+    #     .apply(
+    #         lambda x: pd.DataFrame(
+    #             quantile_transform(x, copy=True, n_quantiles=x.shape[0]),
+    #             columns=characteristics,
+    #             index=x.index.get_level_values("ticker"),
+    #         )
+    #     )
+    #     .mul(2)
+    #     .sub(1)
+    # )
+    # data.info(show_counts=True)
+    # print(data.index.names)
+    # print(data.describe())
+    #
+    # data = data.loc[idx[:"2019", :], :]
+    # data.loc[:, ["returns", "returns_fwd"]] = data.loc[:, ["returns", "returns_fwd"]].clip(
+    #     lower=-1, upper=1.0
+    # )
+    # data = data.fillna(-2)
+    # data.to_hdf(results_path / "autoencoder.h5", "model_data")
 
     ## Architecture
     data = pd.read_hdf(results_path / "autoencoder.h5", "model_data")
