@@ -37,22 +37,22 @@ if not results_path.exists():
     results_path.mkdir(parents=True)
 
 if __name__ == "__main__":
-    ## Load BBC data
-    path = Path("..", "data", "bbc")
-    files = sorted(list(path.glob("**/*.txt")))
-    doc_list = []
-    for i, file in enumerate(files):
-        topic = file.parts[-2]
-        article = file.read_text(encoding="latin1").split("\n")
-        heading = article[0].strip()
-        body = " ".join([l.strip() for l in article[1:]]).strip()
-        doc_list.append([topic, heading, body])
-
-    ### Convert to DataFrame
-    docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
-    docs.info()
+    # ## Load BBC data
+    # path = Path("..", "data", "bbc")
+    # files = sorted(list(path.glob("**/*.txt")))
+    # doc_list = []
+    # for i, file in enumerate(files):
+    #     topic = file.parts[-2]
+    #     article = file.read_text(encoding="latin1").split("\n")
+    #     heading = article[0].strip()
+    #     body = " ".join([l.strip() for l in article[1:]]).strip()
+    #     doc_list.append([topic, heading, body])
+    # ### Convert to DataFrame
+    # docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
+    # docs.info()
 
     ### Inspect results
+    docs = pd.read_pickle(results_path / "bbc.pkl")
     print(docs.sample(10))
 
     ### Data drawn from 5 different categories

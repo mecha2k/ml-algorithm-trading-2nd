@@ -27,6 +27,7 @@ if __name__ == "__main__":
     # download NLTK resources
     nltk.download("punkt")
     nltk.download("omw-1.4")
+    nltk.download("wordnet")
 
     ## Load BBC Data
     # To illustrate the use of TextBlob, we sample a BBC sports article with the headline ‘Robinson ready for difficult
@@ -80,7 +81,6 @@ if __name__ == "__main__":
     )
 
     ### Lemmatization
-    nltk.download("wordnet")
     print(
         [
             (word, word.lemmatize())
