@@ -18,6 +18,11 @@ from sklearn.feature_extraction.text import CountVectorizer
 np.random.seed(42)
 sns.set_style("white")
 
+results_path = Path("../data/ch14", "bbc")
+if not results_path.exists():
+    results_path.mkdir(parents=True)
+
+
 if __name__ == "__main__":
     # download NLTK resources
     nltk.download("punkt")
@@ -27,16 +32,19 @@ if __name__ == "__main__":
     # To illustrate the use of TextBlob, we sample a BBC sports article with the headline ‘Robinson ready for difficult
     # task’. Similar to spaCy and other libraries, the first step is to pass the document through a pipeline represented
     # by the TextBlob object to assign annotations required for various tasks.
-    path = Path("..", "data", "bbc")
-    files = sorted(list(path.glob("**/*.txt")))
-    doc_list = []
-    for i, file in enumerate(files):
-        topic = file.parts[-2]
-        article = file.read_text(encoding="latin1").split("\n")
-        heading = article[0].strip()
-        body = " ".join([l.strip() for l in article[1:]]).strip()
-        doc_list.append([topic, heading, body])
-    docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
+    # path = Path("..", "data", "bbc")
+    # files = sorted(list(path.glob("**/*.txt")))
+    # doc_list = []
+    # for i, file in enumerate(files):
+    #     topic = file.parts[-2]
+    #     article = file.read_text(encoding="latin1").split("\n")
+    #     heading = article[0].strip()
+    #     body = " ".join([l.strip() for l in article[1:]]).strip()
+    #     doc_list.append([topic, heading, body])
+    # docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
+    # docs.to_pickle(results_path / "bbc.pkl")
+
+    docs = pd.read_pickle(results_path / "bbc.pkl")
     docs.info()
     print(docs.shape)
 
