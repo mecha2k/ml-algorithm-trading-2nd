@@ -29,7 +29,7 @@ if __name__ == "__main__":
     nltk.download("omw-1.4")
     nltk.download("wordnet")
 
-    ## Load BBC Data
+    # Load BBC Data
     # To illustrate the use of TextBlob, we sample a BBC sports article with the headline ‘Robinson ready for difficult
     # task’. Similar to spaCy and other libraries, the first step is to pass the document through a pipeline represented
     # by the TextBlob object to assign annotations required for various tasks.
