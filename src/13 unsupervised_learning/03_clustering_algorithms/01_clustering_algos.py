@@ -22,12 +22,8 @@
 # - makes hard, i.e., binary, or soft, probabilistic assignment, and
 # - is complete and assigns all data points to cluster.
 # This notebook compares several clustering algorithms using toy datasets.
-from warnings import filterwarnings
-
-filterwarnings("ignore")
 
 import matplotlib.pyplot as plt
-import pandas as pd
 from numpy.random import rand, seed
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import kneighbors_graph
@@ -37,7 +33,9 @@ from sklearn.cluster import KMeans, SpectralClustering, DBSCAN, AgglomerativeClu
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import adjusted_mutual_info_score
 import seaborn as sns
+from warnings import filterwarnings
 
+filterwarnings("ignore")
 sns.set_style("white")
 seed(42)
 
