@@ -10,7 +10,6 @@ import seaborn as sns
 import warnings
 
 from numpy import atleast_2d
-from time import sleep
 from random import shuffle
 from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
@@ -21,10 +20,8 @@ from sklearn.neighbors import KDTree
 from hdbscan import HDBSCAN
 
 from matplotlib.colors import ListedColormap
-from matplotlib import cm
-from IPython import display
 
-cmap = cm.get_cmap("viridis")
+# cmap = cm.get_cmap("viridis")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 18
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))

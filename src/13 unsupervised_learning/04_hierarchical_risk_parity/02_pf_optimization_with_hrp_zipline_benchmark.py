@@ -40,7 +40,7 @@ from zipline.pipeline.loaders.frame import DataFrameLoader
 from trading_calendars import get_calendar
 
 from pypfopt.efficient_frontier import EfficientFrontier
-from pypfopt.hierarchical_risk_parity import HRPOpt
+from pypfopt.hierarchical_portfolio import HRPOpt
 from pypfopt import risk_models
 from pypfopt import expected_returns
 
@@ -112,7 +112,7 @@ signal_loader = {SignalData.predictions: DataFrameLoader(SignalData.predictions,
 ## Pipeline Setup
 ### Custom ML Factor
 class MLSignal(CustomFactor):
-    """Converting signals to Factor
+    """Converting signals to Factor,
     so we can rank and filter in Pipeline"""
 
     inputs = [SignalData.predictions]

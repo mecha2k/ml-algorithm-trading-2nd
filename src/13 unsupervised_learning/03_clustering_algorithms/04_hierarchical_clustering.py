@@ -21,10 +21,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
 from scipy.spatial.distance import pdist
 
-from matplotlib.animation import FuncAnimation
 from matplotlib.colors import ListedColormap
 from collections import OrderedDict
-from IPython.display import HTML
 
 sns.set_style("white")
 plt.rcParams["figure.dpi"] = 300
@@ -64,8 +62,11 @@ ax = plt.figure(figsize=(14, 6)).gca(
     xlabel=f"Explained Variance: {ev1:.2%}",
     ylabel=f"Explained Variance: {ev2:.2%}",
 )
+# ax.set_title("2D Projection")
+# ax.set_xlable(f"Explained Variance: {ev1:.2%}")
+# ax.set_ylable(f"Explained Variance: {ev2:.2%}")
 ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
-plt.savefig("images/04-01.png", bboxinches="tight")
+plt.savefig("images/04-01.png")
 
 ### Perform agglomerative clustering
 Z = linkage(features_standardized, "ward")
@@ -82,7 +83,7 @@ print(linkage_matrix.head())
 linkage_matrix[["distance", "n_objects"]].plot(
     secondary_y=["distance"], title="Agglomerative Clustering Progression", figsize=(14, 4)
 )
-plt.savefig("images/04-02.png", bboxinches="tight")
+plt.savefig("images/04-02.png")
 
 ## Compare linkage types
 # Hierarchical clustering provides insight into degrees of similarity among observations as it continues to merge data.
@@ -114,7 +115,7 @@ for i, method in enumerate(methods):
         ax=axes[i],
     )
     axes[i].set_title(f"Method: {method.capitalize()} | Correlation: {c:.2f}", fontsize=14)
-plt.savefig("images/04-03.png", bboxinches="tight")
+plt.savefig("images/04-03.png")
 
 # Different linkage methods produce different dendrogram ‘looks’ so that we can not use this visualization to compare
 # results across methods. In addition, the Ward method that minimizes the within-cluster variance may not properly reflect
@@ -136,14 +137,14 @@ for i, row in enumerate(Z, 1):
 # print(clusters[230])
 
 ### Animate Agglomerative Clustering
-def get_2D_coordinates():
+def get_2d_coordinates():
     points = pd.DataFrame(features_2D).assign(n=1)
     return dict(enumerate(points.values.tolist()))
 
 
 n_clusters = Z.shape[0]
-points = get_2D_coordinates()
-cluster_states = {0: get_2D_coordinates()}
+points = get_2d_coordinates()
+cluster_states = {0: get_2d_coordinates()}
 
 for i, cluster in enumerate(Z[:, :2], 1):
     cluster_state = dict(cluster_states[i - 1])
@@ -156,12 +157,11 @@ for i, cluster in enumerate(Z[:, :2], 1):
 # print(cluster_states[100])
 
 
-def animate(i):
-    df = pd.DataFrame(cluster_states[i]).values.T
-    scat.set_offsets(df[:, :2])
-    scat.set_sizes((df[:, 2] * 2) ** 2)
-    return scat
-
+# def animate(i):
+#     df = pd.DataFrame(cluster_states[i]).values.T
+#     scat.set_offsets(df[:, :2])
+#     scat.set_sizes((df[:, 2] * 2) ** 2)
+#     return scat
 
 ### Set up Animation
 # scat = ax.scatter([], [])
@@ -183,7 +183,7 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for i in [0, 1]:
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/04-04.png", bboxinches="tight")
+plt.savefig("images/04-04.png")
 
 ### Comparing Mutual Information for different Linkage Options
 mutual_info = {}
@@ -194,7 +194,7 @@ for linkage_method in ["ward", "complete", "average"]:
 
 plt.figure(figsize=(12, 4))
 ax = pd.Series(mutual_info).sort_values().plot.barh(title="Mutual Information")
-plt.savefig("images/04-05.png", bboxinches="tight")
+plt.savefig("images/04-05.png")
 
 ## Strengths and Weaknesses
 # The strengths of hierarchical clustering include that

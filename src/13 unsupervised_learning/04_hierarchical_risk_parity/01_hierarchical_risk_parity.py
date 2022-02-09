@@ -52,7 +52,7 @@ corr.columns.names = ["Ticker"]
 cmap = sns.diverging_palette(10, 250, as_cmap=True)
 fig, ax = plt.subplots(figsize=(11, 10))
 sns.heatmap(corr, center=0, cmap=cmap, ax=ax)
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")
 
 ## Cluster Return Series
 def quasi_diagonalize(link):
@@ -104,7 +104,7 @@ fig.tight_layout()
 clustered_assets = corr.loc[sorted_tickers, sorted_tickers]  # reorder
 sns.heatmap(clustered_assets, center=0, cmap=cmap, ax=axes[1])
 axes[1].set_title("Clustered Correlation")
-plt.savefig("images/01-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png")
 
 ## Compute Allocation
 # Using the tickers sorted according to the hierarchy induced by the clustering algorithm, HRP now proceeds to compute
@@ -148,10 +148,10 @@ hrp_allocation = get_hrp_allocation(cov, sorted_tickers)
 title = "Hierarchical Risk Parity - Portfolio Allocation"
 plt.figure(figsize=(16, 4))
 hrp_allocation.sort_values(ascending=False).iloc[::2].plot.bar(title=title, fontsize=4)
-plt.savefig("images/01-03.png", dpi=450, bboxinches="tight")
+plt.savefig("images/01-03.png", dpi=450)
 
 # How about a pie chart.
 plt.figure(figsize=(15, 15))
 ax = hrp_allocation.sort_values().plot.pie(cmap="Blues", fontsize=6)
 ax.set_ylabel("")
-plt.savefig("images/01-04.png", dpi=450, bboxinches="tight")
+plt.savefig("images/01-04.png", dpi=450)

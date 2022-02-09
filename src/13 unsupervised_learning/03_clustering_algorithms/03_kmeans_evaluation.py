@@ -6,17 +6,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 
-from time import sleep
 from numpy.random import seed
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_samples, silhouette_score
 from matplotlib.colors import ListedColormap
-from IPython import display
 
 seed(42)
 sns.set_style("white")
-cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
+# cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 cmap = ListedColormap(sns.color_palette("Paired", 10))
 warnings.filterwarnings("ignore")
 
@@ -58,7 +56,7 @@ def plot_kmeans_result(data, labels, centroids, assignments, ncluster, Z, ax):
     ax.scatter(*centroids.T, marker="o", c="w", s=200, edgecolor="k", zorder=9)
 
     for i, c in enumerate(centroids):
-        ax.scatter(*c, marker=f"${i}$", s=50, edgecolor="", zorder=10)
+        ax.scatter(*c, marker=f"${i}$", s=50, edgecolor="g", zorder=10)
         xy = pd.DataFrame(data[assignments == i], columns=["x", "y"]).assign(cx=c[0], cy=c[1])
         ax.plot(
             np.array(xy[["x", "cx"]].T), np.array(xy[["y", "cy"]].T), ls="--", color="grey", lw=0.2
@@ -102,7 +100,7 @@ for c, n_clusters in enumerate(range(1, max_clusters + 1), 2):
     inertia_plot_update(inertias, axes[1])
     Z = kmeans.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
     plot_kmeans_result(data, labels, centroids, assignments, n_clusters, Z, axes[c])
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/03-01.png", bboxinches="tight")
 
 ## Evaluating the Silhouette Score
 # The [silhouette coefficient](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)
@@ -115,7 +113,7 @@ plt.savefig("images/01-01.png", bboxinches="tight")
 # data point to the global average because it highlights the coherence of each cluster relative to the global configuration.
 # The rule of thumb is to avoid clusters with mean scores below the average for all samples.
 # The following figure shows an excerpt from the silhouette plot for three and four clusters, where the former highlights
-# the poor fit of cluster 1 by sub-par contributions to the global silhouette score, whereas all of the four clusters
+# the poor fit of cluster 1 by sub-par contributions to the global silhouette score, whereas all the four clusters
 # have some values that exhibit above-average scores.
 def plot_silhouette(values, y_lower, i, n_cluster, ax):
     cluster_size = values.shape[0]
@@ -188,7 +186,7 @@ for row, n_cluster in enumerate(range(2, max_clusters + 1), 1):
 
 fig.suptitle(f"KMeans Silhouette Plot with {n_clusters} Clusters", fontsize=14)
 fig.subplots_adjust(top=0.95)
-plt.savefig("images/01-02.png", bboxinches="tight")
+plt.savefig("images/03-02.png", bboxinches="tight")
 
 ## Summary
 # In sum, given the usually unsupervised nature, it is necessary to vary the hyperparameters of the cluster algorithms
