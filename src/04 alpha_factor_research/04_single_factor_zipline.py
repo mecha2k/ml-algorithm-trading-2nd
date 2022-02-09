@@ -13,7 +13,6 @@ from zipline.api import (
 from zipline.finance import commission, slippage
 from zipline.pipeline import Pipeline, CustomFactor
 from zipline.pipeline.factors import Returns, AverageDollarVolume
-import numpy as np
 import pandas as pd
 
 MONTH = 21
@@ -23,7 +22,7 @@ VOL_SCREEN = 1000
 
 
 class MeanReversion(CustomFactor):
-    """Compute ratio of latest monthly return to 12m average,
+    """Compute ratio of the latest monthly return to 12m average,
     normalized by std dev of monthly returns"""
 
     inputs = [Returns(window_length=MONTH)]

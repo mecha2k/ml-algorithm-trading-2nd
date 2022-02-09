@@ -27,7 +27,7 @@ from sklearn.model_selection import train_test_split
 
 idx = pd.IndexSlice
 np.random.seed(seed=42)
-sns.set_style("whitegrid")
+sns.set_style("white")
 plt.rcParams["figure.dpi"] = 300
 plt.rcParams["font.size"] = 14
 pd.options.display.float_format = "{:,.2f}".format

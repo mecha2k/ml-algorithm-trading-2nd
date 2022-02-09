@@ -74,7 +74,7 @@ class MLStrategy(bt.Strategy):
     )
 
     def log(self, txt, dt=None):
-        """ Logger for the strategy"""
+        """Logger for the strategy"""
         dt = dt or self.datas[0].datetime.datetime(0)
         with Path(self.p.log_file).open("a") as f:
             log_writer = csv.writer(f)

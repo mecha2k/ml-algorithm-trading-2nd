@@ -4,7 +4,7 @@ Lopez de Prado and Bailey (2014) also derive a deflated SR to compute the probab
 
 ## Code exapmle
 
-The script [deflated_sharpe_ratio](deflated_sharpe_ratio.py) contains the commented implementation made available by Marcos Lopez de Prado on his website. 
+The script [deflated_sharpe_ratio](01_deflated_sharpe_ratio.py) contains the commented implementation made available by Marcos Lopez de Prado on his website. 
 
 ## References
 

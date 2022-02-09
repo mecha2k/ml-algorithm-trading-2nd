@@ -29,16 +29,16 @@ def get_distance_metrics(points):
 
 
 ### Simulate Distances
-def simulate_distances(m, n, mean, var, corr):
+def simulate_distances(m, n, mean_, var_, corr_):
     """Draw m random vectors of dimension n from uniform and normal distributions
     and return pairwise distance metrics"""
-    uni_dist = get_distance_metrics(uniform(size=(m, n)))
-    cov = full(shape=(n, n), fill_value=var * corr)
-    fill_diagonal(cov, var)
-    normal_points = multivariate_normal(full(shape=(n,), fill_value=mean), cov, m)
+    uni_dist_ = get_distance_metrics(uniform(size=(m, n)))
+    cov = full(shape=(n, n), fill_value=var_ * corr_)
+    fill_diagonal(cov, var_)
+    normal_points = multivariate_normal(full(shape=(n,), fill_value=mean_), cov, m)
     normal_points = clip(normal_points, a_min=0, a_max=1)
-    norm_dist = get_distance_metrics(normal_points)
-    return uni_dist, norm_dist
+    norm_dist_ = get_distance_metrics(normal_points)
+    return uni_dist_, norm_dist_
 
 
 ### Sampling Parameters
