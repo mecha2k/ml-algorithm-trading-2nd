@@ -18,7 +18,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-from time import sleep
 import numpy as np
 from numpy.random import uniform, seed
 import pandas as pd
@@ -29,8 +28,6 @@ from scipy.spatial.distance import cdist
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import seaborn as sns
-
-from IPython import display
 
 sns.set_style("white")
 seed(42)
@@ -155,10 +152,10 @@ def plot_voronoi(x, y, labels, centroids, assignments, distance, iteration, step
     xx, yy = np.meshgrid(
         np.arange(x.min() - 1, x.max() + 1, 0.01), np.arange(y.min() - 1, y.max() + 1, 0.01)
     )
-    Z = assign_points(centroids, np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+    z_ = assign_points(centroids, np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
 
     plt.imshow(
-        Z,
+        z_,
         interpolation="nearest",
         extent=(xx.min(), xx.max(), yy.min(), yy.max()),
         cmap=cmap,

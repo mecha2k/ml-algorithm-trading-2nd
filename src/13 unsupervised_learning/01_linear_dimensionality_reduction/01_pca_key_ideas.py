@@ -171,17 +171,17 @@ axes[1].plot(lines_x.T, lines_y.T, lw=1, c="darkgrey")
 pd.DataFrame({"$x_1$": x_, "$x_2$": y_}).plot.scatter(
     x="$x_1$", y="$x_2$", s=15, title="PCA vs OLS", ax=axes[2]
 )
-ax = axes[2].set_aspect("equal")
+axes[2].set_aspect("equal")
 
 # get OLS line
 reg_X = np.column_stack((x_, np.ones_like(x_)))
 (m, b), _, _, _ = lstsq(reg_X, y_)
 reg_y = m * x_ + b
-ax = axes[2].plot(x_, reg_y, c="k")
+axes[2].plot(x_, reg_y, c="k")
 
 # plot residuals
 lines_x, lines_y = np.c_[x_, x_], np.c_[y_, reg_y]
-ax = axes[2].plot(lines_x.T, lines_y.T, lw=1, c="darkgrey")
+axes[2].plot(lines_x.T, lines_y.T, lw=1, c="darkgrey")
 
 sns.despine()
 plt.savefig("images/02-05.png", bboxinches="tight")
@@ -189,7 +189,7 @@ plt.savefig("images/02-05.png", bboxinches="tight")
 ### Recover Data using Inverse Transformation 1D => 2D
 recovered_data = projection1D.dot(pc1.T).rename(columns={0: "$x_1$", 1: "$x_2$"})
 rms_reconstruction_error = np.sqrt(np.mean(np.sum(np.square(recovered_data - data_), axis=1)))
-rss_data = np.sqrt(np.sum(data_.values ** 2))
+rss_data = np.sqrt(np.sum(data_.values**2))
 relative_loss = rms_reconstruction_error / rss_data
 
 title = "Reconstructed Data | Error: {:.2%}".format(relative_loss)

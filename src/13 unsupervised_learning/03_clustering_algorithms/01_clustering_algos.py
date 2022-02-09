@@ -82,6 +82,7 @@ datasets = [
 
 ## Plot Cluster Algorithm Results
 fig, axes = plt.subplots(figsize=(15, 15), ncols=5, nrows=len(datasets), sharey=True, sharex=True)
+# plt.tight_layout()
 plt.setp(axes, xticks=[], yticks=[], xlim=(-2.5, 2.5), ylim=(-2.5, 2.5))
 for d, (dataset_label, dataset, algo_params) in enumerate(datasets):
     params = default_params.copy()
@@ -112,8 +113,8 @@ for d, (dataset_label, dataset, algo_params) in enumerate(datasets):
 
     clustering_algorithms = (
         ("KMeans", kmeans),
-        ("SpectralClustering", spectral),
-        ("AgglomerativeClustering", average_linkage),
+        ("Spectral", spectral),
+        ("Agglomerative", average_linkage),
         ("DBSCAN", dbscan),
         ("GaussianMixture", gmm),
     )
@@ -126,7 +127,7 @@ for d, (dataset_label, dataset, algo_params) in enumerate(datasets):
             y_pred = algorithm.fit_predict(X)
         axes[d, a].scatter(X[:, 0], X[:, 1], s=5, c=y_pred, cmap=cmap)
         if d == 0:
-            axes[d, a].set_title(name, size=16)
+            axes[d, a].set_title(name, size=26)
         if a == 0:
             axes[d, a].set_ylabel(dataset_label, size=14)
         if y is None:
