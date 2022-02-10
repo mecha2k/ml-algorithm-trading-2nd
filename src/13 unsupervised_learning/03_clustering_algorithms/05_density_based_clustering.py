@@ -66,7 +66,7 @@ plt.savefig("images/05-01.png", bboxinches="tight")
 # It uses a parameter eps for the radius of the neighborhood and min_samples for the number of members required for core
 # samples. It is deterministic and exclusive and has difficulties with clusters of different density and high-dimensional
 # data. It can be challenging to tune the parameters to the requisite density, especially as it is often not constant.
-clusterer = DBSCAN()
+clusterer = DBSCAN(eps=0.5, min_samples=5)
 data["clusters"] = clusterer.fit_predict(features_standardized)
 fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
 
