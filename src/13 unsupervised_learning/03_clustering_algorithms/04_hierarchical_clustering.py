@@ -62,9 +62,6 @@ ax = plt.figure(figsize=(14, 6)).gca(
     xlabel=f"Explained Variance: {ev1:.2%}",
     ylabel=f"Explained Variance: {ev2:.2%}",
 )
-# ax.set_title("2D Projection")
-# ax.set_xlable(f"Explained Variance: {ev1:.2%}")
-# ax.set_ylable(f"Explained Variance: {ev2:.2%}")
 ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
 plt.savefig("images/04-01.png")
 
