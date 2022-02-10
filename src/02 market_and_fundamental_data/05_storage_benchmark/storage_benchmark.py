@@ -118,4 +118,4 @@ for i, op in enumerate(["Read", "Write", "Size"]):
     else:
         axes[i].set_xlabel("GB")
 fig.tight_layout()
-fig.savefig("images/storage.png", bboxinches="tight")
+fig.savefig("images/storage.png")

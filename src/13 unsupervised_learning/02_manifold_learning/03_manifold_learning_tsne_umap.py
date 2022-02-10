@@ -64,7 +64,7 @@ for i, p in enumerate([2, 10, 20, 30, 50], 1):
     axes[i].set_title(f"Perplexity: {p:.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")
 
 ### Convergence with `n_iter`
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(14, 8))
@@ -80,7 +80,7 @@ for i, n in enumerate([250, 500, 1000, 2500, 5000], 1):
     axes[i].set_title(f"Iterations: {n:,.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/01-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png")
 
 ### Different Cluster Sizes
 data, label = make_blobs(
@@ -100,7 +100,7 @@ for i, p in enumerate([2, 10, 20, 30, 50], 1):
     axes[i].set_title(f"Perplexity: {p:.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-03.png", bboxinches="tight")
+plt.savefig("images/03-03.png")
 
 ### Different Cluster Distances
 data, label = make_blobs(
@@ -119,7 +119,7 @@ for i, p in enumerate([2, 10, 30, 50, 100], 1):
     axes[i].set_title("Perplexity: {:.0f}".format(p), fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-04.png", bboxinches="tight")
+plt.savefig("images/03-04.png")
 
 ### More points require higher perplexity
 data, label = make_blobs(
@@ -138,7 +138,7 @@ for i, p in enumerate([2, 10, 30, 50, 100], 1):
     axes[i].set_title("Perplexity: {:.0f}".format(p), fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-05.png", bboxinches="tight")
+plt.savefig("images/03-05.png")
 
 ## Uniform Manifold Approximation and Projection (UMAP): Parameter Settings
 # [UMAP](https://github.com/lmcinnes/umap) is a more recent algorithm for visualization and general dimensionality reduction.
@@ -163,7 +163,7 @@ for i, n in enumerate([2, 10, 20, 30, 50], 1):
     axes[i].set_title(f"Neighbors: {n:.0f}", fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-06.png", bboxinches="tight")
+plt.savefig("images/03-06.png")
 
 ### Minimum Distance
 data, label = make_blobs(n_samples=300, n_features=3, centers=3, random_state=42)
@@ -181,7 +181,7 @@ for i, d in enumerate([0.001, 0.01, 0.1, 0.2, 0.5], 1):
     axes[i].set_title("Min. Distance: {:.3f}".format(d), fontsize=18)
     axes[i].axes.get_xaxis().set_visible(False)
     axes[i].axes.get_yaxis().set_visible(False)
-plt.savefig("images/03-07.png", bboxinches="tight")
+plt.savefig("images/03-07.png")
 
 ## Non-Linear Manifolds: Swiss Roll
 n_samples = 10000
@@ -211,7 +211,7 @@ for row, perplexity in enumerate([2, 5, 10, 20, 30, 50, 100]):
 
 fig.suptitle("T-Stochastic Neighbor Embedding (TSNE)", fontsize=20)
 fig.subplots_adjust(top=0.95)
-plt.savefig("images/03-08.png", bboxinches="tight")
+plt.savefig("images/03-08.png")
 
 ### UMAP
 fig, axes = plt.subplots(nrows=5, ncols=4, figsize=(16, 20))
@@ -228,7 +228,7 @@ for row, neig in enumerate([2, 5, 10, 25, 50]):
         axes[row, col].axis("off")
 fig.suptitle("Uniform Manifold Approximation and Projection (UMAP)", fontsize=20)
 fig.subplots_adjust(top=0.95)
-plt.savefig("images/03-09.png", bboxinches="tight")
+plt.savefig("images/03-09.png")
 
 ## Handwritten Digits
 DATA_PATH = Path("..", "..", "data")
@@ -242,7 +242,7 @@ n_digits = len(digits)
 ipv_cmap = sns.color_palette("Paired", n_colors=n_digits)
 print("   ", "  |  ".join([str(d) for d in digits]))
 sns.palplot(ipv_cmap)
-plt.savefig("images/03-10-cmap.png", bboxinches="tight")
+plt.savefig("images/03-10-cmap.png")
 
 ### Plot sample images
 h = w = int(np.sqrt(mnist_data.shape[1]))  # 28 x 28 pixels
@@ -263,7 +263,7 @@ for row, label in enumerate(digits):
 ax.imshow(mnist_sample, cmap="Blues")
 ax.set_title("MNIST Images", fontsize=18)
 plt.axis("off")
-plt.savefig("images/03-10.png", bboxinches="tight")
+plt.savefig("images/03-10.png")
 
 
 ### t-SNE and UMAP Visualization
@@ -282,7 +282,7 @@ for row, method in enumerate(methods):
         title = f"{method.upper()} | {param_labels[method]}: {param}"
         axes[row, col].set_title(title, fontsize=20)
         axes[row, col].axis("off")
-plt.savefig("images/03-11.png", bboxinches="tight")
+plt.savefig("images/03-11.png")
 
 ## Load Fashion MNIST Data
 DATA_PATH = Path("..", "..", "data")
@@ -313,7 +313,7 @@ for row, label in enumerate(classes):
 ax.imshow(fashion_sample, cmap="Blues")
 ax.set_title("Fashion Images", fontsize=16)
 plt.axis("off")
-plt.savefig("images/03-12.png", bboxinches="tight")
+plt.savefig("images/03-12.png")
 
 # ## t-SNE and UMAP: Parameter Settings
 # The upper panels of the following chart show how t-SNE is able to differentiate between the image classes. A higher
@@ -335,7 +335,7 @@ for row, method in enumerate(methods):
         title = "{} | {}: {}".format(method.upper(), param_labels[method], param)
         axes[row, col].set_title(title, fontsize=20)
         axes[row, col].axis("off")
-plt.savefig("images/03-13.png", bboxinches="tight")
+plt.savefig("images/03-13.png")
 
 
 def plotly_scatter(data, label, title, color, x="x", y="y"):

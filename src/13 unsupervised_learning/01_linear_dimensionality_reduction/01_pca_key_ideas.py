@@ -42,7 +42,7 @@ x2 = 1.5 * x1 + 2 * randn(n_signals)
 data = pd.DataFrame({"$x_1$": x1, "$x_2$": x2})
 ax = data.plot.scatter(x=0, y=1, s=10, title="2D Noisy Data", figsize=(7, 8))
 ax.set_aspect("equal")
-plt.savefig("images/02-01-rand.png", dpi=300, bboxinches="tight")
+plt.savefig("images/02-01-rand.png", dpi=300)
 
 ### Compute Principal Components
 pca = PCA()
@@ -75,7 +75,7 @@ pc2_arrow = ax.arrow(origin_x, origin_y, dx2, dy2, width=0.2, color="r")
 plt.legend(
     [pc1_arrow, pc2_arrow], ["Principal Component 1", "Principal Component 2"], fontsize="small"
 )
-plt.savefig("images/02-01.png", bboxinches="tight")
+plt.savefig("images/02-01.png")
 
 ### Project 2D data onto the first Principal Component
 # de-mean data, convert to numpy array
@@ -99,7 +99,7 @@ ax.scatter(proj_x, proj_y, s=15, c="k")
 # plot link from data to projected points
 lines_x, lines_y = np.c_[x_, proj_x], np.c_[y_, proj_y]
 ax.plot(lines_x.T, lines_y.T, lw=1, c="darkgrey")
-plt.savefig("images/02-02.png", bboxinches="tight")
+plt.savefig("images/02-02.png")
 
 ### Plot 1D Representation
 projection1D = data_.dot(pc1)
@@ -109,7 +109,7 @@ ax = (
     .plot.scatter(x="$z_1$", y="x2", s=10, title="1D Signal")
 )
 ax.get_yaxis().set_visible(False)
-plt.savefig("images/02-03.png", bboxinches="tight")
+plt.savefig("images/02-03.png")
 
 
 ### Compare to Linear Regression
@@ -131,7 +131,7 @@ ax.plot(x_, reg_y, c="k")
 # plot residuals
 lines_x, lines_y = np.c_[x_, x_], np.c_[y_, reg_y]
 ax.plot(lines_x.T, lines_y.T, lw=1)
-plt.savefig("images/02-04.png", bboxinches="tight")
+plt.savefig("images/02-04.png")
 
 ## Combined Figure
 fig, axes = plt.subplots(ncols=3, figsize=(14, 6), sharex=True, sharey=True)
@@ -184,12 +184,12 @@ lines_x, lines_y = np.c_[x_, x_], np.c_[y_, reg_y]
 axes[2].plot(lines_x.T, lines_y.T, lw=1, c="darkgrey")
 
 sns.despine()
-plt.savefig("images/02-05.png", bboxinches="tight")
+plt.savefig("images/02-05.png")
 
 ### Recover Data using Inverse Transformation 1D => 2D
 recovered_data = projection1D.dot(pc1.T).rename(columns={0: "$x_1$", 1: "$x_2$"})
 rms_reconstruction_error = np.sqrt(np.mean(np.sum(np.square(recovered_data - data_), axis=1)))
-rss_data = np.sqrt(np.sum(data_.values**2))
+rss_data = np.sqrt(np.sum(data_.values ** 2))
 relative_loss = rms_reconstruction_error / rss_data
 
 title = "Reconstructed Data | Error: {:.2%}".format(relative_loss)
@@ -198,7 +198,7 @@ ax.set_aspect("equal")
 data_.plot.scatter(x=0, y=1, s=10, ax=ax, figsize=(4, 8))
 plt.legend(handles=[Patch(color="k", label="Recovered"), Patch(label="Original Data")])
 sns.despine()
-plt.savefig("images/02-06.png", bboxinches="tight")
+plt.savefig("images/02-06.png")
 
 
 ### Projection and inverse transformation lead to the same result

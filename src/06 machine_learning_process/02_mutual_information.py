@@ -63,7 +63,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=(15, 4))
     sns.heatmap(mutual_info.div(mutual_info.sum()).T, ax=ax, cmap="Blues")
     plt.tight_layout()
-    plt.savefig("images/02-01.png", bboxinches="tight")
+    plt.savefig("images/02-01.png")
 
     ### Dummy Data
     target_labels = [f"target_{i}m" for i in [1, 2, 3, 6, 12]]
@@ -87,4 +87,4 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=(4, 20))
     sns.heatmap(mutual_info_dummies.div(mutual_info_dummies.sum()), ax=ax, cmap="Blues")
     plt.tight_layout()
-    plt.savefig("images/02-02.png", bboxinches="tight")
+    plt.savefig("images/02-02.png")

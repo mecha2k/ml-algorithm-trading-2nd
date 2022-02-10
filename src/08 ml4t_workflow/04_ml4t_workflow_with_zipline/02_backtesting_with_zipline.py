@@ -289,7 +289,7 @@ if __name__ == "__main__":
     axes[0].set_title("Cumulative Returns - In and Out-of-Sample")
     axes[1].set_title("Rolling Sharpe Ratio (3 Months)")
     fig.tight_layout()
-    plt.savefig("../images/04-01.png", bboxinches="tight")
+    plt.savefig("../images/04-01.png")
 
     pf.create_full_tear_sheet(
         returns,

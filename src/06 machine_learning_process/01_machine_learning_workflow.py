@@ -70,7 +70,7 @@ if __name__ == "__main__":
     ### Asset Prices often have long tails
     sns.distplot(house_sales.price)
     plt.tight_layout()
-    plt.savefig("images/01-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png")
 
     ### Use log-transform
     # Useful for dealing with [skewed data](http://onlinestatbook.com/2/transformations/log.html).
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     g = sns.pairplot(X.assign(price=y), y_vars=["price"], x_vars=X.columns)
     plt.tight_layout()
-    plt.savefig("images/01-02.png", bboxinches="tight")
+    plt.savefig("images/01-02.png")
 
     ### Explore Correlations
     X.info()
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     correl = X.apply(lambda x: spearmanr(x, y)[0])
     correl.sort_values().plot.barh()
     plt.tight_layout()
-    plt.savefig("images/01-03.png", bboxinches="tight")
+    plt.savefig("images/01-03.png")
 
     ## KNN Regression
     ### In-sample performance with default settings
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     fig.suptitle("In-Sample Regression Errors", fontsize=16)
     fig.tight_layout()
     fig.subplots_adjust(top=0.88)
-    plt.savefig("images/01-04.png", bboxinches="tight")
+    plt.savefig("images/01-04.png")
 
     ### Cross-Validation
     # Manual hyperparameter tuning; using [Pipeline]
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     ax = sns.lineplot(x="n", y="RMSE", data=cv_rmse)
     ax.set_title(f"Cross-Validation Results KNN | Best N: {best_n:d} | Best RMSE: {best_rmse:.2f}")
-    plt.savefig("images/01-05.png", bboxinches="tight")
+    plt.savefig("images/01-05.png")
 
     #### Actuals vs Predicted
     pipe = Pipeline(
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(10, 6))
     ax = sns.scatterplot(x=y, y=y_pred)
-    plt.savefig("images/01-05-1.png", bboxinches="tight")
+    plt.savefig("images/01-05-1.png")
 
     y_range = list(range(int(y.min() + 1), int(y.max() + 1)))
     pd.Series(y_range, index=y_range).plot(ax=ax, lw=2, c="darkred")
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     fig.suptitle("Cross-Validation Regression Errors", fontsize=24)
     fig.tight_layout()
     plt.subplots_adjust(top=0.8)
-    plt.savefig("images/01-06.png", bboxinches="tight")
+    plt.savefig("images/01-06.png")
 
     ### GridSearchCV with Pipeline
     # See sklearn [docs](https://scikit-learn.org/stable/modules/grid_search.html#tuning-the-hyper-parameters-of-an-estimator).
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     plt.title("Cross Validation Results")
     plt.tight_layout()
     plt.gcf().set_size_inches(10, 5)
-    plt.savefig("images/01-07.png", bboxinches="tight")
+    plt.savefig("images/01-07.png")
 
     ### Train & Validation Curves mit yellowbricks
     # See background on [learning curves](https://en.wikipedia.org/wiki/Learning_curve) and yellowbrick [docs]
@@ -246,7 +246,7 @@ if __name__ == "__main__":
     )
     val_curve.fit(X, y)
     fig.tight_layout()
-    plt.savefig("images/01-08.png", bboxinches="tight")
+    plt.savefig("images/01-08.png")
 
     fig, ax = plt.subplots(figsize=(16, 9))
     l_curve = LearningCurve(
@@ -259,7 +259,7 @@ if __name__ == "__main__":
     )
     l_curve.fit(X, y)
     fig.tight_layout()
-    plt.savefig("images/01-09.png", bboxinches="tight")
+    plt.savefig("images/01-09.png")
 
     ## Binary Classification
     y_binary = (y > y.median()).astype(int)
@@ -287,7 +287,7 @@ if __name__ == "__main__":
     )
     val_curve.fit(X, y_binary)
     fig.tight_layout()
-    plt.savefig("images/01-10.png", bboxinches="tight")
+    plt.savefig("images/01-10.png")
 
     fig, ax = plt.subplots(figsize=(16, 9))
     l_curve = LearningCurve(
@@ -300,7 +300,7 @@ if __name__ == "__main__":
     )
     l_curve.fit(X, y_binary)
     fig.tight_layout()
-    plt.savefig("images/01-11.png", bboxinches="tight")
+    plt.savefig("images/01-11.png")
 
     ### Classification Metrics
     # See sklearn [docs]
@@ -372,7 +372,7 @@ if __name__ == "__main__":
     axes[2].axvline(best_threshold, lw=1, ls="--", color="k")
     axes[2].text(s=f"Max F1 @ {best_threshold:.2f}", x=0.5, y=0.95)
     fig.tight_layout()
-    plt.savefig("images/01-12.png", bboxinches="tight")
+    plt.savefig("images/01-12.png")
 
     ##### Average Precision
     ic(average_precision_score(y_true=y_binary, y_score=y_score))

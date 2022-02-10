@@ -53,7 +53,7 @@ ax.set_xticklabels([])
 ax.set_xticks([])
 ax.set_yticklabels([])
 ax.set_yticks([])
-plt.savefig("images/05-01.png", bboxinches="tight")
+plt.savefig("images/05-01.png")
 
 ## Perform DBSCAN clustering
 # Density-based spatial clustering of applications with noise (DBSCAN) has been developed in 1996 and awarded the
@@ -81,7 +81,7 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/05-02.png", bboxinches="tight")
+plt.savefig("images/05-02.png")
 
 ### Compare parameter settings
 eps_range = np.arange(0.2, 0.91, 0.05)
@@ -99,7 +99,7 @@ results.index = pd.MultiIndex.from_tuples(results.index)
 fig, axes = plt.subplots(figsize=(12, 6))
 ax = sns.heatmap(results.unstack(), annot=True, fmt=".2f", cmap="Blues")
 ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%0.2f"))
-plt.savefig("images/05-03.png", bboxinches="tight")
+plt.savefig("images/05-03.png")
 
 ### Run again
 clusterer = DBSCAN(eps=0.8, min_samples=5)
@@ -117,7 +117,7 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/05-04.png", bboxinches="tight")
+plt.savefig("images/05-04.png")
 
 ### DBSCAN in python, Recursive dbscan
 def run_dbscan(point, members):
@@ -198,7 +198,7 @@ while to_do:
         for member in new_cluster:
             assignments.update({member: n_clusters})
         n_clusters += 1
-plt.savefig("images/05-05.png", bboxinches="tight")
+plt.savefig("images/05-05.png")
 
 
 ## HDBSCAN
@@ -222,7 +222,7 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/05-06.png", bboxinches="tight")
+plt.savefig("images/05-06.png")
 
 ### Alternative Dataset
 alternative_data = np.load("clusterable_data.npy")
@@ -232,7 +232,7 @@ ax.scatter(*alternative_data.T, s=20)
 
 ax.axes.get_xaxis().set_visible(False)
 ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/05-07.png", bboxinches="tight")
+plt.savefig("images/05-07.png")
 
 ### Compare DBSCAN & HDBSCAN
 dbscan = DBSCAN(eps=0.02, min_samples=10)
@@ -251,7 +251,7 @@ cluster_sizes = pd.DataFrame(
 cluster_sizes.sort_index(ascending=False).plot.barh(
     subplots=True, layout=(2, 1), figsize=(8, 8), legend=False
 )
-plt.savefig("images/05-08.png", bboxinches="tight")
+plt.savefig("images/05-08.png")
 
 fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
 cmap = ListedColormap(sns.color_palette("Paired", len(np.unique(db_clusters))))
@@ -263,18 +263,18 @@ axes[1].set_title("HDBSCAN")
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/05-09.png", bboxinches="tight")
+plt.savefig("images/05-09.png")
 
 ### HDBSCAN: Density-based Dendrogram
 fig, ax = plt.subplots(figsize=(14, 6))
 hdbscan.condensed_tree_.plot(
     select_clusters=True, cmap="Blues", selection_palette=sns.color_palette("Set2", 8)
 )
-plt.savefig("images/05-10.png", bboxinches="tight")
+plt.savefig("images/05-10.png")
 
 ### Minimum Spanning Tree
 fig, ax = plt.subplots(figsize=(14, 7))
 hdbscan.minimum_spanning_tree_.plot(
     edge_cmap="Blues", edge_alpha=0.6, node_size=20, edge_linewidth=1
 )
-plt.savefig("images/05-11.png", bboxinches="tight")
+plt.savefig("images/05-11.png")

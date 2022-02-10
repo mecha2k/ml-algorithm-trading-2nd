@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # Note the small spike where we clipped the data.
     sns.histplot(data=y2)
     plt.tight_layout()
-    plt.savefig("images/01-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png")
 
     ### Configure Tree
     # Let's start with a simplified example to facilitate visualization and only use two months of lagged returns to
@@ -214,7 +214,7 @@ if __name__ == "__main__":
     fig.suptitle("Decision Surfaces", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/01-02.png", bboxinches="tight")
+    plt.savefig("images/01-02.png")
 
     ## Simple Classification Tree with Time Series Data
     # A classification tree works just like the regression version, except that categorical nature of the outcome
@@ -258,7 +258,7 @@ if __name__ == "__main__":
         ).plot(title="Classification Loss Functions", lw=2, style=["-", "--", ":"])
     )
     plt.tight_layout()
-    plt.savefig("images/01-03.png", bboxinches="tight")
+    plt.savefig("images/01-03.png")
 
     #### Compare computation time
     # Gini is often preferred over entropy because it computes faster:
@@ -338,7 +338,7 @@ if __name__ == "__main__":
     fig.suptitle("Decision Surfaces", fontsize=20)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/01-04.png", bboxinches="tight")
+    plt.savefig("images/01-04.png")
 
     ## Regression Tree with all Features
     # We now train, visualize, and evaluate a regression tree with up to 5 consecutive splits using 80% of the samples
@@ -724,7 +724,7 @@ if __name__ == "__main__":
     fig.suptitle(f"Train-Validation Scores", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.91)
-    plt.savefig("images/01-04.png", bboxinches="tight")
+    plt.savefig("images/01-04.png")
 
     ### Learning Curves for best models
     # A learning curve is a useful tool that displays how the validation and training score evolve as the number of
@@ -818,7 +818,7 @@ if __name__ == "__main__":
     fig.suptitle("Learning Curves", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/01-06.png", bboxinches="tight")
+    plt.savefig("images/01-06.png")
 
     ### Feature Importance
     # Decision trees can not only be visualized to inspect the decision path for a given feature, but also provide a
@@ -852,4 +852,4 @@ if __name__ == "__main__":
     sns.despine()
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/01-07.png", bboxinches="tight")
+    plt.savefig("images/01-07.png")

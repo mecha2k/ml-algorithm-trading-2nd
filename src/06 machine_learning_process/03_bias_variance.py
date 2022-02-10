@@ -29,7 +29,7 @@ if __name__ == "__main__":
     pd.Series(np.sin(x), index=x).plot(ax=ax, ls="--", lw=2, label="sine")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     ## Underfitting vs overfitting: a visual example
     fig, axes = plt.subplots(ncols=3, figsize=(15, 4))
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         axes[i].grid(False)
         axes[i].axis(False)
     fig.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     ## Bias-Variance Tradeoff
     datasets = ["Train", "Test"]
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     fig.tight_layout()
     fig.suptitle("Bias - Variance Tradeoff: Under vs. Overfitting", fontsize=16)
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/03-02.png")
 
     ## Learning Curves
     def folds(train, test, nfolds):
@@ -191,4 +191,4 @@ if __name__ == "__main__":
     fig.suptitle("Learning Curves", fontsize=16)
     fig.tight_layout()
     fig.subplots_adjust(top=0.92)
-    plt.savefig("images/03-03.png", bboxinches="tight")
+    plt.savefig("images/03-03.png")

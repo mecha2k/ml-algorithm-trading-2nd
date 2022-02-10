@@ -73,7 +73,7 @@ ax.imshow(fashion_sample, cmap="Blues")
 ax.set_title("Fashion Images", fontsize=24)
 plt.tight_layout()
 plt.axis("off")
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")
 
 ### Visual Evidence for the Manifold Hypothesis: Pixel Structure of different image classes
 # We'll display 100 sample images in 'wide' format, so we can compare patterns by class. It turns out that each of the
@@ -91,11 +91,11 @@ for i, label in enumerate(classes):
     axes[i].set_title(label_dict[label], fontsize=14)
     axes[i].axis("off")
 fig.tight_layout(h_pad=0.1)
-plt.savefig("images/01-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png")
 
 ### Pixel structure of random images
 # The ten class patterns are clearly distinct from 100 random 'images'.
 fig, ax = plt.subplots(figsize=(15, 5))
 sns.heatmap(np.random.randint(low=0, high=255, size=(100, 784)), cmap="Blues", ax=ax, cbar=True)
 plt.axis("off")
-plt.savefig("images/01-03.png", bboxinches="tight")
+plt.savefig("images/01-03.png")

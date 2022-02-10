@@ -43,7 +43,7 @@ returns = returns.dropna(thresh=int(returns.shape[1] * 0.95))
 returns.info()
 
 sns.clustermap(returns.corr())
-plt.savefig("images/05-01.png", bboxinches="tight")
+plt.savefig("images/05-01.png")
 
 ### Run PCA
 # After dropping assets and trading days as in the previous example, we are left with 23 assets and over 2,000 trading
@@ -73,7 +73,7 @@ axes = eigen_portfolios.T.plot.bar(subplots=True, layout=(2, 2), figsize=(14, 8)
 for ax in axes.flatten():
     ax.set_ylabel("Portfolio Weight")
     ax.set_xlabel("")
-plt.savefig("images/05-02.png", bboxinches="tight")
+plt.savefig("images/05-02.png")
 
 ### Eigenportfolio Performance
 # When comparing the performance of each portfolio over the sample period to ‘the market’ consisting of our small sample,
@@ -87,4 +87,4 @@ for i in range(3):
 
 for i in range(4):
     axes[i].set_xlabel("")
-plt.savefig("images/05-03.png", bboxinches="tight")
+plt.savefig("images/05-03.png")

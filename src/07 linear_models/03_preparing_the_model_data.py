@@ -89,7 +89,7 @@ if __name__ == "__main__":
     ax.axvline(70, ls="--", lw=1, c="k")
     ax.set_title("RSI Distribution with Signal Threshold")
     plt.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     ### Compute Bollinger Bands
     def compute_bb(close):
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_low"].dropna(), ax=axes[0])
     sns.distplot(prices.loc[prices.dollar_vol_rank < 100, "bb_high"].dropna(), ax=axes[1])
     plt.tight_layout()
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/03-02.png")
 
     ### Compute Average True Range
     def compute_atr(stock_data):
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     sns.distplot(prices[prices.dollar_vol_rank < 50].atr.dropna())
     plt.tight_layout()
-    plt.savefig("images/03-03.png", bboxinches="tight")
+    plt.savefig("images/03-03.png")
 
     ### Compute Moving Average Convergence/Divergence
     def compute_macd(close):
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     sns.distplot(prices[prices.dollar_vol_rank < 100].macd.dropna())
     plt.tight_layout()
-    plt.savefig("images/03-04.png", bboxinches="tight")
+    plt.savefig("images/03-04.png")
 
     ## Compute Lagged Returns
     lags = [1, 5, 10, 21, 42, 63]
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     j = sns.jointplot(x=metric, y=target, data=top100)
     plt.tight_layout()
-    plt.savefig("images/03-05.png", bboxinches="tight")
+    plt.savefig("images/03-05.png")
 
     df = top100[[metric, target]].dropna()
     r, p = spearmanr(df[metric], df[target])
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     j = sns.jointplot(x=metric, y=target, data=top100)
     plt.tight_layout()
-    plt.savefig("images/03-06.png", bboxinches="tight")
+    plt.savefig("images/03-06.png")
 
     df = top100[[metric, target]].dropna()
     r, p = spearmanr(df[metric], df[target])
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     j = sns.jointplot(x=metric, y=target, data=top100)
     plt.tight_layout()
-    plt.savefig("images/03-07.png", bboxinches="tight")
+    plt.savefig("images/03-07.png")
 
     df = top100[[metric, target]].dropna()
     r, p = spearmanr(df[metric], df[target])
@@ -240,7 +240,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     j = sns.jointplot(x=metric, y=target, data=top100)
     plt.tight_layout()
-    plt.savefig("images/03-08.png", bboxinches="tight")
+    plt.savefig("images/03-08.png")
 
     df = top100[[metric, target]].dropna()
     r, p = spearmanr(df[metric], df[target])

@@ -266,15 +266,15 @@ if __name__ == "__main__":
 
     #### Prediction vs Actuals Scatter
     plot_preds_scatter(lr_predictions)
-    plt.savefig("images/05-01.png", bboxinches="tight")
+    plt.savefig("images/05-01.png")
 
     #### Daily IC Distribution
     plot_ic_distribution(lr_scores)
-    plt.savefig("images/05-02.png", bboxinches="tight")
+    plt.savefig("images/05-02.png")
 
     #### Rolling Daily IC
     plot_rolling_ic(lr_scores)
-    plt.savefig("images/05-03.png", bboxinches="tight")
+    plt.savefig("images/05-03.png")
 
     ## Ridge Regression
     ### Define cross-validation parameters
@@ -374,7 +374,7 @@ if __name__ == "__main__":
     fig.suptitle("Ridge Results", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/05-04.png", bboxinches="tight")
+    plt.savefig("images/05-04.png")
 
     best_alpha = ridge_scores.groupby("alpha").ic.mean().idxmax()
     fig, axes = plt.subplots(ncols=2, figsize=(15, 5))
@@ -386,10 +386,10 @@ if __name__ == "__main__":
         ax=axes[1], title="Top 10 Coefficients"
     )
     fig.tight_layout()
-    plt.savefig("images/05-05.png", bboxinches="tight")
+    plt.savefig("images/05-05.png")
 
     plot_rolling_ic(ridge_scores[ridge_scores.alpha == best_alpha])
-    plt.savefig("images/05-06.png", bboxinches="tight")
+    plt.savefig("images/05-06.png")
 
     ## Lasso CV
     ### Define cross-validation parameters
@@ -515,7 +515,7 @@ if __name__ == "__main__":
     fig.suptitle("Lasso Results", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/05-07.png", bboxinches="tight")
+    plt.savefig("images/05-07.png")
 
     ### Lasso IC Distribution and Top 10 Features
     best_alpha = lasso_scores.groupby("alpha").ic.mean().idxmax()
@@ -530,7 +530,7 @@ if __name__ == "__main__":
         ax=axes[1], title="Top 10 Coefficients"
     )
     fig.tight_layout()
-    plt.savefig("images/05-08.png", bboxinches="tight")
+    plt.savefig("images/05-08.png")
 
     ## Compare results
     best_ridge_alpha = ridge_scores.groupby("alpha").ic.mean().idxmax()
@@ -561,4 +561,4 @@ if __name__ == "__main__":
     fig.suptitle("Daily Information Coefficient by Model", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/05-09.png", bboxinches="tight")
+    plt.savefig("images/05-09.png")

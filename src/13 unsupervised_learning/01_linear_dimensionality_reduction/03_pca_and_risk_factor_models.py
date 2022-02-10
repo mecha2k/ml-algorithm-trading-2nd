@@ -87,7 +87,7 @@ var_expl.cumsum().plot(
     ylim=(0, 1), ax=axes[1], title="Cumulative Explained Variance", xlim=(1, 250)
 )
 axes[1].yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y:.0%}"))
-plt.savefig("images/04-01.png", bboxinches="tight")
+plt.savefig("images/04-01.png")
 
 risk_factors = pd.DataFrame(
     pca.transform(returns)[:, :2],
@@ -110,7 +110,7 @@ with sns.axes_style("white"):
         lw=1,
         xlim=(risk_factors.index.min(), risk_factors.index.max()),
     )
-    plt.savefig("images/04-02.png", bboxinches="tight")
+    plt.savefig("images/04-02.png")
 
 # A risk factor model would employ a subset of the principal components as features to predict future returns,
 # similar to our approach in chapter 7.
@@ -151,4 +151,4 @@ axes[1].set_xlim(1, 10)
 axes[1].yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y:.0%}"))
 fig.suptitle(f"Explained Variance of Top 10 Principal Components | {n_trials} Trials")
 fig.subplots_adjust(top=0.90)
-plt.savefig("images/04-03.png", bboxinches="tight")
+plt.savefig("images/04-03.png")

@@ -70,7 +70,7 @@ if __name__ == "__main__":
         plt.suptitle("Seasonal Decomposition", fontsize=14)
         plt.tight_layout()
         plt.subplots_adjust(top=0.91)
-    plt.savefig("images/01_01.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_01.png", dpi=300)
 
     ## Time Series Stationarity
     # The statistical properties, such as the mean, variance, or autocorrelation, of a stationary time series are
@@ -178,7 +178,7 @@ if __name__ == "__main__":
         axes[2][1].set_ylabel("Log, Seasonal Diff")
         fig.tight_layout()
         fig.align_ylabels(axes)
-    plt.savefig("images/01_02.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_02.png", dpi=300)
 
     ## Correlogram
     # Autocorrelation (also called serial correlation) adapts the concept of correlation to the time series context:
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     # the fat tails of the distribution with extreme values more frequent than the normal distribution would suggest.
     # The ACF and the PACF show similar patterns with autocorrelation at several lags appearing significant:
     plot_correlogram(nasdaq_log_diff, lags=100, title="NASDAQ Composite (Log, Diff)")
-    plt.savefig("images/01_03.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_03.png", dpi=300)
 
     ### Industrial Production (log, seasonl diff)
     # For the monthly time series on industrial manufacturing production, we notice a large negative outlier following
@@ -220,4 +220,4 @@ if __name__ == "__main__":
     # the NASDAQ returns and declines smoothly. The PACF shows distinct positive autocorrelation patterns at lag 1 and 13,
     # and significant negative coefficients at lags 3 and 4:
     plot_correlogram(industrial_production_log_diff, title="Industrial Production (Seasonal Diff)")
-    plt.savefig("images/01_04.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/01_04.png", dpi=300)

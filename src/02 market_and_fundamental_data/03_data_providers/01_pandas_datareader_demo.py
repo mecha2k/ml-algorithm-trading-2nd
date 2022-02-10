@@ -60,7 +60,7 @@ mpf.plot(yahoo.drop("Adj Close", axis=1), type="candle", savefig="images/01-01.p
 # print(iex.tail())
 #
 # iex.close.plot(figsize=(14, 6))
-# plt.savefig("images/01-02.png", bboxinches="tight")
+# plt.savefig("images/01-02.png")
 
 #### Book Data
 # In addition to historical EOD price and volume data, IEX provides real-time depth of book quotations that offer
@@ -130,7 +130,7 @@ sp500_stooq.head()
 
 sp500_stooq.Close.plot(figsize=(14, 4))
 plt.tight_layout()
-plt.savefig("images/01-03.png", bboxinches="tight")
+plt.savefig("images/01-03.png")
 
 ### NASDAQ Symbols
 symbols = get_nasdaq_symbols()

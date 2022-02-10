@@ -80,7 +80,7 @@ if __name__ == "__main__":
     title = "Bayesian Probabilities: Updating the Posterior"
     fig.suptitle(title, y=1.02, fontsize=14)
     fig.tight_layout()
-    plt.savefig("images/01_01.png", bboxinches="tight")
+    plt.savefig("images/01_01.png")
 
     ## Stock Price Moves
     # We will collect samples of different sizes of binarized daily S&P 500 returns where the positive
@@ -134,4 +134,4 @@ if __name__ == "__main__":
     title = "Bayesian Probabilities: Updating the Posterior"
     fig.suptitle(title, y=1.02, fontsize=14)
     fig.tight_layout()
-    plt.savefig("images/01_02.png", bboxinches="tight")
+    plt.savefig("images/01_02.png")

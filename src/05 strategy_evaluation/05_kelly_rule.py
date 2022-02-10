@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     return_ci.plot(lw=2, figsize=(14, 8))
     plt.tight_layout()
-    plt.savefig("images/05-01.png", bboxinches="tight")
+    plt.savefig("images/05-01.png")
 
     ### Kelly Rule for a Single Asset - Index Returns
     # In a financial market context, both outcomes and alternatives are more complex, but the Kelly rule logic does
@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     annual_returns["f"] = return_params.apply(get_kelly_share, axis=1)
     return_params.plot(subplots=True, lw=2, figsize=(14, 8))
-    plt.savefig("images/05-02.png", bboxinches="tight")
+    plt.savefig("images/05-02.png")
     print(annual_returns.tail())
 
     ### Performance Evaluation
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         .sub(1)
     )
     sp500_annual.plot(lw=2)
-    plt.savefig("images/05-03.png", bboxinches="tight")
+    plt.savefig("images/05-03.png")
 
     print(annual_returns.f.describe())
     print(return_ci.head())
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     )
     plt.yticks(fontsize=12)
     plt.tight_layout()
-    plt.savefig("images/05-04.png", bboxinches="tight")
+    plt.savefig("images/05-04.png")
 
     ### Performance vs SP500
     # The Kelly rule does really well. But it has also been computed from historical data..
@@ -177,4 +177,4 @@ if __name__ == "__main__":
         "SP500"
     ).plot(ax=ax, legend=True)
     plt.tight_layout()
-    plt.savefig("images/05-05.png", bboxinches="tight")
+    plt.savefig("images/05-05.png")

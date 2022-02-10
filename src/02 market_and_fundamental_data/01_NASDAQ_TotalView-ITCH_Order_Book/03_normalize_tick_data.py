@@ -51,7 +51,7 @@ trades["value_share"] = trades.value.div(trades.value.sum())
 trade_summary = trades.groupby("stock").value_share.sum().sort_values(ascending=False)
 trade_summary.iloc[:50].plot.bar(figsize=(14, 6), color="darkblue", title="% of Traded Value")
 plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
-plt.savefig("images/03-01.png", bboxinches="tight")
+plt.savefig("images/03-01.png")
 
 ## AAPL Trade Summary
 with pd.HDFStore(order_book_store) as store:
@@ -77,7 +77,7 @@ tick_bars.price.plot(
 )
 plt.xlabel("")
 plt.tight_layout()
-plt.savefig("images/03-02.png", bboxinches="tight")
+plt.savefig("images/03-02.png")
 
 ### Test for Normality of tick returns
 normaltest(tick_bars.price.pct_change().dropna())
@@ -122,7 +122,7 @@ normaltest(time_bars.vwap.pct_change().dropna())
 price_volume(
     time_bars, suptitle=f"Time Bars | {stock} | {pd.to_datetime(date).date()}", fname="time_bars"
 )
-plt.savefig("images/03-03.png", bboxinches="tight")
+plt.savefig("images/03-03.png")
 
 
 ### Bokeh Candlestick Chart
@@ -186,7 +186,7 @@ price_volume(
     suptitle=f"Volume Bars | {stock} | {pd.to_datetime(date).date()}",
     fname="volume_bars",
 )
-plt.savefig("images/03-04.png", bboxinches="tight")
+plt.savefig("images/03-04.png")
 
 normaltest(vol_bars.vwap.dropna())
 
@@ -214,4 +214,4 @@ price_volume(
     suptitle=f"Dollar Bars | {stock} | {pd.to_datetime(date).date()}",
     fname="dollar_bars",
 )
-plt.savefig("images/03-05.png", bboxinches="tight")
+plt.savefig("images/03-05.png")

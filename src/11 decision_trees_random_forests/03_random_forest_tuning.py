@@ -243,7 +243,7 @@ if __name__ == "__main__":
         .plot.barh(ax=ax, title="RF Feature Importance")
     )
     fig.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     ### Fit Regressor
     gridsearch_reg = GridSearchCV(
@@ -298,4 +298,4 @@ if __name__ == "__main__":
         .plot.barh(ax=axes[0], title="Regression")
     )
     fig.tight_layout()
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/03-02.png")

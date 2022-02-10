@@ -68,13 +68,13 @@ if __name__ == "__main__":
     # off only after the first six lags:
 
     plot_correlogram(nasdaq_returns, lags=250, title="NASDAQ Daily Returns")
-    plt.savefig("images/03_01.png", bboxinches="tight")
+    plt.savefig("images/03_01.png")
 
     # The function plot_correlogram produces the following output:
     plot_correlogram(
         nasdaq_returns.sub(nasdaq_returns.mean()).pow(2), lags=120, title="NASDAQ Daily Volatility"
     )
-    plt.savefig("images/03_02.png", bboxinches="tight")
+    plt.savefig("images/03_02.png")
 
     ## Model Selection: rolling out-of-sample forecasts
     # Hence, we can estimate a GARCH model to capture the linear relationship of past volatilities. We will use rolling
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     sns.heatmap(s, cmap="Blues", annot=True, fmt=".4f")
     plt.title("Out-of-Sample RMSE")
-    plt.savefig("images/03_03.png", bboxinches="tight")
+    plt.savefig("images/03_03.png")
 
     ## Estimate GARCH(2, 2) Model
     # The GARCH(2, 2) model achieves the second-lowest RMSE but has fewer parameters than the slightly better-performing
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     fig = best_model.plot(annualize="D")
     fig.set_size_inches(12, 8)
     fig.tight_layout()
-    plt.savefig("images/03_04.png", bboxinches="tight")
+    plt.savefig("images/03_04.png")
 
     plot_correlogram(best_model.resid.dropna(), lags=250, title="GARCH Residuals")
-    plt.savefig("images/03_05.png", bboxinches="tight")
+    plt.savefig("images/03_05.png")

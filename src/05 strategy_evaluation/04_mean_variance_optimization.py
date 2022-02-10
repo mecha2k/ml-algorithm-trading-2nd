@@ -147,7 +147,7 @@ if __name__ == "__main__":
     ax.scatter(sd, r, marker="*", color="green", s=500, label="Min Volatility")
     plt.legend(labelspacing=1, loc="upper left")
     plt.tight_layout()
-    plt.savefig("images/04-01.png", bboxinches="tight")
+    plt.savefig("images/04-01.png")
 
     ## Compute Annualize PF Performance
     # Now we'll set up the quadratic optimization problem to solve for the minimum standard deviation for a given
@@ -292,4 +292,4 @@ if __name__ == "__main__":
     ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     ax.xaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     fig.tight_layout()
-    plt.savefig("images/04-02.png", bboxinches="tight")
+    plt.savefig("images/04-02.png")

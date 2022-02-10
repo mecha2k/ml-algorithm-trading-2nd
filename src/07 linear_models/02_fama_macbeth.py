@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     lambdas.mean().sort_values().plot.barh(figsize=(12, 4))
     plt.tight_layout()
-    plt.savefig("images/02-01.png", bboxinches="tight")
+    plt.savefig("images/02-01.png")
 
     t = lambdas.mean().div(lambdas.std())
     print(t)
@@ -168,12 +168,12 @@ if __name__ == "__main__":
     lambdas.mean().sort_values().plot.barh(ax=ax1)
     lambdas.rolling(window).mean().dropna().plot(lw=1, figsize=(14, 5), sharey=True, ax=ax2)
     plt.tight_layout()
-    plt.savefig("images/02-02.png", bboxinches="tight")
+    plt.savefig("images/02-02.png")
 
     fig = plt.figure(figsize=(10, 6))
     lambdas.rolling(window).mean().dropna().plot(lw=2, figsize=(14, 7), subplots=True, sharey=True)
     plt.tight_layout()
-    plt.savefig("images/02-03.png", bboxinches="tight")
+    plt.savefig("images/02-03.png")
 
     ## Fama-Macbeth with the LinearModels library
     # The linear_models library extends statsmodels with various models for panel data and also implements the two-stage

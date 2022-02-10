@@ -178,7 +178,7 @@ if __name__ == "__main__":
         kind="bar",
     )
     plt.tight_layout()
-    plt.savefig("images/05-01.png", bboxinches="tight")
+    plt.savefig("images/05-01.png")
 
     # Compare the distributions of each IC metric for the different prediction horizons:
     fig, axes = plt.subplots(ncols=2, figsize=(14, 5), sharey=True)
@@ -189,7 +189,7 @@ if __name__ == "__main__":
     axes[0].set_ylabel("Information Coefficient")
     axes[1].set_ylabel("")
     fig.tight_layout()
-    plt.savefig("images/05-02.png", bboxinches="tight")
+    plt.savefig("images/05-02.png")
 
     ### Best Train/Test Period Lengths
     # Show the best train/test period settings for the four prediction horizons:

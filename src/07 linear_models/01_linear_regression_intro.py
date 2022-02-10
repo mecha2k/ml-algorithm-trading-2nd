@@ -32,7 +32,7 @@ if __name__ == "__main__":
     data = pd.DataFrame({"X": x, "Y": y})
     ax = data.plot.scatter(x="X", y="Y", figsize=(14, 6))
     plt.tight_layout()
-    plt.savefig("images/01-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png")
 
     # Our linear model with a single independent variable on the left-hand side assumes the following form:
     # $$y = \beta_0 + \beta_1 X_1 + \epsilon$$
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     for _, row in data.iterrows():
         plt.plot((row.X, row.X), (row.Y, row["y-hat"]), "k-")
     plt.tight_layout()
-    plt.savefig("images/01-02.png", bboxinches="tight")
+    plt.savefig("images/01-02.png")
 
     ### Multiple Regression
     # For two independent variables, the model simply changes as follows:
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     three_dee = plt.figure(figsize=(15, 5)).gca(projection="3d")
     three_dee.scatter(data.X_1, data.X_2, data.Y, c="g")
     plt.tight_layout()
-    plt.savefig("images/01-03.png", bboxinches="tight")
+    plt.savefig("images/01-03.png")
 
     X = data[["X_1", "X_2"]]
     y = data["Y"]
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     plt.axis("off")
     plt.tight_layout()
     plt.subplots_adjust(left=0.1, right=0.8, top=0.8, bottom=0.1)
-    plt.savefig("images/01-04.png", bboxinches="tight")
+    plt.savefig("images/01-04.png")
 
     #### Display model & residuals
     # The following diagram illustrates the hyperplane fitted by the model to the randomly generated data points
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     three_dee.set_ylabel("$X_2$")
     three_dee.set_zlabel("$Y, \hat{Y}$")
     plt.tight_layout()
-    plt.savefig("images/01-05.png", bboxinches="tight")
+    plt.savefig("images/01-05.png")
 
     # Additional [diagnostic tests](https://www.statsmodels.org/dev/diagnostic.html)
 
@@ -179,4 +179,4 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(10, 6))
     resids.plot.scatter(x="sgd", y="ols")
     plt.tight_layout()
-    plt.savefig("images/01-06.png", bboxinches="tight")
+    plt.savefig("images/01-06.png")

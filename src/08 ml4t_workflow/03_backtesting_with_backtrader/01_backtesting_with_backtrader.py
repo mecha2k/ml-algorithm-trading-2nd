@@ -211,7 +211,7 @@ if __name__ == "__main__":
     positions.cash.plot(ax=axes[1], label="PF Value")
     axes[1].legend()
     fig.tight_layout()
-    plt.savefig("../images/03-01.png", bboxinches="tight")
+    plt.savefig("../images/03-01.png")
 
     # pf.create_full_tear_sheet(
     #     returns, transactions=transactions, positions=positions, benchmark_rets=benchmark.dropna()

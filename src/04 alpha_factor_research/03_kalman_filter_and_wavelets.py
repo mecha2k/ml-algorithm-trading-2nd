@@ -38,13 +38,13 @@ if __name__ == "__main__":
     ax = sp500_smoothed.plot(title="Kalman Filter vs Moving Average", figsize=(14, 6), lw=1, rot=0)
     ax.set_xlabel("")
     ax.set_ylabel("S&P 500")
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     wavelet = pywt.Wavelet("db6")
     phi, psi, x = wavelet.wavefun(level=5)
     df = pd.DataFrame({"$\phi$": phi, "$\psi$": psi}, index=x)
     df.plot(title="Daubechies", subplots=True, layout=(1, 2), figsize=(14, 4), lw=2, rot=0)
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/03-02.png")
 
     plot_data = [("db", (4, 3)), ("sym", (4, 3)), ("coif", (3, 2))]
     for family, (rows, cols) in plot_data:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
                 ax.set_title(wavelet.name + " psi")
                 ax.plot(x, psi, color, lw=1)
                 ax.set_xlim(min(x), max(x))
-    plt.savefig("images/03-03.png", bboxinches="tight")
+    plt.savefig("images/03-03.png")
 
     for family, (rows, cols) in [("bior", (4, 3)), ("rbio", (4, 3))]:
         fig = plt.figure(figsize=(24, 12))
@@ -110,7 +110,7 @@ if __name__ == "__main__":
                 ax.set_title(wavelet.name + " psi_r")
                 ax.plot(x, psi_r, color, lw=1)
                 ax.set_xlim(min(x), max(x))
-    plt.savefig("images/03-04.png", bboxinches="tight")
+    plt.savefig("images/03-04.png")
 
     pywt.families(short=False)
     signal = pd.read_hdf(DATA_STORE, "sp500/stooq").loc["2008":"2009"].close.pct_change().dropna()
@@ -136,4 +136,4 @@ if __name__ == "__main__":
         )
         axes[i].legend()
     fig.tight_layout()
-    plt.savefig("images/03-04.png", bboxinches="tight")
+    plt.savefig("images/03-04.png")

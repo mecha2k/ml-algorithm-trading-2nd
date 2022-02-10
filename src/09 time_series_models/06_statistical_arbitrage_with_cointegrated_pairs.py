@@ -151,7 +151,7 @@ test_results.info()
 ax = test_results.groupby("test_end").coint.mean().to_frame("# Pairs").plot()
 ax.axhline(0.05, lw=1, ls="--", c="k")
 plt.tight_layout()
-plt.savefig("images/06-01.png", bboxinches="tight")
+plt.savefig("images/06-01.png")
 
 ### Select Candidate Pairs
 def select_candidate_pairs(data):
@@ -171,7 +171,7 @@ candidates.info()
 fig = plt.figure(figsize=(8, 5))
 candidates.groupby("test_end").size().plot()
 plt.tight_layout()
-plt.savefig("images/06-02.png", bboxinches="tight")
+plt.savefig("images/06-02.png")
 
 #### Most Common Pairs
 with pd.HDFStore("../data/data09.h5") as store:
@@ -212,7 +212,7 @@ for i in [0, 1]:
     axes[i].grid(False)
     axes[i].set_xlabel("")
 fig.tight_layout()
-plt.savefig("images/06-03.png", bboxinches="tight")
+plt.savefig("images/06-03.png")
 
 ## Get Entry and Exit Dates
 ### Smooth prices using Kalman filter
@@ -393,6 +393,6 @@ trades.loc[trades != 0] = 1
 trades.loc[trades == 0] = -1
 fig = plt.figure(figsize=(14, 4))
 trades.sort_index().cumsum().plot()
-plt.savefig("images/06-03.png", bboxinches="tight")
+plt.savefig("images/06-03.png")
 
 pair_trade_data.to_hdf("../data/09_backtest.h5", "pair_trades")

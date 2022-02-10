@@ -36,13 +36,13 @@ if __name__ == "__main__":
         y.corr(), cmap=sns.diverging_palette(h_neg=20, h_pos=220), center=0, annot=True, fmt=".2%"
     )
     plt.tight_layout()
-    plt.savefig("images/04-01.png", bboxinches="tight")
+    plt.savefig("images/04-01.png")
 
     plt.figure(figsize=(10, 6))
     sns.clustermap(X.corr(), cmap=sns.diverging_palette(h_neg=20, h_pos=220), center=0)
     plt.gcf().set_size_inches((14, 14))
     plt.tight_layout()
-    plt.savefig("images/04-02.png", bboxinches="tight")
+    plt.savefig("images/04-02.png")
 
     corr_mat = X.corr().stack().reset_index()
     corr_mat.columns = ["var1", "var2", "corr"]
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     plt.figure(figsize=(10, 6))
     y.boxplot()
     plt.tight_layout()
-    plt.savefig("images/04-03.png", bboxinches="tight")
+    plt.savefig("images/04-03.png")
 
     ## Linear Regression for Statistical Inference: OLS with statsmodels
     ### Ticker-wise standardization
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     plot_acf(residuals, lags=10, zero=False, ax=axes[1], title="Residual Autocorrelation")
     axes[1].set_xlabel("Lags")
     fig.tight_layout()
-    plt.savefig("images/04-04.png", bboxinches="tight")
+    plt.savefig("images/04-04.png")
 
     ### 10-Day Returns
     target = "target_10d"

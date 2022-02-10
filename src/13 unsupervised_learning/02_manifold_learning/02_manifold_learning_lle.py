@@ -196,7 +196,7 @@ for row, method in enumerate(["standard", "modified"]):
         axes[row, col].scatter(*embedded.T, c=palette, s=5)
         axes[row, col].set_title(f"LLE: {method} | {n_neighbors} neighbors")
         axes[row, col].set_axis_off()
-plt.savefig("images/02-01.png", bboxinches="tight")
+plt.savefig("images/02-01.png")
 
 ## S-Curve
 scurve_3d, scurve_val = make_s_curve(n_samples=n_samples, noise=0.05, random_state=42)
@@ -238,7 +238,7 @@ for row, method in enumerate(["standard", "modified"]):
         axes[row, col].scatter(*embedded.T, c=palette, s=5)
         axes[row, col].set_title(f"LLE: {method} | {n_neighbors} neighbors")
         axes[row, col].set_axis_off()
-plt.savefig("images/02-02.png", bboxinches="tight")
+plt.savefig("images/02-02.png")
 
 ## Handwritten Digits - MNIST Data
 mnist_path = DATA_PATH / "mnist"
@@ -264,7 +264,7 @@ for row, label in enumerate(digits):
 ax.imshow(mnist_sample, cmap="Blues")
 ax.set_title("MNIST Images", fontsize=16)
 plt.axis("off")
-plt.savefig("images/02-03.png", bboxinches="tight")
+plt.savefig("images/02-03.png")
 
 ### PCA
 #### Explained Variance
@@ -275,7 +275,7 @@ mnist_pca.fit(mnist_data)
 ev = pd.Series(mnist_pca.explained_variance_ratio_, index=list(range(1, n_components + 1)))
 ev.sort_values().plot.barh(figsize=(8, 4))
 sns.despine()
-plt.savefig("images/02-04.png", bboxinches="tight")
+plt.savefig("images/02-04.png")
 
 n_components = 20
 pca = PCA(n_components=n_components)
@@ -308,7 +308,7 @@ plt.gcf().suptitle("Explained Variance: Individual Digits vs All Digits", fontsi
 sns.despine()
 plt.tight_layout()
 plt.subplots_adjust(top=0.9)
-plt.savefig("images/02-05.png", bboxinches="tight")
+plt.savefig("images/02-05.png")
 
 #### 2D Projection
 mnist_pca = PCA(n_components=2)
@@ -318,7 +318,7 @@ mnist_pca_df = pd.DataFrame(mnist_pca_2d, columns=["x", "y"]).assign(color=mnist
 ipv_cmap = sns.color_palette("Paired", n_colors=10)
 print(digits)
 sns.palplot(ipv_cmap)
-plt.savefig("images/02-06.png", bboxinches="tight")
+plt.savefig("images/02-06.png")
 
 fig, ax = plt.subplots(figsize=(14, 8))
 sns.scatterplot(
@@ -332,7 +332,7 @@ sns.scatterplot(
 )
 plt.axis("off")
 ax.set_title("PCA 2D Projection of MNIST Data")
-plt.savefig("images/02-07.png", bboxinches="tight")
+plt.savefig("images/02-07.png")
 
 ### Local Linear Embedding
 # The following `locally_linear_embedding` on `mnist.data` takes fairly long to run, hence we are providing pre-computed
@@ -355,7 +355,7 @@ for row, method in enumerate(["standard", "modified"]):
         axes[row, col].scatter(x, y, c=color, s=5)
         axes[row, col].set_title(f"LLE: {method} | {n_neighbors} neighbors")
         axes[row, col].set_axis_off()
-plt.savefig("images/02-08.png", bboxinches="tight")
+plt.savefig("images/02-08.png")
 
 #### Plotly Visualization
 plotly_cmap = cl.to_rgb(cl.scales["10"]["qual"]["Paired"])
@@ -428,7 +428,7 @@ for row, label in enumerate(classes):
 ax.imshow(fashion_sample, cmap="Blues")
 ax.set_title("Fashion Images", fontsize=16)
 plt.axis("off")
-plt.savefig("images/02-09.png", bboxinches="tight")
+plt.savefig("images/02-09.png")
 
 ### PCA
 n_components = 20
@@ -439,7 +439,7 @@ mnist_pca.fit(fashion_data)
 ev = pd.Series(mnist_pca.explained_variance_ratio_, index=list(range(1, n_components + 1)))
 ev.sort_values().plot.barh(figsize=(8, 4))
 sns.despine()
-plt.savefig("images/02-10.png", bboxinches="tight")
+plt.savefig("images/02-10.png")
 
 n_components = 20
 pca = PCA(n_components=n_components)
@@ -472,7 +472,7 @@ plt.gcf().suptitle("Explained Variance: Individual Classes vs All Classes", font
 sns.despine()
 plt.tight_layout()
 plt.subplots_adjust(top=0.9)
-plt.savefig("images/02-11.png", bboxinches="tight")
+plt.savefig("images/02-11.png")
 
 #### 2D Projection
 fashion_pca = PCA(n_components=2)
@@ -491,7 +491,7 @@ sns.scatterplot(
 )
 plt.axis("off")
 ax.set_title("PCA 2D Projection of Fashion MNIST Data")
-plt.savefig("images/02-12.png", bboxinches="tight")
+plt.savefig("images/02-12.png")
 
 #### 3D Projection
 pca = PCA(n_components=3)
@@ -514,7 +514,7 @@ for row, method in enumerate(["standard", "modified"]):
         axes[row, col].scatter(x, y, c=color, s=5)
         axes[row, col].set_title(f"LLE: {method} | {n_neighbors} neighbors")
         axes[row, col].set_axis_off()
-plt.savefig("images/02-13.png", bboxinches="tight")
+plt.savefig("images/02-13.png")
 
 #### Plotly Visualization
 method, n_neighbors = "standard", 200

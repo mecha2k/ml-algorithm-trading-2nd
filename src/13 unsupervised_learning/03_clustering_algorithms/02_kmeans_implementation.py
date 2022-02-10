@@ -52,7 +52,7 @@ plt.figure(figsize=(14, 8))
 plt.scatter(x, y, c=labels, s=20, cmap=cmap)
 plt.title("Sample Data", fontsize=14)
 sns.despine()
-plt.savefig("images/02-01.png", bboxinches="tight")
+plt.savefig("images/02-01.png")
 
 
 ## K-Means Implementation
@@ -99,7 +99,7 @@ def plot_clusters(x, y, labels, centroids, assignments, distance, iteration, ste
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
 
-    plt.savefig(f"images/02-02-iter{iteration}.png", bboxinches="tight")
+    plt.savefig(f"images/02-02-iter{iteration}.png")
 
 
 ### Run K-Means Experiment
@@ -166,7 +166,7 @@ def plot_voronoi(x, y, labels, centroids, assignments, distance, iteration, step
     title = f"Iteration: {iteration} | {step} | Distance: {distance:,.1f}"
     ax.set_title(title)
     sns.despine()
-    plt.savefig(f"images/02-03-iter{iteration}.png", bboxinches="tight")
+    plt.savefig(f"images/02-03-iter{iteration}.png")
 
 
 ### Run Voronoi Experiment

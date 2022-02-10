@@ -397,4 +397,4 @@ if __name__ == "__main__":
 
     plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     plt.tight_layout()
-    plt.savefig("images/01-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png")

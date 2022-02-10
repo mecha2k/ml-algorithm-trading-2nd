@@ -61,7 +61,7 @@ ax = plt.figure(figsize=(10, 6)).gca(
 ax.scatter(*features_2D.T, c=data.label, s=15, cmap=cmap)
 ax.set_xticklabels([])
 ax.set_xticks([])
-plt.savefig("images/06-01.png", bboxinches="tight")
+plt.savefig("images/06-01.png")
 
 ## Perform GMM clustering
 n_components = 3
@@ -80,7 +80,7 @@ axes[1].set_title("Clusters | MI={:.2f}".format(mi))
 for ax in axes:
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-plt.savefig("images/06-02.png", bboxinches="tight")
+plt.savefig("images/06-02.png")
 
 ### Visualize Gaussian Distributions
 # The following figures show the GMM cluster membership probabilities for the iris dataset as contour lines:
@@ -102,7 +102,7 @@ ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
 # ax.axes.get_xaxis().set_visible(False)
 # ax.axes.get_yaxis().set_visible(False)
 plt.tight_layout()
-plt.savefig("images/06-03.png", bboxinches="tight")
+plt.savefig("images/06-03.png")
 
 fig = plt.figure(figsize=(10, 8))
 ax = fig.gca(projection="3d")
@@ -110,7 +110,7 @@ CS = ax.contourf3D(X, Y, Z, cmap="RdBu_r", alpha=0.5)
 CB = plt.colorbar(CS, shrink=0.8)
 ax.scatter(*features_2D.T, c=data.label, s=25, cmap=cmap)
 plt.tight_layout()
-plt.savefig("images/06-04.png", bboxinches="tight")
+plt.savefig("images/06-04.png")
 
 ### Bayesian Information Criterion
 # We are looking for the minimum value, so two clusters would be the preferred solution; with three as the close

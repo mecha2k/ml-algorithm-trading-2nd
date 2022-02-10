@@ -86,7 +86,7 @@ if __name__ == "__main__":
         sns.distplot(prices[col], ax=axes[i])
         axes[i].set_title(col)
     fig.tight_layout()
-    plt.savefig("images/00-02.png", bboxinches="tight")
+    plt.savefig("images/00-02.png")
 
     prices["bb_up"] = prices.bb_high.sub(np.log1p(prices.close))
     prices["bb_down"] = np.log1p(prices.close).sub(prices.bb_low)
@@ -96,7 +96,7 @@ if __name__ == "__main__":
         sns.boxenplot(prices[col], ax=axes[i])
         axes[i].set_title(col)
     fig.tight_layout()
-    plt.savefig("images/00-03.png", bboxinches="tight")
+    plt.savefig("images/00-03.png")
 
     ### Compute Average True Range
     # Helper for indicators with multiple inputs:
@@ -109,12 +109,12 @@ if __name__ == "__main__":
     prices["atr"] = by_ticker.apply(compute_atr)
     fig = plt.figure(figsize=(10, 6))
     sns.distplot(prices.atr)
-    plt.savefig("images/00-04.png", bboxinches="tight")
+    plt.savefig("images/00-04.png")
 
     prices["natr"] = by_ticker.apply(lambda x: NATR(high=x.high, low=x.low, close=x.close))
     fig = plt.figure(figsize=(10, 6))
     sns.distplot(prices.natr[prices.natr < 10])
-    plt.savefig("images/00-05.png", bboxinches="tight")
+    plt.savefig("images/00-05.png")
 
     ### Compute Moving Average Convergence/Divergence
     def compute_macd(close):
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     prices["macd"] = prices.groupby(level="ticker").close.apply(compute_macd)
     fig = plt.figure(figsize=(10, 6))
     sns.distplot(prices.macd)
-    plt.savefig("images/00-06.png", bboxinches="tight")
+    plt.savefig("images/00-06.png")
 
     ## Compute dollar volume to determine universe
     prices["dollar_volume"] = prices.loc[:, "close"].mul(prices.loc[:, "volume"], axis=0)
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
     sns.clustermap(returns.corr("spearman"), annot=True, center=0, cmap=cmap)
-    plt.savefig("images/00-07.png", bboxinches="tight")
+    plt.savefig("images/00-07.png")
 
     data = data.join(returns).drop("close", axis=1).dropna()
     data.info(show_counts=True)
@@ -266,7 +266,7 @@ if __name__ == "__main__":
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
     fig = plt.figure(figsize=(10, 6))
     sns.clustermap(betas.corr(), annot=True, cmap=cmap, center=0)
-    plt.savefig("images/00-08.png", bboxinches="tight")
+    plt.savefig("images/00-08.png")
 
     data = data.join(betas.groupby(level="ticker").shift()).dropna().sort_index()
     data.info()
@@ -304,7 +304,7 @@ if __name__ == "__main__":
     ax.set_ylabel("")
     ax.set_xlabel("# Tickers")
     plt.tight_layout()
-    plt.savefig("images/00-09.png", bboxinches="tight")
+    plt.savefig("images/00-09.png")
 
     ## Store data
     with pd.HDFStore("../data/11_data.h5") as store:
@@ -332,4 +332,4 @@ if __name__ == "__main__":
     fig.suptitle("Mutual Information", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/00-10.png", bboxinches="tight")
+    plt.savefig("images/00-10.png")

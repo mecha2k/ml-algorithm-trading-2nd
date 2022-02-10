@@ -39,7 +39,7 @@ if __name__ == "__main__":
     macd_data.AAPL.plot(ax=axes[0])
     macd_data.drop("AAPL", axis=1).plot(ax=axes[1])
     fig.tight_layout()
-    plt.savefig("images/02-01.png", bboxinches="tight")
+    plt.savefig("images/02-01.png")
 
     data = pd.DataFrame(
         {"AAPL": data.close, "BB Up": up, "BB Mid": mid, "BB down": low, "RSI": rsi, "MACD": macd}
@@ -53,4 +53,4 @@ if __name__ == "__main__":
     data.MACD.plot(ax=axes[2], lw=1, title="Moving Average Convergence/Divergence", rot=0)
     axes[2].set_xlabel("")
     fig.tight_layout()
-    plt.savefig("images/02-02.png", bboxinches="tight")
+    plt.savefig("images/02-02.png")

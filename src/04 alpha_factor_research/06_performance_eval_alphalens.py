@@ -89,7 +89,7 @@ mean_return_by_q_norm = mean_return_by_q.apply(lambda x: x.add(1).pow(1 / int(x.
 # more negative results than the top quintiles, except for the longest holding period:
 plot_quantile_returns_bar(mean_return_by_q)
 plt.tight_layout()
-plt.savefig("images/06-01.png", bboxinches="tight")
+plt.savefig("images/06-01.png")
 
 # The 10D holding period provides slightly better results for the first and fourth quartiles. We would also
 # like to see the performance over time of investments driven by each of the signal quintiles.
@@ -104,7 +104,7 @@ mean_return_by_q_daily, std_err = mean_return_by_quantile(alphalens_data, by_dat
 # produced a better performance than those by the top quintile
 plot_cumulative_returns_by_quantile(mean_return_by_q_daily["5D"], period="5D", freq=None)
 plt.tight_layout()
-plt.savefig("images/06-02.png", bboxinches="tight")
+plt.savefig("images/06-02.png")
 
 ## Return Distribution by Holding Period and Quintile
 # This distributional plot highlights that the range of daily returns is fairly wide and, despite different means,
@@ -113,7 +113,7 @@ plt.savefig("images/06-02.png", bboxinches="tight")
 
 plot_quantile_returns_violin(mean_return_by_q_daily)
 plt.tight_layout()
-plt.savefig("images/06-03.png", bboxinches="tight")
+plt.savefig("images/06-03.png")
 
 ## Information Coefficient
 # Most of this book is about the design of alpha factors using ML models. ML is about optimizing some predictive
@@ -138,7 +138,7 @@ plt.savefig("images/06-03.png", bboxinches="tight")
 ic = factor_information_coefficient(alphalens_data)
 plot_ic_ts(ic[["5D"]])
 plt.tight_layout()
-plt.savefig("images/06-04.png", bboxinches="tight")
+plt.savefig("images/06-04.png")
 
 ### Information Coefficient by Holding Period
 # This time series plot shows extended periods with significantly positive moving-average IC. An IC of 0.05 or
@@ -150,7 +150,7 @@ ic_by_year = ic.resample("A").mean()
 ic_by_year.index = ic_by_year.index.year
 ic_by_year.plot.bar(figsize=(14, 6))
 plt.tight_layout()
-plt.savefig("images/06-05.png", bboxinches="tight")
+plt.savefig("images/06-05.png")
 
 ## Turnover Tear Sheet
 # Factor turnover measures how frequently the assets associated with a given quantile change, that is, how many

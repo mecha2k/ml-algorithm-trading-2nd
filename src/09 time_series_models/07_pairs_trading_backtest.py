@@ -483,7 +483,7 @@ metrics.info()
 fig = plt.figure(figsize=(12, 4))
 metrics[["nlong_pos", "nshort_pos"]].plot()
 plt.tight_layout()
-plt.savefig("images/07-02.png", bboxinches="tight")
+plt.savefig("images/07-02.png")
 
 ### Get Benchmark
 start = str(returns.index.min().year)
@@ -498,7 +498,7 @@ axes[0].set_title("Cumulative Returns")
 pf.plotting.plot_rolling_sharpe(returns, ax=axes[1])
 pf.plotting.plot_rolling_beta(returns, benchmark, ax=axes[2])
 fig.tight_layout()
-plt.savefig("images/07-03.png", bboxinches="tight")
+plt.savefig("images/07-03.png")
 
 # ### Create full tearsheet
 # pf.create_full_tear_sheet(

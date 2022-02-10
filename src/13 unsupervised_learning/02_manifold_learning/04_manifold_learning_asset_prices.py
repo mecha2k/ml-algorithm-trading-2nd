@@ -47,7 +47,7 @@ for i, p in enumerate([2, 5, 7, 10, 15], 1):
     axes[i].axes.get_yaxis().set_visible(False)
 fig.suptitle(f"TSNE | Iterations: {n_iter:,.0f}", fontsize=18)
 fig.subplots_adjust(top=0.9)
-plt.savefig("images/04-01.png", bboxinches="tight")
+plt.savefig("images/04-01.png")
 
 ### Convergence with `n_iter`
 perplexity = 5
@@ -67,7 +67,7 @@ for i, n in enumerate([250, 500, 1000, 2500, 5000], 1):
 
 fig.suptitle(f"TSNE | Perpexity: {perplexity:,.0f}", fontsize=16)
 fig.subplots_adjust(top=0.9)
-plt.savefig("images/04-02.png", bboxinches="tight")
+plt.savefig("images/04-02.png")
 
 ## Uniform Manifold Approximation and Projection (UMAP): Parameter Settings
 ## Neighbors
@@ -90,7 +90,7 @@ for i, n in enumerate([2, 3, 4, 5, 7], 1):
 
 fig.suptitle(f"UMAP | Min. Distance: {min_dist:,.2f}", fontsize=16)
 fig.subplots_adjust(top=0.9)
-plt.savefig("images/04-03.png", bboxinches="tight")
+plt.savefig("images/04-03.png")
 
 ### Minimum Distance
 n_neighbors = 2
@@ -112,4 +112,4 @@ for i, d in enumerate([0.001, 0.01, 0.1, 0.2, 0.5], 1):
 
 fig.suptitle(f"UMAP | # Neighbors: {n_neighbors:,.0f}", fontsize=16)
 fig.subplots_adjust(top=0.9)
-plt.savefig("images/04-04.png", bboxinches="tight")
+plt.savefig("images/04-04.png")

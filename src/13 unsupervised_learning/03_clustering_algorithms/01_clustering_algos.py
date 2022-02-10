@@ -134,4 +134,4 @@ for d, (dataset_label, dataset, algo_params) in enumerate(datasets):
         axes[d, a].text(0.85, 0.91, f"MI: {mi:.2f}", transform=axes[d, a].transAxes, fontsize=12)
         axes[d, a].axes.get_xaxis().set_visible(False)
 
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")

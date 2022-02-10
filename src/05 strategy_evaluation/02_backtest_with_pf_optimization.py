@@ -226,7 +226,7 @@ if __name__ == "__main__":
         ax=axes[1], title="Cumulative Transactions"
     )
     fig.tight_layout()
-    plt.savefig("images/02-01.png", bboxinches="tight")
+    plt.savefig("images/02-01.png")
 
     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(16, 8), sharey="col")
     returns_ew.add(1).cumprod().sub(1).plot(
@@ -244,4 +244,4 @@ if __name__ == "__main__":
     fig.suptitle("Equal Weight vs Mean-Variance Optimization", fontsize=16)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/02-02.png", bboxinches="tight")
+    plt.savefig("images/02-02.png")

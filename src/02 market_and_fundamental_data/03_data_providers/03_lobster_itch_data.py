@@ -106,4 +106,4 @@ for i in range(10):
         ax.scatter(x=time, y=y, c=c, cmap=cmaps[t], s=1, vmin=1, vmax=c.quantile(0.95))
 ax.set_xlim(datetime(2012, 6, 21, 9, 30), datetime(2012, 6, 21, 16, 0))
 fig.tight_layout()
-plt.savefig("images/03-01.png", bboxinches="tight")
+plt.savefig("images/03-01.png")

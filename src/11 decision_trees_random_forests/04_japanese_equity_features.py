@@ -130,7 +130,7 @@ if __name__ == "__main__":
     plt.suptitle(ticker, fontsize=14)
     plt.tight_layout()
     plt.subplots_adjust(top=0.95)
-    plt.savefig("images/04-01.png", bboxinches="tight")
+    plt.savefig("images/04-01.png")
 
     data = data.drop(prices.columns, axis=1)
 

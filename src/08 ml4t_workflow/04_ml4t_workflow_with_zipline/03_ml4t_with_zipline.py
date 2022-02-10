@@ -417,7 +417,7 @@ if __name__ == "__main__":
     plt.suptitle("Model Performance", fontsize=14)
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
-    plt.savefig("../images/04-02.png", bboxinches="tight")
+    plt.savefig("../images/04-02.png")
 
     ### Get PyFolio Input
     returns, positions, transactions = pf.utils.extract_rets_pos_txn_from_zipline(results)
@@ -442,7 +442,7 @@ if __name__ == "__main__":
     plot_rolling_sharpe(returns, ax=axes[1])
     axes[0].set_title("Cumulative Returns - In and Out-of-Sample")
     fig.tight_layout()
-    plt.savefig("../images/04-03.png", bboxinches="tight")
+    plt.savefig("../images/04-03.png")
 
     ### Full Tearsheet
     # pf.create_full_tear_sheet(

@@ -153,7 +153,7 @@ if __name__ == "__main__":
     axes[0].set_title("Root Mean Squared Error")
     axes[1].set_title("Bayesian Information Criterion")
     fig.tight_layout()
-    plt.savefig("images/02_01.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_01.png", dpi=300)
 
     print(arma_results.rank().loc[:, ["RMSE", "BIC"]].mean(1).nsmallest(5))
 
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     ### Check Residual Correlogram
     plot_correlogram(best_arma_model.resid)
-    plt.savefig("images/02_02.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_02.png", dpi=300)
 
     ## SARIMAX
     sarimax_model = tsa.SARIMAX(
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     print(sarimax_model.summary())
 
     plot_correlogram(pd.Series(sarimax_model.resid))
-    plt.savefig("images/02_03.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_03.png", dpi=300)
 
     # We will build a SARIMAX model for monthly data on an industrial production time series for the 1988-2017 period.
     # As illustrated in the first section on analytical tools, the data has been log-transformed, and we are using
@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(10, 6))
     sns.jointplot(y="RMSE", x="BIC", data=sarimax_results[["RMSE", "BIC"]].rank())
-    plt.savefig("images/02_04.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_04.png", dpi=300)
 
     print(
         sarimax_results[
@@ -287,4 +287,4 @@ if __name__ == "__main__":
         lags=20,
         title=f"SARIMAX ({p1}, 0, {q1}) x ({p2}, 0, {q2}, 12) | Model Diagnostics",
     )
-    plt.savefig("images/02_05.png", dpi=300, bboxinches="tight")
+    plt.savefig("images/02_05.png", dpi=300)

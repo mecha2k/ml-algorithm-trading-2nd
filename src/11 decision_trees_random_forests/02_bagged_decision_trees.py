@@ -42,7 +42,7 @@ if __name__ == "__main__":
     y = pd.Series(f(x), index=x)
     y.plot(title="Wiggly Exponential Function")
     plt.tight_layout()
-    plt.savefig("images/02-01.png", bboxinches="tight")
+    plt.savefig("images/02-01.png")
 
     ## Simulate Training
     # The following example uses the preceding exponential function `f(x)` to generate training samples for a single
@@ -143,4 +143,4 @@ if __name__ == "__main__":
     fig.suptitle("Bias-Variance Breakdown", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.93)
-    plt.savefig("images/02-02.png", bboxinches="tight")
+    plt.savefig("images/02-02.png")

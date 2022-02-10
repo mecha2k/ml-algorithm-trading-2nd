@@ -67,7 +67,7 @@ ax = plt.figure().gca(projection="3d")
 ax.scatter(x, y, z, s=25)
 format3D(ax)
 plt.gcf().set_size_inches(14, 6)
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")
 
 ## Principal Components using scikit-learn
 # The [sklearn.decomposition.PCA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)
@@ -113,7 +113,7 @@ format3D(ax1)
 ax2 = fig.add_subplot(1, 2, 2, projection="3d")
 ax2.scatter(*projected_data.T, s=15, c="k")
 format3D(ax1)
-plt.savefig("images/01-02.png", bboxinches="tight")
+plt.savefig("images/01-02.png")
 ic(pca2.explained_variance_ratio_)
 
 ## Principal Components from Covariance Matrix
@@ -213,7 +213,7 @@ X, Y, Z, U, V, W = zip(*np.hstack((origin, C.T)))
 ax.quiver(X, Y, Z, U, V, W, color="red")
 
 format3D(ax, limits=list(repeat((min_, max_), 3)))
-plt.savefig("images/03-03.png", bboxinches="tight")
+plt.savefig("images/03-03.png")
 plt.close("all")
 
 ### 2D Representation
@@ -232,7 +232,7 @@ ax = fig.add_subplot(
 ax.scatter(data_2D[:, 0], data_2D[:, 1], color="k", s=15)
 ax.arrow(0, 0, 0, 0.5, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
 ax.arrow(0, 0, 1, 0, head_width=0.1, length_includes_head=True, head_length=0.1, fc="k", ec="k")
-plt.savefig("images/03-05.png", bboxinches="tight")
+plt.savefig("images/03-05.png")
 
 ### How many Components to represent 64 dimensions?
 n_classes = 10
@@ -256,7 +256,7 @@ plt.annotate(
     arrowprops=dict(color="k", lw=2, arrowstyle="->"),
 )
 plt.axhline(0.8, c="k", lw=1, ls="--")
-plt.savefig("images/03-06.png", bboxinches="tight")
+plt.savefig("images/03-06.png")
 
 ### Automate generation of Components
 pca = PCA(n_components=0.95).fit(X)

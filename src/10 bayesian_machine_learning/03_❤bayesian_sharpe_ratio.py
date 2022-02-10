@@ -71,7 +71,7 @@ if __name__ == "__main__":
     trace_df = pm.trace_to_dataframe(trace).assign(chain=lambda x: x.index // draws)
     trace_df.info()
     traceplot(data=trace)
-    plt.savefig("images/03_01.png", bboxinches="tight")
+    plt.savefig("images/03_01.png")
 
     ### Continue Sampling
     draws = 25000

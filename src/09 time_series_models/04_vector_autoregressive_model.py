@@ -61,13 +61,13 @@ if __name__ == "__main__":
 
     df.plot(subplots=True, figsize=(14, 8), rot=0)
     plt.tight_layout()
-    plt.savefig("images/04_01.png", bboxinches="tight")
+    plt.savefig("images/04_01.png")
 
     plot_correlogram(df.sentiment, lags=24)
-    plt.savefig("images/04_02.png", bboxinches="tight")
+    plt.savefig("images/04_02.png")
 
     plot_correlogram(df.ip, lags=24)
-    plt.savefig("images/04_03.png", bboxinches="tight")
+    plt.savefig("images/04_03.png")
 
     ## Stationarity Transform
     # Log-transforming the industrial production series and seasonal differencing using lag 12 of both series yields
@@ -77,10 +77,10 @@ if __name__ == "__main__":
     ).dropna()
 
     plot_correlogram(df_transformed.sentiment, lags=24)
-    plt.savefig("images/04_04.png", bboxinches="tight")
+    plt.savefig("images/04_04.png")
 
     plot_correlogram(df_transformed.ip, lags=24)
-    plt.savefig("images/04_05.png", bboxinches="tight")
+    plt.savefig("images/04_05.png")
 
     test_unit_root(df_transformed)
     df_transformed.plot(
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         rot=0,
     )
     plt.tight_layout()
-    plt.savefig("images/04_06.png", bboxinches="tight")
+    plt.savefig("images/04_06.png")
 
     ## VAR Model
     # To limit the size of the output, we will just estimate a VAR(1) model using the statsmodels VARMAX implementation
@@ -111,12 +111,12 @@ if __name__ == "__main__":
     plt.gcf().suptitle("Industrial Production - Diagnostics", fontsize=14)
     plt.tight_layout()
     plt.subplots_adjust(top=0.93)
-    plt.savefig("images/04_07.png", bboxinches="tight")
+    plt.savefig("images/04_07.png")
 
     #### Sentiment
     model.plot_diagnostics(variable=1, figsize=(14, 8), lags=24)
     plt.title("Sentiment - Diagnostics")
-    plt.savefig("images/04_08.png", bboxinches="tight")
+    plt.savefig("images/04_08.png")
 
     ### Impulse-Response Function
     median_change = df_transformed.diff().quantile(0.5).tolist()
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         subplots=True, figsize=(12, 6), rot=0, legend=False
     )
     plt.tight_layout()
-    plt.savefig("images/04_09.png", bboxinches="tight")
+    plt.savefig("images/04_09.png")
 
     ### Generate Predictions
     # Out-of-sample predictions can be generated as follows:
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     )
     axes[1].set_xlabel("")
     fig.tight_layout()
-    plt.savefig("images/04_10.png", bboxinches="tight")
+    plt.savefig("images/04_10.png")
 
     ### Out-of-sample forecasts
     # A visualization of actual and predicted values shows how the prediction lags the actual values and does not
@@ -167,6 +167,6 @@ if __name__ == "__main__":
     axes[1].legend()
     axes[1].set_xlabel("")
     fig.tight_layout()
-    plt.savefig("images/04_11.png", bboxinches="tight")
+    plt.savefig("images/04_11.png")
 
     print(mean_absolute_error(forecast, df_transformed.iloc[492:]))

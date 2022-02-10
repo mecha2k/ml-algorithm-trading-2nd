@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     cmap = sns.diverging_palette(220, 10, as_cmap=True)
     sns.clustermap(corr, cmap=cmap, center=0)
-    plt.savefig("images/05_01.png", bboxinches="tight")
+    plt.savefig("images/05_01.png")
 
     ## Candidate Selection using Heuristics
     ### Computational Complexity: Comparing running times
@@ -236,7 +236,7 @@ if __name__ == "__main__":
         hue="coint",
         data=spreads[spreads.trace0 > trace0_cv],
     )
-    plt.savefig("images/05_02.png", bboxinches="tight")
+    plt.savefig("images/05_02.png")
 
     spreads.to_hdf("../data/heuristics.h5", "spreads")
     spreads = pd.read_hdf("../data/heuristics.h5", "spreads")
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     for i, heuristic in enumerate(["drift", "vol", "corr", "corr_ret"]):
         sns.boxplot(x="coint", y=heuristic, data=spreads, ax=axes[i])
     fig.tight_layout()
-    plt.savefig("images/05_03.png", bboxinches="tight")
+    plt.savefig("images/05_03.png")
 
     ### How well do the heuristics predict significant cointegration?
     print(
@@ -302,9 +302,9 @@ if __name__ == "__main__":
         data=decision_tree.best_estimator_.feature_importances_, index=X.columns
     ).sort_values().plot.barh(title="Feature Importance")
     sns.despine()
-    plt.savefig("images/05_04.png", bboxinches="tight")
+    plt.savefig("images/05_04.png")
 
     data = spreads.assign(y_pred=decision_tree.predict_proba(X)[:, 1])
     print(data.groupby(spreads.coint).y_pred.describe())
     sns.catplot(x="coint", y="y_pred", data=data, kind="box")
-    plt.savefig("images/05_05.png", bboxinches="tight")
+    plt.savefig("images/05_05.png")

@@ -196,4 +196,4 @@ if __name__ == "__main__":
     fig.suptitle("Logistic Regression", fontsize=14)
     fig.tight_layout()
     fig.subplots_adjust(top=0.9)
-    plt.savefig("images/08-01.png", bboxinches="tight")
+    plt.savefig("images/08-01.png")

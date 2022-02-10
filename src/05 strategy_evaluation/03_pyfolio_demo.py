@@ -86,7 +86,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(figsize=(14, 5))
     plot_perf_stats(returns=returns, factor_returns=benchmark_rets, ax=ax)
     fig.tight_layout()
-    plt.savefig("images/03-01.png", bboxinches="tight")
+    plt.savefig("images/03-01.png")
 
     ## Returns Analysis
     # Testing a trading strategy involves backtesting against historical data to fine-tune alpha factor parameters,
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     )
     plt.gcf().set_size_inches(14, 8)
     plt.tight_layout()
-    plt.savefig("images/03-02.png", bboxinches="tight")
+    plt.savefig("images/03-02.png")
 
     # The plot includes a cone that shows expanding confidence intervals to indicate when out-of-sample returns appear
     # unlikely given random-walk assumptions. Here, our strategy did not perform well against the benchmark during the
@@ -141,13 +141,13 @@ if __name__ == "__main__":
     plot_rolling_sharpe(returns=returns)
     plt.gcf().set_size_inches(14, 8)
     plt.tight_layout()
-    plt.savefig("images/03-03.png", bboxinches="tight")
+    plt.savefig("images/03-03.png")
 
     ### Rolling Beta
     plot_rolling_beta(returns=returns, factor_returns=benchmark_rets)
     plt.gcf().set_size_inches(14, 6)
     plt.tight_layout()
-    plt.savefig("images/03-04.png", bboxinches="tight")
+    plt.savefig("images/03-04.png")
 
     ## Drawdown Periods
     # The plot_drawdown_periods(returns) function plots the principal drawdown periods for the portfolio, and several
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     plot_drawdown_underwater(returns=returns, ax=axes[2])
     plot_rolling_sharpe(returns=returns)
     plt.tight_layout()
-    plt.savefig("images/03-05.png", bboxinches="tight")
+    plt.savefig("images/03-05.png")
 
     # This plot, which highlights a subset of the visualization contained in the various tear sheets, illustrates how
     # pyfolio allows us to drill down into the performance characteristics and exposure to fundamental drivers of risk
@@ -181,4 +181,4 @@ if __name__ == "__main__":
         .plot(lw=2, figsize=(14, 6), title="Post-Brexit Turmoil")
     )
     plt.tight_layout()
-    plt.savefig("images/03-06.png", bboxinches="tight")
+    plt.savefig("images/03-06.png")

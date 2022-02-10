@@ -67,7 +67,7 @@ if __name__ == "__main__":
     print(data.describe())
     # cmap = sns.diverging_palette(10, 220, as_cmap=True)
     sns.clustermap(data.corr("spearman"), annot=True, center=0, cmap="Blues")
-    plt.savefig("images/01-01.png", bboxinches="tight")
+    plt.savefig("images/01-01.png")
 
     data.index.get_level_values("ticker").nunique()
     factors = ["Mkt-RF", "SMB", "HML", "RMW", "CMA"]
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     cmap = sns.diverging_palette(10, 220, as_cmap=True)
     sns.clustermap(betas.corr(), annot=True, cmap=cmap, center=0)
-    plt.savefig("images/01-02.png", bboxinches="tight")
+    plt.savefig("images/01-02.png")
 
     data = data.join(betas.groupby(level="ticker").shift())
     data.info()

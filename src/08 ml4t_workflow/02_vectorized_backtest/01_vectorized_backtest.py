@@ -57,7 +57,7 @@ if __name__ == "__main__":
     axes[0].yaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     axes[1].xaxis.set_major_formatter(FuncFormatter(lambda y, _: "{:.0%}".format(y)))
     fig.tight_layout()
-    plt.savefig("../images/02-01.png", bboxinches="tight")
+    plt.savefig("../images/02-01.png")
 
     res = strategy.join(sp500).dropna()
     print(res.std())

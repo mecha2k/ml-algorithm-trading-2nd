@@ -14,4 +14,4 @@ oil = quandl.get("EIA/PET_RWTC_D", api_key=api_key).squeeze()
 
 oil.plot(lw=2, title="WTI Crude Oil Price", figsize=(12, 4))
 plt.tight_layout()
-plt.savefig("images/04-01.png", bboxinches="tight")
+plt.savefig("images/04-01.png")

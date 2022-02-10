@@ -76,4 +76,4 @@ for ax in axes:
 
 axes[1].set_xlabel("Dimensionality")
 sns.despine()
-plt.savefig("images/01-01.png", bboxinches="tight")
+plt.savefig("images/01-01.png")

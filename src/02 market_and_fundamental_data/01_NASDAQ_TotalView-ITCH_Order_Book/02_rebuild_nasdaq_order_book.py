@@ -291,7 +291,7 @@ ax.set_xticklabels([f"${int(x):,}" for x in ax.get_xticks().tolist()])
 ax.set_xlabel("Price")
 ax.set_ylabel("Shares ('000)")
 fig.tight_layout()
-plt.savefig("images/02-01.png", bboxinches="tight")
+plt.savefig("images/02-01.png")
 
 ### Order Book Depth
 utc_offset = timedelta(hours=4)
@@ -360,4 +360,4 @@ blue_patch = mpatches.Patch(color="royalblue", label="Buy")
 
 plt.legend(handles=[red_patch, blue_patch])
 fig.tight_layout()
-plt.savefig("images/02-02.png", bboxinches="tight")
+plt.savefig("images/02-02.png")
