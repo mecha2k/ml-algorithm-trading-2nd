@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
         # returns = weights @ mean_ret.values + 1
         returns = np.dot(weights, mean_ret.values) + 1
-        returns = returns ** periods_per_year - 1
+        returns = returns**periods_per_year - 1
         # std = (weights @ weekly_returns.T).std(1)
         std = np.dot(weights, weekly_returns.T).std(axis=1)
         std *= np.sqrt(periods_per_year)

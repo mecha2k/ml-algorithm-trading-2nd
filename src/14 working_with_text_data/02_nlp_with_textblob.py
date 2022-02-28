@@ -6,14 +6,14 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 import nltk
 from textblob import TextBlob, Word
 from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+
+from icecream import ic
 
 np.random.seed(42)
 sns.set_style("white")
@@ -25,9 +25,9 @@ if not results_path.exists():
 
 if __name__ == "__main__":
     # download NLTK resources
-    nltk.download("punkt")
-    nltk.download("omw-1.4")
-    nltk.download("wordnet")
+    nltk.download("punkt", quiet=True)
+    nltk.download("omw-1.4", quiet=True)
+    nltk.download("wordnet", quiet=True)
 
     # Load BBC Data
     # To illustrate the use of TextBlob, we sample a BBC sports article with the headline ‘Robinson ready for difficult
@@ -43,26 +43,26 @@ if __name__ == "__main__":
     #     body = " ".join([l.strip() for l in article[1:]]).strip()
     #     doc_list.append([topic, heading, body])
     # docs = pd.DataFrame(doc_list, columns=["topic", "heading", "body"])
-    # docs.to_pickle(results_path / "bbc.pkl")
+    # docs.to_pickle(results_path / "bbc_v37.pkl")
 
-    docs = pd.read_pickle(results_path / "bbc.pkl")
+    docs = pd.read_pickle(results_path / "bbc_v37.pkl")
     docs.info()
-    print(docs.shape)
+    ic(docs.shape)
 
     ## Introduction to TextBlob
     # You should already have downloaded TextBlob, a Python library used to explore common NLP tasks.
 
     ### Select random article
     article = docs.sample(n=1).squeeze()
-    print(f"Topic:\t{article.topic.capitalize()}\n{article.heading}")
-    print(article.body.strip())
+    ic(f"Topic:\t{article.topic.capitalize()}\n{article.heading}")
+    ic(article.body.strip())
     parsed_body = TextBlob(article.body)
 
     ### Tokenization
-    print(parsed_body.words)
+    ic(parsed_body.words)
 
     ### Sentence boundary detection
-    print(parsed_body.sentences)
+    ic(parsed_body.sentences)
 
     ### Stemming
     # To perform stemming, we instantiate the SnowballStemmer from the nltk library, call its .stem() method on each
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     stemmer = SnowballStemmer("english")
 
     # Stem each word.
-    print(
+    ic(
         [
             (word, stemmer.stem(word))
             for i, word in enumerate(parsed_body.words)
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     )
 
     ### Lemmatization
-    print(
+    ic(
         [
             (word, word.lemmatize())
             for i, word in enumerate(parsed_body.words)
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     # Lemmatization relies on parts-of-speech (POS) tagging; `spaCy` performs POS tagging, here we make assumptions,
     # e.g. that each token is verb.
-    print(
+    ic(
         [
             (word, word.lemmatize(pos="v"))
             for i, word in enumerate(parsed_body.words)
@@ -106,8 +106,8 @@ if __name__ == "__main__":
     # (objective ↔ subjective).
     # The .sentiment attribute provides the average for each over the relevant tokens, whereas
     # the .sentiment_assessments attribute lists the underlying values for each token
-    print(parsed_body.sentiment)
-    print(parsed_body.sentiment_assessments)
+    ic(parsed_body.sentiment)
+    ic(parsed_body.sentiment_assessments)
 
     ### Combine Textblob Lemmatization with `CountVectorizer`
     def lemmatizer(text):

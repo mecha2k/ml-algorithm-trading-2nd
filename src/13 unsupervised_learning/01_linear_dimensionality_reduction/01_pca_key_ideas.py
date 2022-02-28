@@ -189,7 +189,7 @@ plt.savefig("images/02-05.png")
 ### Recover Data using Inverse Transformation 1D => 2D
 recovered_data = projection1D.dot(pc1.T).rename(columns={0: "$x_1$", 1: "$x_2$"})
 rms_reconstruction_error = np.sqrt(np.mean(np.sum(np.square(recovered_data - data_), axis=1)))
-rss_data = np.sqrt(np.sum(data_.values ** 2))
+rss_data = np.sqrt(np.sum(data_.values**2))
 relative_loss = rms_reconstruction_error / rss_data
 
 title = "Reconstructed Data | Error: {:.2%}".format(relative_loss)

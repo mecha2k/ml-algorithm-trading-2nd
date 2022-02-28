@@ -50,7 +50,7 @@ if __name__ == "__main__":
         std = pm.Uniform("std", lower=std_low, upper=std_high)
         nu = pm.Exponential("nu_minus_two", 1 / 29, testval=4) + 2.0
         returns = pm.StudentT("returns", nu=nu, mu=mean, sd=std, observed=data.stock)
-        sharpe = returns.distribution.mean / returns.distribution.variance ** 0.5 * np.sqrt(252)
+        sharpe = returns.distribution.mean / returns.distribution.variance**0.5 * np.sqrt(252)
         pm.Deterministic("sharpe", sharpe)
     print(sharpe_model.model)
 

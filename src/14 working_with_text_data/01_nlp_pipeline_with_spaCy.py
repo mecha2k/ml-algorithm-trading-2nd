@@ -123,12 +123,12 @@ if __name__ == "__main__":
         "bg": "white",
         "color": "black",
         "font": "Source Sans Pro",
-        "notebook": True,
+        "notebook": False,
     }
 
     # #### Visualize Named Entities
-    # displacy.render(doc, style="dep", options=options)
-    # displacy.render(doc, style="ent", jupyter=True)
+    displacy.render(doc, style="dep", options=options)
+    displacy.render(doc, style="ent", jupyter=False)
 
     ### Read BBC Data
     # We will now read a larger set of 2,225 BBC News articles (see GitHub for data source details) that belong to five
@@ -248,4 +248,6 @@ if __name__ == "__main__":
 
     bilingual_parsed = pd.concat([pos["en_core_web_sm"], pos["es_core_news_sm"]], axis=1)
     print(bilingual_parsed.head(15))
-    # displacy.render(sentences["es_core_news_sm"][0].as_doc(), style="dep", jupyter=True, options=options)
+    displacy.render(
+        sentences["es_core_news_sm"][0].as_doc(), style="dep", jupyter=True, options=options
+    )

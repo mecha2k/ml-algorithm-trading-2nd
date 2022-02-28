@@ -74,7 +74,7 @@ if __name__ == "__main__":
     size = 25
     X_1, X_2 = np.meshgrid(np.linspace(-50, 50, size), np.linspace(-50, 50, size), indexing="ij")
     data = pd.DataFrame({"X_1": X_1.ravel(), "X_2": X_2.ravel()})
-    data["Y"] = 50 + data.X_1 + 3 * data.X_2 + np.random.normal(0, 50, size=size ** 2)
+    data["Y"] = 50 + data.X_1 + 3 * data.X_2 + np.random.normal(0, 50, size=size**2)
 
     ## Plot
     three_dee = plt.figure(figsize=(15, 5)).gca(projection="3d")

@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 def f(x, max_degree=9):
-    taylor = [(-1) ** i * x ** e / factorial(e) for i, e in enumerate(range(1, max_degree, 2))]
+    taylor = [(-1) ** i * x**e / factorial(e) for i, e in enumerate(range(1, max_degree, 2))]
     return np.sum(taylor, axis=0)
 
 

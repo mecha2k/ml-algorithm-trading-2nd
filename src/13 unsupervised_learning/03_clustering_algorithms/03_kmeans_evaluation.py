@@ -14,6 +14,8 @@ from matplotlib.colors import ListedColormap
 
 seed(42)
 sns.set_style("white")
+plt.rcParams["figure.dpi"] = 300
+plt.rcParams["font.size"] = 24
 # cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 cmap = ListedColormap(sns.color_palette("Paired", 10))
 warnings.filterwarnings("ignore")
@@ -102,6 +104,7 @@ for c, n_clusters in enumerate(range(1, max_clusters + 1), 2):
     plot_kmeans_result(data, labels, centroids, assignments, n_clusters, Z, axes[c])
 plt.savefig("images/03-01.png")
 
+
 ## Evaluating the Silhouette Score
 # The [silhouette coefficient](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)
 # provides a more detailed picture of cluster quality. It answers the question: how far are the points in the nearest
@@ -115,6 +118,10 @@ plt.savefig("images/03-01.png")
 # The following figure shows an excerpt from the silhouette plot for three and four clusters, where the former highlights
 # the poor fit of cluster 1 by sub-par contributions to the global silhouette score, whereas all the four clusters
 # have some values that exhibit above-average scores.
+
+plt.rcParams["font.size"] = 32
+
+
 def plot_silhouette(values, y_lower, i, n_cluster, ax):
     cluster_size = values.shape[0]
     y_upper = y_lower + cluster_size
@@ -132,7 +139,7 @@ def format_silhouette_plot(ax):
     ax.set_title("Silhouette Plot")
     ax.set_xlabel("Silhouette Coefficient")
     ax.set_ylabel("Cluster Label")
-    ax.axvline(x=silhouette_avg, color="red", linestyle="--", lw=1)
+    ax.axvline(x=silhouette_avg, color="red", linestyle="-", lw=5)
     ax.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
 
 

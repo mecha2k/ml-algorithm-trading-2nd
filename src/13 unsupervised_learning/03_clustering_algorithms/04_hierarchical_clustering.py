@@ -26,7 +26,7 @@ from collections import OrderedDict
 
 sns.set_style("white")
 plt.rcParams["figure.dpi"] = 300
-plt.rcParams["font.size"] = 18
+plt.rcParams["font.size"] = 24
 cmap = ListedColormap(sns.xkcd_palette(["denim blue", "medium green", "pale red"]))
 
 # if you have difficulties with ffmpeg to run the simulation,
@@ -111,7 +111,7 @@ for i, method in enumerate(methods):
         leaf_font_size=8.0,
         ax=axes[i],
     )
-    axes[i].set_title(f"Method: {method.capitalize()} | Correlation: {c:.2f}", fontsize=14)
+    axes[i].set_title(f"Method: {method.capitalize()} | Correlation: {c:.2f}", fontsize=24)
 plt.savefig("images/04-03.png")
 
 # Different linkage methods produce different dendrogram ‘looks’ so that we can not use this visualization to compare
